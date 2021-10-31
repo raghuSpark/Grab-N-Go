@@ -7,7 +7,7 @@
     tools:context=".MainFragments.ProfileFragment">
 
     <LinearLayout
-        android:id="@+id/profileLinearLayout"
+        android:id="@+id/profile_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -39,7 +39,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/user_name"
+                android:id="@+id/user_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
@@ -49,7 +49,7 @@
                 android:textSize="19sp" />
 
             <TextView
-                android:id="@+id/user_mailID"
+                android:id="@+id/user_emailID_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/worksans_regular"
@@ -61,30 +61,16 @@
 
     </LinearLayout>
 
-    <!--    <Button-->
-    <!--        android:id="@+id/edit_profile"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@id/profileLinearLayout"-->
-    <!--        android:drawableStart="@drawable/ic_edit"-->
-    <!--        android:drawablePadding="30dp"-->
-    <!--        android:fontFamily="@font/worksans_regular"-->
-    <!--        android:gravity="start|center_vertical"-->
-    <!--        android:padding="15dp"-->
-    <!--        android:text="Edit Details"-->
-    <!--        android:textAllCaps="false"-->
-    <!--        android:textSize="18sp" />-->
-
     <LinearLayout
         android:id="@+id/tabsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profileLinearLayout"
+        android:layout_below="@id/profile_linear_layout"
         android:orientation="horizontal"
         android:weightSum="3">
 
         <LinearLayout
-            android:id="@+id/editProfileBtn"
+            android:id="@+id/edit_profile_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -117,7 +103,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/transactionHistoryBtn"
+            android:id="@+id/transaction_history_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -151,7 +137,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/settingsBtn"
+            android:id="@+id/settings_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"

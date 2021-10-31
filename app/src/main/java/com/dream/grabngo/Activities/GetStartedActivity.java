@@ -1,5 +1,6 @@
 package com.dream.grabngo.Activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +28,7 @@ public class GetStartedActivity extends AppCompatActivity {
 
     private Button registerButton, goToLoginPageButton;
     private ProgressBar progressBar;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +37,14 @@ public class GetStartedActivity extends AppCompatActivity {
 
         AppID.getInstance().initialize(getApplicationContext(), TENANT_ID, REGION);
 
-        registerButton = findViewById(R.id.registerButton);
-        goToLoginPageButton = findViewById(R.id.goToLoginPageButton);
-        progressBar = findViewById(R.id.loadingProgressBar);
+        registerButton = findViewById(R.id.register_button);
+        goToLoginPageButton = findViewById(R.id.go_to_login_page_button);
+        progressBar = findViewById(R.id.get_started_progress_bar);
 
         registerButton.setOnClickListener(view -> {
             registerButton.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
+            goToLoginPageButton.setClickable(false);
 
             LoginWidget loginWidget = AppID.getInstance().getLoginWidget();
             loginWidget.launchSignUp(this, new AuthorizationListener() {
@@ -50,6 +53,7 @@ public class GetStartedActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         progressBar.setVisibility(View.GONE);
                         registerButton.setVisibility(View.VISIBLE);
+                        goToLoginPageButton.setClickable(true);
                         Toast.makeText(getApplicationContext(), "Authorization Cancelled!", Toast.LENGTH_SHORT).show();
                     });
                 }
@@ -59,6 +63,7 @@ public class GetStartedActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         progressBar.setVisibility(View.GONE);
                         registerButton.setVisibility(View.VISIBLE);
+                        goToLoginPageButton.setClickable(true);
                         Toast.makeText(getApplicationContext(), "Authorization Failed!", Toast.LENGTH_SHORT).show();
                     });
                 }
@@ -79,6 +84,31 @@ public class GetStartedActivity extends AppCompatActivity {
                             finish();
                         } else {
                             Toast.makeText(getApplicationContext(), "Please verify your Email-ID!", Toast.LENGTH_SHORT).show();
+                            // TODO: Verify your emailID
+                            progressBar.setVisibility(View.GONE);
+                            registerButton.setVisibility(View.VISIBLE);
+                            goToLoginPageButton.setClickable(true);
+
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+//                            View view = getLayoutInflater().inflate(R.layout.dialog_logout_confirmation, null);
+//                            builder.setView(view);
+//
+//                            view.findViewById(R.id.launch_email_app_button).setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View view) {
+//                                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.google.android.gm");
+//                                    if (intent != null) {
+//                                        dialog.cancel();
+//                                        startActivity(intent);
+//                                        finish();
+//                                    } else {
+//                                        Toast.makeText(getApplicationContext(), "Intent Empty!", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//                            });
+//                            dialog = builder.create();
+//                            dialog.setCancelable(false);
+//                            dialog.show();
                         }
                     });
                 }

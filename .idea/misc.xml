@@ -11,10 +11,11 @@
         <entry key="app/src/main/res/drawable/ic_transaction_history.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/profile_selector.xml" value="0.3703125" />
         <entry key="app/src/main/res/drawable/profile_tabs_background.xml" value="0.3703125" />
-        <entry key="app/src/main/res/layout/activity_get_started.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_get_started.xml" value="0.14893617021276595" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_email_launch.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/fragment_general.xml" value="0.3487179487179487" />

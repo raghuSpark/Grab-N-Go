@@ -41,13 +41,13 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         groupFragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        userName = groupFragmentView.findViewById(R.id.user_name);
-        emailID = groupFragmentView.findViewById(R.id.user_mailID);
+        userName = groupFragmentView.findViewById(R.id.user_name_text_view);
+        emailID = groupFragmentView.findViewById(R.id.user_emailID_text_view);
         profile_image = groupFragmentView.findViewById(R.id.profile_image);
         shimmerFrameLayout = groupFragmentView.findViewById(R.id.profile_shimmer_view_container);
-        editProfileBtn = groupFragmentView.findViewById(R.id.editProfileBtn);
-        historyBtn = groupFragmentView.findViewById(R.id.transactionHistoryBtn);
-        settingsBtn = groupFragmentView.findViewById(R.id.settingsBtn);
+        editProfileBtn = groupFragmentView.findViewById(R.id.edit_profile_btn);
+        historyBtn = groupFragmentView.findViewById(R.id.transaction_history_btn);
+        settingsBtn = groupFragmentView.findViewById(R.id.settings_btn);
 
         SingletonClass singleToneClass = com.dream.grabngo.SingletonClass.getInstance();
         IdentityToken identityToken = singleToneClass.getIdentityToken();

@@ -2,8 +2,10 @@ package com.dream.grabngo.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView goToRegister, forgotPassword;
     private Button loginButton;
     private EditText emailIDEditText, passwordEditText;
+    private ProgressBar loginProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +40,12 @@ public class LoginActivity extends AppCompatActivity {
 
         AppID.getInstance().initialize(getApplicationContext(), TENANT_ID, REGION);
 
-        goToRegister = findViewById(R.id.goToRegister);
-        forgotPassword = findViewById(R.id.forgotPassword);
-        loginButton = findViewById(R.id.loginButton);
-        emailIDEditText = findViewById(R.id.emailId);
-        passwordEditText = findViewById(R.id.password);
+        goToRegister = findViewById(R.id.go_to_register);
+        forgotPassword = findViewById(R.id.forgot_password);
+        loginButton = findViewById(R.id.login_button);
+        emailIDEditText = findViewById(R.id.email_id_edit_text);
+        passwordEditText = findViewById(R.id.password_edit_text);
+        loginProgressBar = findViewById(R.id.login_progress_bar);
 
         goToRegister.setOnClickListener(view1 -> {
             startActivity(new Intent(this, GetStartedActivity.class));
@@ -49,16 +53,24 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(view -> {
+            loginProgressBar.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.GONE);
             String email = emailIDEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "EmailID or Password can't be empty!", Toast.LENGTH_SHORT).show();
+                loginProgressBar.setVisibility(View.GONE);
+                loginButton.setVisibility(View.VISIBLE);
             } else {
                 AppID.getInstance().signinWithResourceOwnerPassword(getApplicationContext(), email, password, new TokenResponseListener() {
                     @Override
                     public void onAuthorizationFailure(AuthorizationException exception) {
-                        runOnUiThread(() -> Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> {
+                            Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                            loginProgressBar.setVisibility(View.GONE);
+                            loginButton.setVisibility(View.VISIBLE);
+                        });
                     }
 
                     @Override
@@ -71,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             SingletonClass singleToneClass = com.dream.grabngo.SingletonClass.getInstance();
                             singleToneClass.setIdentityToken(identityToken);
+
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
