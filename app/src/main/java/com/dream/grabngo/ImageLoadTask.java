@@ -1,6 +1,7 @@
 package com.dream.grabngo;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -13,13 +14,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
     private final String url;
     @SuppressLint("StaticFieldLeak")
     private final ImageView imageView;
     @SuppressLint("StaticFieldLeak")
     private final ShimmerFrameLayout shimmerFrameLayout;
+    private final Context context;
 
-    public ImageLoadTask(String url, ImageView imageView, ShimmerFrameLayout shimmerFrameLayout) {
+    public ImageLoadTask(Context context, String url, ImageView imageView, ShimmerFrameLayout shimmerFrameLayout) {
+        this.context = context;
         this.url = url;
         this.imageView = imageView;
         this.shimmerFrameLayout = shimmerFrameLayout;
@@ -41,11 +45,13 @@ public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
         return null;
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onPostExecute(Bitmap result) {
         super.onPostExecute(result);
-        shimmerFrameLayout.hideShimmer();
         shimmerFrameLayout.stopShimmer();
-        imageView.setImageBitmap(result);
+        shimmerFrameLayout.hideShimmer();
+        if (result != null) imageView.setImageBitmap(result);
+        else imageView.setImageDrawable(context.getDrawable(R.drawable.ic_profile_active));
     }
 }

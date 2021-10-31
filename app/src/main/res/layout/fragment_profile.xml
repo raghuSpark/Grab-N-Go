@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,104 +7,189 @@
     tools:context=".MainFragments.ProfileFragment">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/profileLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/profile_shimmer_view_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:contentDescription="Profile"
+                app:srcCompat="@drawable/ic_profile_active" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/profile_shimmer_view_container"
+            <TextView
+                android:id="@+id/user_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:fontFamily="@font/worksans_medium"
+                android:text="Username"
+                android:textColor="@color/black"
+                android:textSize="19sp" />
 
-                <ImageView
-                    android:id="@+id/profile_image"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:contentDescription="Profile"
-                    app:srcCompat="@drawable/ic_profile_active" />
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/user_mailID"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp"
-                    android:fontFamily="@font/worksans_regular"
-                    android:text="Username"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/user_mailID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/worksans_regular"
-                    android:text="Email ID"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/worksans_regular"
+                android:text="Email ID"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/edit_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_edit"
-            android:drawablePadding="30dp"
-            android:fontFamily="@font/worksans_regular"
-            android:gravity="start|center_vertical"
-            android:padding="15dp"
-            android:text="Edit Details"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
+    </LinearLayout>
 
-        <Button
-            android:id="@+id/history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_transaction_history"
-            android:drawablePadding="30dp"
-            android:fontFamily="@font/worksans_regular"
-            android:gravity="start|center_vertical"
-            android:padding="15dp"
-            android:text="Transaction History"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
+    <!--    <Button-->
+    <!--        android:id="@+id/edit_profile"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/profileLinearLayout"-->
+    <!--        android:drawableStart="@drawable/ic_edit"-->
+    <!--        android:drawablePadding="30dp"-->
+    <!--        android:fontFamily="@font/worksans_regular"-->
+    <!--        android:gravity="start|center_vertical"-->
+    <!--        android:padding="15dp"-->
+    <!--        android:text="Edit Details"-->
+    <!--        android:textAllCaps="false"-->
+    <!--        android:textSize="18sp" />-->
 
-        <Button
-            android:id="@+id/logout"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/tabsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileLinearLayout"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:id="@+id/editProfileBtn"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#2CF44336"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/profile_tabs_background"
+            android:backgroundTint="@color/child_tabs_active"
             android:clickable="true"
-            android:fontFamily="@font/worksans_medium"
+            android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:padding="15dp"
-            android:text="Log out"
-            android:textAllCaps="false"
-            android:textColor="#F82717"
-            android:textSize="21sp"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_edit_profile" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:fontFamily="@font/worksans_medium"
+                android:text="Profile"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/transactionHistoryBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/profile_tabs_background"
+            android:backgroundTint="@color/child_tabs_inactive"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_transaction_history" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:fontFamily="@font/worksans_medium"
+                android:text="History"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settingsBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/profile_tabs_background"
+            android:backgroundTint="@color/child_tabs_inactive"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_settings" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:fontFamily="@font/worksans_medium"
+                android:text="Settings"
+                android:textSize="17sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</FrameLayout>
+    <RelativeLayout
+        android:id="@+id/profile_child_fragments_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabsLayout"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
