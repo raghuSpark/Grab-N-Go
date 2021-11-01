@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.dream.grabngo.R;
 import com.dream.grabngo.SharedPrefConfig;
 import com.dream.grabngo.SingletonClass;
+import com.google.android.material.textfield.TextInputEditText;
 import com.ibm.cloud.appid.android.api.AppID;
 import com.ibm.cloud.appid.android.api.AuthorizationException;
 import com.ibm.cloud.appid.android.api.AuthorizationListener;
@@ -23,6 +23,8 @@ import com.ibm.cloud.appid.android.api.tokens.AccessToken;
 import com.ibm.cloud.appid.android.api.tokens.IdentityToken;
 import com.ibm.cloud.appid.android.api.tokens.RefreshToken;
 
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TENANT_ID = "71cdaba0-0cf0-4487-9705-f06bf644dec4";
@@ -30,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView goToRegister, forgotPassword;
     private Button loginButton;
-    private EditText emailIDEditText, passwordEditText;
+    private TextInputEditText emailIDEditText, passwordEditText;
     private ProgressBar loginProgressBar;
 
     @Override
@@ -55,8 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(view -> {
             loginProgressBar.setVisibility(View.VISIBLE);
             loginButton.setVisibility(View.GONE);
-            String email = emailIDEditText.getText().toString().trim();
-            String password = passwordEditText.getText().toString().trim();
+            String email = Objects.requireNonNull(emailIDEditText.getText()).toString().trim();
+            String password = Objects.requireNonNull(passwordEditText.getText()).toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "EmailID or Password can't be empty!", Toast.LENGTH_SHORT).show();

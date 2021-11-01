@@ -1,14 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileChildFragments.EditProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Edit Profile" />
+        android:layout_above="@+id/save_changes_button"
+        android:layout_alignParentTop="true">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/upload_profile_image_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toStartOf="@+id/upload_icon"
+                android:background="@drawable/login_button"
+                android:backgroundTint="@color/light_blue"
+                android:fontFamily="@font/worksans_regular"
+                android:text="Upload Profile Image"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/upload_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/upload_profile_image_button"
+                android:layout_alignBottom="@id/upload_profile_image_button"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_upload" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/user_name_text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/upload_profile_image_button"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:hint="Username"
+                android:textColorHint="@color/light_blue"
+                app:hintTextColor="@color/primary_blue"
+                app:startIconDrawable="@drawable/ic_profile"
+                app:startIconTint="@color/light_blue">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_profile_user_name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/worksans_regular"
+                    android:padding="12dp"
+                    android:textColorLink="@color/primary_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mobile_number_text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_name_text_input_layout"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:hint="Mobile Number"
+                android:textColorHint="@color/light_blue"
+                app:hintTextColor="@color/primary_blue"
+                app:startIconDrawable="@drawable/ic_mobile"
+                app:startIconTint="@color/light_blue">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_profile_mobile_number_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/worksans_regular"
+                    android:inputType="phone"
+                    android:padding="12dp"
+                    android:textColorLink="@color/primary_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mobile_number_text_input_layout"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:hint="New Password"
+                android:textColorHint="@color/light_blue"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/light_blue"
+                app:hintTextColor="@color/primary_blue"
+                app:startIconDrawable="@drawable/ic_password"
+                app:startIconTint="@color/light_blue">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_profile_password_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/worksans_regular"
+                    android:padding="12dp"
+                    android:textColorLink="@color/primary_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/edit_profile_save_changes_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/worksans_medium"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="10dp"
+        android:text="Save changes"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+</RelativeLayout>
