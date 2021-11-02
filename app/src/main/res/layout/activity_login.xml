@@ -47,7 +47,7 @@
             android:textColorHint="@color/light_blue"
             app:hintTextColor="@color/primary_blue"
             app:startIconDrawable="@drawable/ic_email"
-            app:startIconTint="@color/light_blue">
+            app:startIconTint="@color/primary_blue">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_id_edit_text"
@@ -72,7 +72,7 @@
             app:endIconTint="@color/light_blue"
             app:hintTextColor="@color/primary_blue"
             app:startIconDrawable="@drawable/ic_password"
-            app:startIconTint="@color/light_blue">
+            app:startIconTint="@color/primary_blue">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_edit_text"
@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/worksans_regular"
             android:text="Or"
-            android:textColor="@color/light_blue"
+            android:textColor="#062132"
             android:textSize="15sp" />
 
     </LinearLayout>

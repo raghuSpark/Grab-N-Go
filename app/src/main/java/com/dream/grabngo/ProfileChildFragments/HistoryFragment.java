@@ -11,6 +11,8 @@ import com.dream.grabngo.R;
 
 public class HistoryFragment extends Fragment {
 
+    private View groupFragmentView;
+
     public HistoryFragment() {
         // Required empty public constructor
     }
@@ -24,6 +26,7 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false);
+        groupFragmentView = inflater.inflate(R.layout.fragment_history, container, false);
+        return groupFragmentView;
     }
 }

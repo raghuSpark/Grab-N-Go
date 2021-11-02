@@ -8,10 +8,12 @@
         <entry key="app/src/main/res/drawable/ic_mobile.xml" value="0.3703125" />
         <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.3703125" />
         <entry key="app/src/main/res/drawable/ic_profile_active.xml" value="0.3703125" />
+        <entry key="app/src/main/res/drawable/ic_search_active.xml" value="0.3703125" />
         <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.3703125" />
         <entry key="app/src/main/res/drawable/ic_transaction_history.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/profile_selector.xml" value="0.3703125" />
         <entry key="app/src/main/res/drawable/profile_tabs_background.xml" value="0.3703125" />
+        <entry key="app/src/main/res/drawable/search_background.xml" value="0.3703125" />
         <entry key="app/src/main/res/layout/activity_get_started.xml" value="0.14893617021276595" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
@@ -21,7 +23,7 @@
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/fragment_general.xml" value="0.3487179487179487" />
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.3541666666666667" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_pay.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.33" />

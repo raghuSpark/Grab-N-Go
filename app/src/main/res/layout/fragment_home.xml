@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainFragments.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="HOME" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/home_email_id_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toStartOf="@+id/home_map_button"
+            android:hint="search..."
+            android:textColorHint="#987ECB"
+            app:expandedHintEnabled="true"
+            app:hintTextColor="@color/transparent"
+            app:startIconDrawable="@drawable/ic_search_active"
+            app:startIconTint="#987ECB">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email_id_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:background="@drawable/search_background"
+                android:fontFamily="@font/worksans_regular"
+                android:padding="12dp"
+                android:textColorLink="@color/primary_blue" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/home_map_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/home_email_id_layout"
+            android:layout_alignBottom="@+id/home_email_id_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_map" />
+
+    </RelativeLayout>
+
+</ScrollView>
