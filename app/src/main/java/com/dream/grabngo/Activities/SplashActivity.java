@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.dream.grabngo.R;
@@ -15,6 +16,8 @@ import com.ibm.cloud.appid.android.api.AuthorizationListener;
 import com.ibm.cloud.appid.android.api.tokens.AccessToken;
 import com.ibm.cloud.appid.android.api.tokens.IdentityToken;
 import com.ibm.cloud.appid.android.api.tokens.RefreshToken;
+
+import org.json.JSONException;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -46,6 +49,12 @@ public class SplashActivity extends AppCompatActivity {
                         SharedPrefConfig.writeRefreshTokenRaw(getApplicationContext(), refreshToken.getRaw());
                         SingletonClass singleToneClass = com.dream.grabngo.SingletonClass.getInstance();
                         singleToneClass.setIdentityToken(identityToken);
+
+                        try {
+                            String customer_id = identityToken.getIdentities().getJSONObject(0).getString("id");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(intent);

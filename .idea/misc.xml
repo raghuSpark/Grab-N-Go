@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.33240740740740743" />
+        <entry key="app/src/main/res/drawable/bottom_sheet_dialog_background.xml" value="0.11481481481481481" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/ic_mobile.xml" value="0.3703125" />
         <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.3703125" />
@@ -18,6 +19,7 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/bottom_sheet_layout.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/dialog_email_launch.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.3541666666666667" />
@@ -29,6 +31,7 @@
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/xml/network_security_config.xml" value="0.1" />
       </map>
     </option>
   </component>

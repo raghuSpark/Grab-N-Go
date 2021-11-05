@@ -32,4 +32,18 @@ public class SharedPrefConfig {
 
         return pref.getString("REFRESH_TOKEN_RAW", "");
     }
+
+    public static void writeAreDetailsGiven(Context context, boolean areDetailsGiven) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putBoolean("ARE_DETAILS_GIVEN", areDetailsGiven);
+        editor.apply();
+    }
+
+    public static boolean readAreDetailsGiven(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return pref.getBoolean("ARE_DETAILS_GIVEN", false);
+    }
 }

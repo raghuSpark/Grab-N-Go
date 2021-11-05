@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -45,13 +44,14 @@ public class SettingsFragment extends Fragment {
 
             view.findViewById(R.id.yes_quit_button).setOnClickListener(view1 -> {
                 SharedPrefConfig.writeIsLoggedIn(requireContext(),false);
+                SharedPrefConfig.writeAreDetailsGiven(requireContext(),false);
                 AppID.getInstance().logout();
                 dialog.cancel();
                 startActivity(new Intent(requireActivity(), GetStartedActivity.class));
                 requireActivity().finish();
             });
 
-            view.findViewById(R.id.no_stay_button).setOnClickListener(view12 -> dialog.cancel());
+            view.findViewById(R.id.no_stay_button).setOnClickListener(view2 -> dialog.cancel());
 
             dialog = builder.create();
             dialog.show();

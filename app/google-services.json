@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "164548839326",
+    "project_id": "grab-n-go-9a7ce",
+    "storage_bucket": "grab-n-go-9a7ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164548839326:android:d75d7c7b3959043184388f",
+        "android_client_info": {
+          "package_name": "com.dream.grabngo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164548839326-b3jd9k3kanfuklvvbu8e39ksdd3veqr2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3tVoRbR0KYaFYOsB1oTEqWkTTLPWBNWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164548839326-b3jd9k3kanfuklvvbu8e39ksdd3veqr2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
