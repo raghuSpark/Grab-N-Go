@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.dream.grabngo.R;
@@ -172,7 +174,6 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
-            Log.d("TAG", "onResponse: " + response);
             try {
                 if (response.getString("STATUS").equals("FAILURE")) {
                     showBottomSheetDialog(customerId);
@@ -184,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, Throwable::printStackTrace);
+        }, error -> Log.d("TAG", "onErrorResponse: "+error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -201,12 +202,16 @@ public class LoginActivity extends AppCompatActivity {
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
             Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-            Log.d("TAG", "addNewCustomer onResponse: " + response);
+
             SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
             SharedPrefConfig.writeAreDetailsGiven(getApplicationContext(), true);
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }, error -> {
             Toast.makeText(LoginActivity.this, "Login failed! Try again!", Toast.LENGTH_SHORT).show();
-            Log.d("TAG", "addNewCustomer onErrorResponse: " + error.getMessage());
+
             Intent intent = new Intent(LoginActivity.this, GetStartedActivity.class);
             startActivity(intent);
             finish();
@@ -238,7 +243,7 @@ public class LoginActivity extends AppCompatActivity {
             if (usernameEditText.getText().toString().trim().isEmpty()) {
                 Toast.makeText(this, "Username can't be empty", Toast.LENGTH_SHORT).show();
             } else {
-                // TODO: DB2 code to written
+                // TODO: DB2 code to be written
                 CUSTOMER_NAME[0] = usernameEditText.getText().toString().trim();
                 userNameLL.setVisibility(View.GONE);
                 getOtpLL.setVisibility(View.VISIBLE);
