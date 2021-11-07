@@ -15,9 +15,13 @@ import com.dream.grabngo.ProfileChildFragments.EditProfileFragment;
 import com.dream.grabngo.ProfileChildFragments.HistoryFragment;
 import com.dream.grabngo.ProfileChildFragments.SettingsFragment;
 import com.dream.grabngo.R;
+import com.dream.grabngo.SharedPrefConfig;
 import com.dream.grabngo.SingletonClass;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.ibm.cloud.appid.android.api.tokens.IdentityToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ProfileFragment extends Fragment {
 
@@ -28,12 +32,15 @@ public class ProfileFragment extends Fragment {
 
     private LinearLayout editProfileBtn, historyBtn, settingsBtn;
 
+    private JSONObject userDetails;
+
     public ProfileFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userDetails = SharedPrefConfig.readUserDetails(requireContext());
     }
 
     @Override
@@ -54,8 +61,16 @@ public class ProfileFragment extends Fragment {
 
         new ImageLoadTask(getContext(), identityToken.getPicture(), profile_image, shimmerFrameLayout).execute();
 
-        userName.setText(identityToken.getName());
-        emailID.setText(identityToken.getEmail());
+        try {
+            userName.setText(userDetails.getString("CUSTOMER_NAME"));
+            emailID.setText(userDetails.getString("EMAIL_ID"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        /*
+         * Working with child fragments
+         */
 
         getChildFragmentManager().beginTransaction().add(R.id.profile_child_fragments_container, new EditProfileFragment()).commit();
         editProfileBtn.setOnClickListener(view -> {

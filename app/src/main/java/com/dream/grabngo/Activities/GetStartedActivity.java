@@ -1,6 +1,5 @@
 package com.dream.grabngo.Activities;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,7 +27,6 @@ public class GetStartedActivity extends AppCompatActivity {
 
     private Button registerButton, goToLoginPageButton;
     private ProgressBar progressBar;
-    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,27 +86,6 @@ public class GetStartedActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
                             registerButton.setVisibility(View.VISIBLE);
                             goToLoginPageButton.setClickable(true);
-
-//                            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-//                            View view = getLayoutInflater().inflate(R.layout.dialog_logout_confirmation, null);
-//                            builder.setView(view);
-//
-//                            view.findViewById(R.id.launch_email_app_button).setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View view) {
-//                                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.google.android.gm");
-//                                    if (intent != null) {
-//                                        dialog.cancel();
-//                                        startActivity(intent);
-//                                        finish();
-//                                    } else {
-//                                        Toast.makeText(getApplicationContext(), "Intent Empty!", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                            });
-//                            dialog = builder.create();
-//                            dialog.setCancelable(false);
-//                            dialog.show();
                         }
                     });
                 }

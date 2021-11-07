@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CartChildFragments.CartListFragment">
+
+    <TextView
+        android:id="@+id/page_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:fontFamily="@font/worksans_semibold"
+        android:gravity="center_horizontal"
+        android:letterSpacing="0.1"
+        android:padding="10dp"
+        android:text="CART"
+        android:textColor="@color/black"
+        android:textSize="21dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cart_list_items_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/page_title" />
+
+</RelativeLayout>

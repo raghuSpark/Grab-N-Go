@@ -1,20 +1,27 @@
 package com.dream.grabngo.MainFragments;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
+import com.anton46.stepsview.StepsView;
+import com.dream.grabngo.CartChildFragments.CartListFragment;
+import com.dream.grabngo.ProfileChildFragments.EditProfileFragment;
 import com.dream.grabngo.R;
 
 public class CartFragment extends Fragment {
 
-    public CartFragment() {
-        // Required empty public constructor
-    }
+    private View groupFragmentView;
+
+    public CartFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,6 +32,54 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cart, container, false);
+        groupFragmentView = inflater.inflate(R.layout.fragment_cart, container, false);
+
+        ListView mListView = groupFragmentView.findViewById(R.id.progress_steps);
+        MyAdapter adapter = new MyAdapter(requireContext(), 0);
+        adapter.addAll("");
+        mListView.setAdapter(adapter);
+
+        /*
+         * Working with child fragments
+         */
+
+        getChildFragmentManager().beginTransaction().add(R.id.cart_child_fragments_container, new CartListFragment()).commit();
+
+        return groupFragmentView;
+    }
+
+    public static class MyAdapter extends ArrayAdapter<String> {
+
+        private final String[] steps = {"1", "2", "3"};
+        public MyAdapter(Context context, int resource) {
+            super(context, resource);
+        }
+        @SuppressLint("InflateParams")
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.row, null);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            holder.mStepsView.setCompletedPosition(position % steps.length)
+                    .setLabels(steps)
+                    .setBarColorIndicator(
+                            getContext().getColor(R.color.steps_bar_color))
+                    .setProgressColorIndicator(getContext().getColor(R.color.orange))
+                    .setLabelColorIndicator(getContext().getColor(R.color.primary_blue))
+                    .drawView();
+            return convertView;
+        }
+
+        static class ViewHolder {
+            StepsView mStepsView;
+            public ViewHolder(View view) {
+                mStepsView = view.findViewById(R.id.stepsView);
+            }
+        }
     }
 }

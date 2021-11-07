@@ -1,8 +1,11 @@
 package com.dream.grabngo.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -23,10 +27,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.dream.grabngo.HideKeyBoard;
 import com.dream.grabngo.R;
 import com.dream.grabngo.SharedPrefConfig;
 import com.dream.grabngo.SingletonClass;
@@ -86,8 +89,9 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(this, GetStartedActivity.class));
             finish();
         });
-
         loginButton.setOnClickListener(view -> {
+            HideKeyBoard.hideKeyboardFromActivity(LoginActivity.this);
+
             loginProgressBar.setVisibility(View.VISIBLE);
             loginButton.setVisibility(View.GONE);
             String email = Objects.requireNonNull(emailIDEditText.getText()).toString().trim();
@@ -111,9 +115,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onAuthorizationSuccess(AccessToken accessToken, IdentityToken identityToken, RefreshToken refreshToken) {
                         runOnUiThread(() -> {
-                            Toast.makeText(getApplicationContext(), "Login Successful!213", Toast.LENGTH_SHORT).show();
-
-//                            SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
                             SharedPrefConfig.writeRefreshTokenRaw(getApplicationContext(), refreshToken.getRaw());
 
                             SingletonClass singleToneClass = SingletonClass.getInstance();
@@ -128,10 +129,10 @@ public class LoginActivity extends AppCompatActivity {
 
                             // Check if details were in the database or not
                             if (!SharedPrefConfig.readAreDetailsGiven(getApplicationContext())) {
-                                Log.d("TAG", "onAuthorizationSuccess: "+456);
                                 checkForTheUser(customer_id);
                             } else {
-                                Log.d("TAG", "onAuthorizationSuccess: "+485);
+                                SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
+
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -141,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
-
         forgotPassword.setOnClickListener(v -> {
             LoginWidget loginWidget = AppID.getInstance().getLoginWidget();
             loginWidget.launchForgotPassword(this, new AuthorizationListener() {
@@ -167,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkForTheUser(String customerId) {
         String URL = "http://192.168.43.54:3001/gng/v1/get-customer-details";
+//        String URL = "http://192.168.142.128:3001/gng/v1/get-customer-details";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", customerId);
@@ -178,6 +179,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.getString("STATUS").equals("FAILURE")) {
                     showBottomSheetDialog(customerId);
                 } else {
+                    SharedPrefConfig.writeUserDetails(this,response);
+                    SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -185,12 +189,13 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Log.d("TAG", "onErrorResponse: "+error.getMessage()));
+        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
         requestQueue.add(jsonObjectRequest);
     }
 
     private void addNewCustomer(String customerId, String customer_name, String email, String phone_number) {
         String URL = "http://192.168.43.54:3001/gng/v1/create-new-customer";
+//        String URL = "http://192.168.142.128:3001/gng/v1/create-new-customer";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", customerId);
@@ -203,6 +208,7 @@ public class LoginActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
             Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
+            SharedPrefConfig.writeUserDetails(this,response);
             SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
             SharedPrefConfig.writeAreDetailsGiven(getApplicationContext(), true);
 
@@ -389,6 +395,7 @@ public class LoginActivity extends AppCompatActivity {
 
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.BottomSheetAnimation;

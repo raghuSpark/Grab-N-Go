@@ -61,8 +61,14 @@
                     android:id="@+id/edit_profile_user_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autofillHints="username"
                     android:fontFamily="@font/worksans_regular"
+                    android:imeActionLabel="Next"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:padding="12dp"
+                    android:scrollHorizontally="true"
                     android:textColorLink="@color/primary_blue" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -85,38 +91,42 @@
                     android:id="@+id/edit_profile_mobile_number_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autofillHints="phone"
                     android:fontFamily="@font/worksans_regular"
+                    android:imeOptions="actionDone"
                     android:inputType="phone"
+                    android:maxLength="10"
+                    android:maxLines="1"
                     android:padding="12dp"
                     android:textColorLink="@color/primary_blue" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/password_text_input_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/mobile_number_text_input_layout"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="5dp"
-                android:hint="New Password"
-                android:textColorHint="@color/light_blue"
-                app:endIconMode="password_toggle"
-                app:endIconTint="@color/light_blue"
-                app:hintTextColor="@color/primary_blue"
-                app:startIconDrawable="@drawable/ic_password"
-                app:startIconTint="@color/primary_blue">
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:id="@+id/password_text_input_layout"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_below="@+id/mobile_number_text_input_layout"-->
+            <!--                android:layout_marginStart="10dp"-->
+            <!--                android:layout_marginEnd="10dp"-->
+            <!--                android:layout_marginBottom="5dp"-->
+            <!--                android:hint="New Password"-->
+            <!--                android:textColorHint="@color/light_blue"-->
+            <!--                app:endIconMode="password_toggle"-->
+            <!--                app:endIconTint="@color/light_blue"-->
+            <!--                app:hintTextColor="@color/primary_blue"-->
+            <!--                app:startIconDrawable="@drawable/ic_password"-->
+            <!--                app:startIconTint="@color/primary_blue">-->
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_profile_password_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/worksans_regular"
-                    android:padding="12dp"
-                    android:textColorLink="@color/primary_blue" />
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/edit_profile_password_edit_text"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:fontFamily="@font/worksans_regular"-->
+            <!--                    android:padding="12dp"-->
+            <!--                    android:textColorLink="@color/primary_blue" />-->
 
-            </com.google.android.material.textfield.TextInputLayout>
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
         </RelativeLayout>
 

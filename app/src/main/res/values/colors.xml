@@ -9,6 +9,8 @@
     <color name="light_blue">#9785BB</color>
     <color name="inactive_icon_color">#AB9785BB</color>
 
+    <color name="steps_bar_color">#EFEBF3</color>
+
     <color name="child_tabs_inactive">#E8EBFA</color>
     <color name="child_tabs_active">#B0C2F6</color>
 </resources>

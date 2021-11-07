@@ -4,6 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+
 public class SharedPrefConfig {
     public static void writeIsLoggedIn(Context context, boolean isLoggedIn) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -45,5 +52,26 @@ public class SharedPrefConfig {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
         return pref.getBoolean("ARE_DETAILS_GIVEN", false);
+    }
+
+    public static void writeUserDetails(Context context, JSONObject userDetailsJsonObject) {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(userDetailsJsonObject);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("USER_DETAILS", jsonString);
+        editor.apply();
+    }
+
+    public static JSONObject readUserDetails(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        String jsonString = pref.getString("USER_DETAILS", "");
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<JSONObject>() {
+        }.getType();
+        if (gson.fromJson(jsonString, type) == null) return new JSONObject();
+        return gson.fromJson(jsonString, type);
     }
 }
