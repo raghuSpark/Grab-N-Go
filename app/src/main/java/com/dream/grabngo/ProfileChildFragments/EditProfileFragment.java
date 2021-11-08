@@ -38,8 +38,7 @@ public class EditProfileFragment extends Fragment {
     private Button saveChangesButton;
     private JSONObject userDetails;
 
-    public EditProfileFragment() {
-    }
+    public EditProfileFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,6 @@ public class EditProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         groupFragmentView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         usernameEditText = groupFragmentView.findViewById(R.id.edit_profile_user_name_edit_text);
         mobileNumberEditText = groupFragmentView.findViewById(R.id.edit_profile_mobile_number_edit_text);
@@ -75,39 +73,43 @@ public class EditProfileFragment extends Fragment {
 
             if (!Objects.requireNonNull(usernameEditText.getText()).toString().trim().equals(customer_name) ||
                     !Objects.requireNonNull(mobileNumberEditText.getText()).toString().equals(mobile_no)) {
-                RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
-
-                String URL = "http://192.168.43.54:3001/gng/v1/update-customer-details";
-                JSONObject postData = new JSONObject();
-                try {
-                    postData.put("CUSTOMER_ID", userDetails.get("CUSTOMER_ID"));
-                    postData.put("CUSTOMER_NAME", usernameEditText.getText().toString().trim());
-                    postData.put("EMAIL_ID", userDetails.get("EMAIL_ID"));
-                    postData.put("PHONE_NO", Objects.requireNonNull(mobileNumberEditText.getText()).toString().trim());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
-                    Toast.makeText(requireContext(), "Changes saved successfully!", Toast.LENGTH_SHORT).show();
-                    SharedPrefConfig.writeUserDetails(requireContext(), response);
-                    try {
-                        TextView username = requireActivity().findViewById(R.id.user_name_text_view);
-                        username.setText(response.getString("CUSTOMER_NAME"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(requireContext(), "Unable to save the changes! Try again!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                requestQueue.add(jsonObjectRequest);
+                updateUserDetails(userDetails);
             } else {
                 Toast.makeText(requireContext(), "Nothing to save!", Toast.LENGTH_SHORT).show();
             }
         });
         return groupFragmentView;
+    }
+
+    private void updateUserDetails(JSONObject userDetails) {
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+
+        String URL = "http://192.168.43.54:3001/gng/v1/update-customer-details";
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("CUSTOMER_ID", userDetails.get("CUSTOMER_ID"));
+            postData.put("CUSTOMER_NAME", Objects.requireNonNull(usernameEditText.getText()).toString().trim());
+            postData.put("EMAIL_ID", userDetails.get("EMAIL_ID"));
+            postData.put("PHONE_NO", Objects.requireNonNull(mobileNumberEditText.getText()).toString().trim());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
+            Toast.makeText(requireContext(), "Changes saved successfully!", Toast.LENGTH_SHORT).show();
+            SharedPrefConfig.writeUserDetails(requireContext(), response);
+            try {
+                TextView username = requireActivity().findViewById(R.id.user_name_text_view);
+                username.setText(response.getString("CUSTOMER_NAME"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(requireContext(), "Unable to save the changes! Try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
     }
 }

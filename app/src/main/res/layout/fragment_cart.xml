@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainFragments.CartFragment">
 
-    <ListView
+<!--    <ListView-->
+<!--        android:id="@+id/progress_steps"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:listSelector="@color/transparent" />-->
+
+    <com.anton46.stepsview.StepsView
         android:id="@+id/progress_steps"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:listSelector="@color/transparent" />
+        android:layout_height="wrap_content"/>
 
     <RelativeLayout
         android:id="@+id/cart_child_fragments_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/progress_steps"
-        android:layout_alignParentBottom="true" />
+        android:layout_height="match_parent" />
 
-</RelativeLayout>
+</LinearLayout>
