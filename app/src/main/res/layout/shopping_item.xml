@@ -66,6 +66,8 @@
                         android:id="@+id/shopping_item_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
                         android:fontFamily="@font/worksans_semibold"
                         android:gravity="center"
                         android:text="\u20B9 36.00"
@@ -79,6 +81,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
+                    android:contentDescription="item_cart_status"
                     android:padding="12dp"
                     android:src="@drawable/ic_add_to_cart" />
 

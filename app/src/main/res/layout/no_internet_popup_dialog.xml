@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <ImageView
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        android:layout_margin="15dp"
+        android:src="@drawable/ic_no_network" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/worksans_medium"
+        android:gravity="center"
+        android:text="No Internet connection"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:fontFamily="@font/worksans_regular"
+        android:gravity="center"
+        android:text="Check your connection, then refresh the page"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/no_internet_refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/refresh_button_background"
+        android:fontFamily="@font/worksans_regular"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:text="Refresh"
+        android:textAllCaps="false"
+        android:textColor="@color/steps_progress_color" />
+
+</LinearLayout>

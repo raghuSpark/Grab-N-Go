@@ -16,8 +16,6 @@ import com.ibm.cloud.appid.android.api.tokens.AccessToken;
 import com.ibm.cloud.appid.android.api.tokens.IdentityToken;
 import com.ibm.cloud.appid.android.api.tokens.RefreshToken;
 
-import org.json.JSONException;
-
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TENANT_ID = "71cdaba0-0cf0-4487-9705-f06bf644dec4";
@@ -34,12 +32,18 @@ public class SplashActivity extends AppCompatActivity {
             AppID.getInstance().signinWithRefreshToken(getApplicationContext(), SharedPrefConfig.readRefreshTokenRaw(getApplicationContext()), new AuthorizationListener() {
                 @Override
                 public void onAuthorizationCanceled() {
-                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Authorization Cancelled!", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> {
+                        Toast.makeText(getApplicationContext(), "Authorization Cancelled!", Toast.LENGTH_SHORT).show();
+                        goToMainActivity();
+                    });
                 }
 
                 @Override
                 public void onAuthorizationFailure(AuthorizationException exception) {
-                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Authorization Failed!", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> {
+                        Toast.makeText(getApplicationContext(), "Authorization Failed!", Toast.LENGTH_SHORT).show();
+                        goToMainActivity();
+                    });
                 }
 
                 @Override
@@ -49,15 +53,7 @@ public class SplashActivity extends AppCompatActivity {
                         SingletonClass singleToneClass = com.dream.grabngo.SingletonClass.getInstance();
                         singleToneClass.setIdentityToken(identityToken);
 
-                        try {
-                            String customer_id = identityToken.getIdentities().getJSONObject(0).getString("id");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        goToMainActivity();
                     });
                 }
             });
@@ -66,5 +62,11 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -16,14 +16,18 @@
         android:padding="10dp"
         android:text="CART"
         android:textColor="@color/black"
-        android:textSize="21dp" />
+        android:textSize="21sp" />
 
     <ImageView
         android:id="@+id/empty_cart_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_centerInParent="true"
-        android:layout_margin="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:contentDescription="empty_cart_image"
         android:src="@drawable/ic_empty_cart"
         android:visibility="visible" />
 

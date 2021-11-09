@@ -1,11 +1,8 @@
 package com.dream.grabngo.Activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,7 +11,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -60,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String REGION = AppID.REGION_UK;
     final String[] CUSTOMER_NAME = new String[1];
     final String[] PHONE_NO = new String[1];
-    private TextView goToRegister, forgotPassword;
     private Button loginButton;
     private TextInputEditText emailIDEditText, passwordEditText;
     private ProgressBar loginProgressBar;
@@ -74,24 +69,21 @@ public class LoginActivity extends AppCompatActivity {
         AppID.getInstance().initialize(getApplicationContext(), TENANT_ID, REGION);
         requestQueue = Volley.newRequestQueue(LoginActivity.this);
 
-        goToRegister = findViewById(R.id.go_to_register);
-        forgotPassword = findViewById(R.id.forgot_password);
+        TextView goToRegister = findViewById(R.id.go_to_register);
+        TextView forgotPassword = findViewById(R.id.forgot_password);
+
         loginButton = findViewById(R.id.login_button);
         emailIDEditText = findViewById(R.id.email_id_edit_text);
         passwordEditText = findViewById(R.id.password_edit_text);
         loginProgressBar = findViewById(R.id.login_progress_bar);
 
-        // TODO: should remove the following 2 lines of code
-        emailIDEditText.setText("sparkraghu1508@gmail.com");
-        passwordEditText.setText("12345678");
-
         goToRegister.setOnClickListener(view1 -> {
             startActivity(new Intent(this, GetStartedActivity.class));
             finish();
         });
+
         loginButton.setOnClickListener(view -> {
             HideKeyBoard.hideKeyboardFromActivity(LoginActivity.this);
-
             loginProgressBar.setVisibility(View.VISIBLE);
             loginButton.setVisibility(View.GONE);
             String email = Objects.requireNonNull(emailIDEditText.getText()).toString().trim();
@@ -147,13 +139,12 @@ public class LoginActivity extends AppCompatActivity {
             loginWidget.launchForgotPassword(this, new AuthorizationListener() {
                 @Override
                 public void onAuthorizationFailure(AuthorizationException exception) {
-                    //Exception occurred
                     Toast.makeText(getApplicationContext(), "Password change failed!", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onAuthorizationCanceled() {
-                    Toast.makeText(getApplicationContext(), "Password change failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Password change cancelled!", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -167,7 +158,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkForTheUser(String customerId) {
         String URL = "http://192.168.43.54:3001/gng/v1/get-customer-details";
-//        String URL = "http://192.168.142.128:3001/gng/v1/get-customer-details";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", customerId);
@@ -179,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.getString("STATUS").equals("FAILURE")) {
                     showBottomSheetDialog(customerId);
                 } else {
-                    SharedPrefConfig.writeUserDetails(this,response);
+                    SharedPrefConfig.writeUserDetails(this, response);
                     SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -195,7 +185,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void addNewCustomer(String customerId, String customer_name, String email, String phone_number) {
         String URL = "http://192.168.43.54:3001/gng/v1/create-new-customer";
-//        String URL = "http://192.168.142.128:3001/gng/v1/create-new-customer";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", customerId);
@@ -208,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
             Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-            SharedPrefConfig.writeUserDetails(this,response);
+            SharedPrefConfig.writeUserDetails(this, response);
             SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
             SharedPrefConfig.writeAreDetailsGiven(getApplicationContext(), true);
 
@@ -249,7 +238,6 @@ public class LoginActivity extends AppCompatActivity {
             if (usernameEditText.getText().toString().trim().isEmpty()) {
                 Toast.makeText(this, "Username can't be empty", Toast.LENGTH_SHORT).show();
             } else {
-                // TODO: DB2 code to be written
                 CUSTOMER_NAME[0] = usernameEditText.getText().toString().trim();
                 userNameLL.setVisibility(View.GONE);
                 getOtpLL.setVisibility(View.VISIBLE);

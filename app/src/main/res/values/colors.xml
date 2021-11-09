@@ -14,4 +14,6 @@
 
     <color name="child_tabs_inactive">#E8EBFA</color>
     <color name="child_tabs_active">#B0C2F6</color>
+
+    <color name="colorGrey">#dddddd</color>
 </resources>

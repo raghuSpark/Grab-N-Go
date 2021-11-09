@@ -38,7 +38,8 @@ public class ShoppingItemsRecyclerViewAdapter extends RecyclerView.Adapter<Shopp
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // TODO
+        holder.item_name.setText(shoppingItemDetailsArrayList.get(position).getItemName());
+        holder.item_price.setText("\u20B9 " + shoppingItemDetailsArrayList.get(position).getItemPrice().toString());
     }
 
     @Override

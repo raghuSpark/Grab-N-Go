@@ -1,7 +1,9 @@
 package com.dream.grabngo.MainFragments;
 
 import android.annotation.SuppressLint;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.baoyachi.stepview.HorizontalStepView;
 import com.baoyachi.stepview.bean.StepBean;
 import com.dream.grabngo.CartChildFragments.CartListFragment;
+import com.dream.grabngo.NetworkChangeListener;
 import com.dream.grabngo.R;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ public class CartFragment extends Fragment {
 
     private View groupFragmentView;
     private HorizontalStepView orderProgressStepsView;
+    private NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     public CartFragment() {
     }
@@ -55,5 +59,18 @@ public class CartFragment extends Fragment {
         getChildFragmentManager().beginTransaction().add(R.id.cart_child_fragments_container, new CartListFragment(getContext(), getChildFragmentManager(), orderProgressStepsView)).commit();
 
         return groupFragmentView;
+    }
+
+    @Override
+    public void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        requireContext().registerReceiver(networkChangeListener,filter);
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        requireContext().unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }
