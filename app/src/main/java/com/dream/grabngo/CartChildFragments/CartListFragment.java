@@ -2,6 +2,7 @@ package com.dream.grabngo.CartChildFragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.baoyachi.stepview.HorizontalStepView;
+import com.baoyachi.stepview.bean.StepBean;
 import com.dream.grabngo.CartItemDetails;
 import com.dream.grabngo.CartItemsListRecyclerViewAdapter;
 import com.dream.grabngo.R;
@@ -31,11 +34,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartListFragment extends Fragment {
 
     private final ArrayList<CartItemDetails> cartItemDetailsArrayList = new ArrayList<>();
     private final FragmentManager fragmentManager;
+    private final Context context;
     private View groupFragmentView;
     private RecyclerView cartListItemsRecyclerView;
     private ImageView emptyCartImageView;
@@ -43,11 +48,12 @@ public class CartListFragment extends Fragment {
     private CartItemsListRecyclerViewAdapter cartItemsListRecyclerViewAdapter;
     private RequestQueue requestQueue;
     private JSONObject userDetails, cartItemsJsonResponse;
-    private final Context context;
+    private final HorizontalStepView orderProgressStepsView;
 
-    public CartListFragment(Context context, FragmentManager fragmentManager) {
+    public CartListFragment(Context context, FragmentManager fragmentManager, HorizontalStepView orderProgressStepsView) {
         this.fragmentManager = fragmentManager;
         this.context = context;
+        this.orderProgressStepsView = orderProgressStepsView;
     }
 
     @Override
@@ -119,6 +125,14 @@ public class CartListFragment extends Fragment {
         proceedButton = groupFragmentView.findViewById(R.id.proceed_button);
         emptyCartImageView = groupFragmentView.findViewById(R.id.empty_cart_image_view);
 
+        List<StepBean> steps = new ArrayList<>();
+        steps.add(new StepBean("Order", 0));
+        steps.add(new StepBean("Payment", -1));
+        steps.add(new StepBean("Thanks", -1));
+
+        orderProgressStepsView.setStepViewTexts(steps)
+                .ondrawIndicator();
+
         if (cartItemDetailsArrayList.isEmpty()) {
             proceedButton.setVisibility(View.GONE);
             cartListItemsRecyclerView.setVisibility(View.GONE);
@@ -146,6 +160,7 @@ public class CartListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO
+                fragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container,new PaymentDetailsFragment(context,fragmentManager,orderProgressStepsView)).commit();
             }
         });
 
