@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public class ShoppingItemsRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingItemsRecyclerViewAdapter.ViewHolder> {
@@ -39,7 +40,7 @@ public class ShoppingItemsRecyclerViewAdapter extends RecyclerView.Adapter<Shopp
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.item_name.setText(shoppingItemDetailsArrayList.get(position).getItemName());
-        holder.item_price.setText("\u20B9 " + shoppingItemDetailsArrayList.get(position).getItemPrice().toString());
+        holder.item_price.setText(MessageFormat.format("₹ {0}", shoppingItemDetailsArrayList.get(position).getItemPrice().toString()));
     }
 
     @Override

@@ -5,15 +5,20 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="primary_blue">#422A72</color>
-    <color name="light_blue">#9785BB</color>
-    <color name="inactive_icon_color">#AB9785BB</color>
+    <!--    <color name="primary_blue">#422A72</color>-->
+    <color name="primary_blue">#373E8B</color>
+    <!--    <color name="light_blue">#9785BB</color>-->
+    <color name="light_blue">#767dc9</color>
+    <color name="inactive_icon_color">#b3b7e1</color>
 
     <color name="steps_bar_color">#EFEBF3</color>
     <color name="steps_progress_color">#373E8B</color>
 
     <color name="child_tabs_inactive">#E8EBFA</color>
     <color name="child_tabs_active">#B0C2F6</color>
+
+    <color name="add_to_cart_yellow_color">#FF9900</color>
+    <color name="added_to_cart_green_color">#0FA958</color>
 
     <color name="colorGrey">#dddddd</color>
 </resources>

@@ -6,55 +6,122 @@
     android:layout_height="match_parent"
     tools:context=".MainFragments.HomeFragment">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/home_search_input_layout"
+    <LinearLayout
+        android:id="@+id/home_search_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_toStartOf="@+id/home_map_button"
-        android:hint="search..."
-        android:textColorHint="#987ECB"
-        app:expandedHintEnabled="true"
-        app:hintTextColor="@color/transparent"
-        app:startIconDrawable="@drawable/ic_search_active"
-        app:startIconTint="#987ECB">
+        android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <ImageView
+            android:id="@+id/home_search_back_button"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_back" />
 
-            android:id="@+id/home_search_edit_text"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/home_search_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/search_background"
-            android:fontFamily="@font/worksans_regular"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="12dp"
-            android:scrollHorizontally="true"
-            android:textColorLink="@color/primary_blue" />
+            android:hint="search..."
+            android:textColorHint="@color/light_blue"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/inactive_icon_color"
+            app:hintTextColor="@color/transparent"
+            app:startIconDrawable="@drawable/ic_search_active"
+            app:startIconTint="@color/steps_progress_color">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/home_search_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_background"
+                android:fontFamily="@font/worksans_regular"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="12dp"
+                android:scrollHorizontally="true"
+                android:textColorLink="@color/primary_blue" />
 
-    <ImageView
-        android:id="@+id/home_map_button"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignTop="@+id/home_search_input_layout"
-        android:layout_alignBottom="@+id/home_search_input_layout"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_map" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/home_map_button"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_map" />
+
+    </LinearLayout>
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/home_search_back_button"-->
+    <!--        android:layout_width="20dp"-->
+    <!--        android:layout_height="20dp"-->
+    <!--        android:layout_alignTop="@+id/home_search_input_layout"-->
+    <!--        android:layout_alignBottom="@+id/home_search_input_layout"-->
+    <!--        android:layout_alignParentStart="true"-->
+    <!--        android:layout_margin="10dp"-->
+    <!--        android:contentDescription="@string/app_name"-->
+    <!--        android:src="@drawable/ic_back" />-->
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:id="@+id/home_search_input_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:layout_marginStart="10dp"-->
+    <!--        android:layout_marginBottom="5dp"-->
+    <!--        android:layout_toStartOf="@+id/home_map_button"-->
+    <!--        android:layout_toEndOf="@id/home_search_back_button"-->
+    <!--        android:hint="search..."-->
+    <!--        android:textColorHint="@color/light_blue"-->
+    <!--        app:endIconMode="clear_text"-->
+    <!--        app:endIconTint="@color/inactive_icon_color"-->
+    <!--        app:expandedHintEnabled="true"-->
+    <!--        app:hintTextColor="@color/transparent"-->
+    <!--        app:startIconDrawable="@drawable/ic_search_active"-->
+    <!--        app:startIconTint="@color/steps_progress_color">-->
+
+    <!--        <com.google.android.material.textfield.TextInputEditText-->
+    <!--            android:id="@+id/home_search_edit_text"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@drawable/search_background"-->
+    <!--            android:fontFamily="@font/worksans_regular"-->
+    <!--            android:imeOptions="actionSearch"-->
+    <!--            android:inputType="text"-->
+    <!--            android:maxLines="1"-->
+    <!--            android:padding="12dp"-->
+    <!--            android:scrollHorizontally="true"-->
+    <!--            android:textColorLink="@color/primary_blue" />-->
+
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/home_map_button"-->
+    <!--        android:layout_width="20dp"-->
+    <!--        android:layout_height="20dp"-->
+    <!--        android:layout_alignTop="@+id/home_search_input_layout"-->
+    <!--        android:layout_alignBottom="@+id/home_search_input_layout"-->
+    <!--        android:layout_alignParentEnd="true"-->
+    <!--        android:layout_marginStart="10dp"-->
+    <!--        android:layout_marginTop="11dp"-->
+    <!--        android:layout_marginEnd="20dp"-->
+    <!--        android:contentDescription="@string/app_name"-->
+    <!--        android:src="@drawable/ic_map" />-->
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/home_fragment_swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/home_search_input_layout">
+        android:layout_below="@+id/home_search_linear_layout">
 
         <ScrollView
             android:layout_width="match_parent"
