@@ -123,6 +123,9 @@ public class LoginActivity extends AppCompatActivity {
                             if (!SharedPrefConfig.readAreDetailsGiven(getApplicationContext())) {
                                 checkForTheUser(customer_id);
                             } else {
+                                loginProgressBar.setVisibility(View.GONE);
+                                loginButton.setVisibility(View.VISIBLE);
+                                loginButton.setActivated(false);
                                 SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
 
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -166,6 +169,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
             try {
+                loginProgressBar.setVisibility(View.GONE);
+                loginButton.setVisibility(View.VISIBLE);
+                loginButton.setActivated(false);
                 if (response.getString("STATUS").equals("FAILURE")) {
                     showBottomSheetDialog(customerId);
                 } else {
@@ -179,7 +185,11 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Log.d("TAG", "onErrorResponse: " + error.getMessage()));
+        }, error -> {
+            loginProgressBar.setVisibility(View.GONE);
+            loginButton.setVisibility(View.VISIBLE);
+            Log.d("TAG", "onErrorResponse: " + error.getMessage());
+        });
         requestQueue.add(jsonObjectRequest);
     }
 
