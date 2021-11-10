@@ -10,7 +10,8 @@
         android:layout_width="175dp"
         android:layout_height="175dp"
         android:layout_margin="15dp"
-        android:src="@drawable/ic_no_network" />
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_no_network_illustration" />
 
     <TextView
         android:layout_width="match_parent"

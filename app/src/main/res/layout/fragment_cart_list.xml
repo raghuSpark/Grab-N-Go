@@ -27,8 +27,8 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="50dp"
-        android:contentDescription="empty_cart_image"
-        android:src="@drawable/ic_empty_cart"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_empty_cart_illustration"
         android:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView

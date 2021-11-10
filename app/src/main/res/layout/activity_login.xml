@@ -27,12 +27,22 @@
         android:textColor="#062132"
         android:textSize="15sp" />
 
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="5dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_login_illustration" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -55,6 +65,7 @@
                 android:autofillHints="emailAddress"
                 android:fontFamily="@font/worksans_regular"
                 android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:padding="12dp"
                 android:textColorLink="@color/primary_blue" />
@@ -81,7 +92,8 @@
                 android:layout_height="wrap_content"
                 android:autofillHints="password"
                 android:fontFamily="@font/worksans_regular"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionGo"
+                android:inputType="textPassword"
                 android:maxLines="1"
                 android:padding="12dp"
                 android:textColorLink="@color/primary_blue" />
@@ -102,8 +114,10 @@
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/button_background"
             android:clickable="true"
             android:focusable="true"

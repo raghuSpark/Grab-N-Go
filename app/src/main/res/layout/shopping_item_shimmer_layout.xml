@@ -33,7 +33,7 @@
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:background="@color/colorGrey"
-                    android:contentDescription="item_image" />
+                    android:contentDescription="@string/app_name" />
 
             </androidx.cardview.widget.CardView>
 
@@ -72,7 +72,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="0.5"
                     android:background="@color/colorGrey"
-                    android:contentDescription="item_cart_status"
+                    android:contentDescription="@string/app_name"
                     android:padding="5dp" />
 
             </LinearLayout>

@@ -33,7 +33,7 @@
                     android:id="@+id/shopping_item_image_view"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-                    android:contentDescription="item_image"
+                    android:contentDescription="@string/app_name"
                     android:scaleType="centerCrop"
                     android:src="@drawable/sample_item_image" />
 
