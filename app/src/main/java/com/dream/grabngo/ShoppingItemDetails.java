@@ -4,13 +4,11 @@ public class ShoppingItemDetails {
     private String itemName;
     private int availableQuantity;
     private Double itemPrice;
-    private Boolean isAddedToCart;
 
-    public ShoppingItemDetails(String itemName, int availableQuantity, Double itemPrice, Boolean isAddedToCart) {
+    public ShoppingItemDetails(String itemName, int availableQuantity, Double itemPrice) {
         this.itemName = itemName;
         this.availableQuantity = availableQuantity;
         this.itemPrice = itemPrice;
-        this.isAddedToCart = isAddedToCart;
     }
 
     public String getItemName() {
@@ -35,13 +33,5 @@ public class ShoppingItemDetails {
 
     public void setItemPrice(Double itemPrice) {
         this.itemPrice = itemPrice;
-    }
-
-    public Boolean getAddedToCart() {
-        return isAddedToCart;
-    }
-
-    public void setAddedToCart(Boolean addedToCart) {
-        isAddedToCart = addedToCart;
     }
 }

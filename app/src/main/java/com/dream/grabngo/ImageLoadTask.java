@@ -7,8 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
-
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -19,14 +17,12 @@ public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
     @SuppressLint("StaticFieldLeak")
     private final ImageView imageView;
     @SuppressLint("StaticFieldLeak")
-    private final ShimmerFrameLayout shimmerFrameLayout;
     private final Context context;
 
-    public ImageLoadTask(Context context, String url, ImageView imageView, ShimmerFrameLayout shimmerFrameLayout) {
+    public ImageLoadTask(Context context, String url, ImageView imageView) {
         this.context = context;
         this.url = url;
         this.imageView = imageView;
-        this.shimmerFrameLayout = shimmerFrameLayout;
     }
 
     @Override
@@ -49,8 +45,6 @@ public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap result) {
         super.onPostExecute(result);
-        shimmerFrameLayout.stopShimmer();
-        shimmerFrameLayout.hideShimmer();
         if (result != null) imageView.setImageBitmap(result);
         else imageView.setImageDrawable(context.getDrawable(R.drawable.ic_profile_active));
     }

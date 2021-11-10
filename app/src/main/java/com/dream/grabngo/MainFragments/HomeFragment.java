@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +33,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private final ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList = new ArrayList<>();
-    private ImageView routesButton;
+    private CardView searchBackButton, mapsButton;
     private TextInputEditText searchEditText;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -55,10 +58,11 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View groupFragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         shimmerFrameLayout = groupFragmentView.findViewById(R.id.home_shopping_items_shimmer_layout);
-        routesButton = groupFragmentView.findViewById(R.id.home_map_button);
         searchEditText = groupFragmentView.findViewById(R.id.home_search_edit_text);
         swipeRefreshLayout = groupFragmentView.findViewById(R.id.home_fragment_swipe);
         homeShoppingItemsRecyclerView = groupFragmentView.findViewById(R.id.home_shopping_items_recycler_view);
+        searchBackButton = groupFragmentView.findViewById(R.id.home_search_back_card);
+        mapsButton = groupFragmentView.findViewById(R.id.home_maps_card);
 
         // Get the items form the database and add to the shoppingItemDetailsArrayList
         getAvailableItems();
@@ -71,7 +75,7 @@ public class HomeFragment extends Fragment {
             getAvailableItems();
         });
 
-        routesButton.setOnClickListener(new View.OnClickListener() {
+        mapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: routes list should be shown here
@@ -97,8 +101,7 @@ public class HomeFragment extends Fragment {
                     ShoppingItemDetails item = new ShoppingItemDetails(
                             object.getString("ITEM_NAME"),
                             object.getInt("AVAILABLE_QUANTITY"),
-                            object.getDouble("PRICE"),
-                            false
+                            object.getDouble("PRICE")
                     );
                     shoppingItemDetailsArrayList.add(item);
                 }

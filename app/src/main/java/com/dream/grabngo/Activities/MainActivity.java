@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new PayFragment();
                 break;
             case R.id.nav_profile:
-                fragment = new ProfileFragment();
+                fragment = new ProfileFragment(getSupportFragmentManager());
                 break;
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragments_container, Objects.requireNonNull(fragment)).commit();

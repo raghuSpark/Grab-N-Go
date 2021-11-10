@@ -4,133 +4,163 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileChildFragments.EditProfileFragment">
+    tools:context=".ProfileSubFragments.EditProfileFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/edit_profile_tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/edit_profile_save_changes_button"
-        android:layout_alignParentTop="true">
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/upload_profile_image_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toStartOf="@+id/upload_icon"
-                android:background="@drawable/button_background"
-                android:backgroundTint="@color/light_blue"
-                android:fontFamily="@font/worksans_regular"
-                android:text="Upload Profile Image"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/edit_profile_back_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/transparent"
+            app:cardCornerRadius="100dp"
+            app:cardElevation="0dp">
 
             <ImageView
-                android:id="@+id/upload_icon"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignTop="@+id/upload_profile_image_button"
-                android:layout_alignBottom="@id/upload_profile_image_button"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/ic_upload" />
+                android:contentDescription="@string/app_name"
+                android:padding="5dp"
+                android:src="@drawable/ic_back" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/user_name_text_input_layout"
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/worksans_medium"
+            android:letterSpacing="0.04"
+            android:text="Edit Profile"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/upload_profile_image_button"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_below="@+id/edit_profile_tool_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="1dp"
+            app:cardCornerRadius="5000dp">
+
+            <ImageView
+                android:id="@+id/profile_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/upload_profile_image_button"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="5dp"
-                android:hint="Username"
-                android:textColorHint="@color/light_blue"
-                app:hintTextColor="@color/primary_blue"
-                app:startIconDrawable="@drawable/ic_profile"
-                app:startIconTint="@color/primary_blue">
+                android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
+                app:srcCompat="@drawable/ic_profile_active" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_profile_user_name_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="username"
-                    android:fontFamily="@font/worksans_regular"
-                    android:imeActionLabel="Next"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:padding="12dp"
-                    android:scrollHorizontally="true"
-                    android:textColorLink="@color/primary_blue" />
+        </androidx.cardview.widget.CardView>
 
-            </com.google.android.material.textfield.TextInputLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="1dp"
+            app:cardCornerRadius="5000dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/mobile_number_text_input_layout"
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/user_name_text_input_layout"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="5dp"
-                android:hint="Mobile Number"
-                android:textColorHint="@color/light_blue"
-                app:hintTextColor="@color/primary_blue"
-                app:startIconDrawable="@drawable/ic_mobile"
-                app:startIconTint="@color/primary_blue">
+                android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
+                android:padding="6dp"
+                app:srcCompat="@drawable/ic_edit" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_profile_mobile_number_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="phone"
-                    android:fontFamily="@font/worksans_regular"
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:maxLength="10"
-                    android:maxLines="1"
-                    android:padding="12dp"
-                    android:textColorLink="@color/primary_blue" />
+        </androidx.cardview.widget.CardView>
 
-            </com.google.android.material.textfield.TextInputLayout>
+    </RelativeLayout>
 
-            <!--            <com.google.android.material.textfield.TextInputLayout-->
-            <!--                android:id="@+id/password_text_input_layout"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_below="@+id/mobile_number_text_input_layout"-->
-            <!--                android:layout_marginStart="10dp"-->
-            <!--                android:layout_marginEnd="10dp"-->
-            <!--                android:layout_marginBottom="5dp"-->
-            <!--                android:hint="New Password"-->
-            <!--                android:textColorHint="@color/light_blue"-->
-            <!--                app:endIconMode="password_toggle"-->
-            <!--                app:endIconTint="@color/light_blue"-->
-            <!--                app:hintTextColor="@color/primary_blue"-->
-            <!--                app:startIconDrawable="@drawable/ic_password"-->
-            <!--                app:startIconTint="@color/primary_blue">-->
+    <TextView
+        android:id="@+id/edit_profile_email_id_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/upload_profile_image_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/worksans_regular"
+        android:text="EmailID"
+        android:textColor="@color/primary_blue"
+        android:textSize="15sp" />
 
-            <!--                <com.google.android.material.textfield.TextInputEditText-->
-            <!--                    android:id="@+id/edit_profile_password_edit_text"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:fontFamily="@font/worksans_regular"-->
-            <!--                    android:padding="12dp"-->
-            <!--                    android:textColorLink="@color/primary_blue" />-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/user_name_text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_profile_email_id_text_view"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Username"
+        android:textColorHint="@color/light_blue"
+        app:expandedHintEnabled="false"
+        app:hintTextColor="@color/primary_blue">
 
-            <!--            </com.google.android.material.textfield.TextInputLayout>-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_profile_user_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="username"
+            android:fontFamily="@font/worksans_regular"
+            android:imeActionLabel="Next"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:scrollHorizontally="true"
+            android:textColorLink="@color/primary_blue" />
 
-        </RelativeLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/mobile_number_text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name_text_input_layout"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Mobile Number"
+        android:textColorHint="@color/light_blue"
+        app:expandedHintEnabled="false"
+        app:hintTextColor="@color/primary_blue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_profile_mobile_number_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="phone"
+            android:fontFamily="@font/worksans_regular"
+            android:imeOptions="actionDone"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:textColorLink="@color/primary_blue" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/edit_profile_save_changes_button"
@@ -148,6 +178,7 @@
         android:text="Save changes"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
 
 </RelativeLayout>
