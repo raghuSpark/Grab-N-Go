@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-        getSupportFragmentManager().beginTransaction().add(R.id.main_fragments_container, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_fragments_container, new HomeFragment(getSupportFragmentManager(), 0)).commit();
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             HandleFragments(item.getItemId());
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = null;
         switch (itemId) {
             case R.id.nav_home:
-                fragment = new HomeFragment();
+                fragment = new HomeFragment(getSupportFragmentManager(),0);
                 break;
             case R.id.nav_cart:
                 fragment = new CartFragment();

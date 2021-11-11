@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.MessageFormat;
@@ -18,16 +19,13 @@ public class ShoppingItemsRecyclerViewAdapter extends RecyclerView.Adapter<Shopp
     ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList;
     Context context;
     LayoutInflater layoutInflater;
-    CartItemsListRecyclerViewAdapter.OnItemClickListener itemClickListener;
+    FragmentManager supportFragmentManager;
 
-    public ShoppingItemsRecyclerViewAdapter(Context context, ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList) {
+    public ShoppingItemsRecyclerViewAdapter(Context context, FragmentManager supportFragmentManager, ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList) {
         this.context = context;
+        this.supportFragmentManager = supportFragmentManager;
         this.shoppingItemDetailsArrayList = shoppingItemDetailsArrayList;
         this.layoutInflater = LayoutInflater.from(context);
-    }
-
-    public void setOnItemClickListener(CartItemsListRecyclerViewAdapter.OnItemClickListener listener) {
-        itemClickListener = listener;
     }
 
     @NonNull
@@ -48,11 +46,7 @@ public class ShoppingItemsRecyclerViewAdapter extends RecyclerView.Adapter<Shopp
         return shoppingItemDetailsArrayList.size();
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(String itemName, int position);
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView item_name, item_price;
         ImageView item_image;
@@ -62,6 +56,13 @@ public class ShoppingItemsRecyclerViewAdapter extends RecyclerView.Adapter<Shopp
             item_name = itemView.findViewById(R.id.shopping_item_name);
             item_price = itemView.findViewById(R.id.shopping_item_price);
             item_image = itemView.findViewById(R.id.shopping_item_image_view);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container,new ItemExpandedFragment(supportFragmentManager)).commit();
+                }
+            });
         }
     }
 }

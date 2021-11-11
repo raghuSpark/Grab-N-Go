@@ -67,6 +67,7 @@ public class ProfileFragment extends Fragment {
         userName = groupFragmentView.findViewById(R.id.user_name_text_view);
         emailID = groupFragmentView.findViewById(R.id.user_emailID_text_view);
         profile_image = groupFragmentView.findViewById(R.id.profile_image);
+        notificationsButton = groupFragmentView.findViewById(R.id.profile_notifications_button);
         historyButton = groupFragmentView.findViewById(R.id.profile_history_button);
         settingsButton = groupFragmentView.findViewById(R.id.profile_settings_button);
         ratingsButton = groupFragmentView.findViewById(R.id.profile_ratings_button);

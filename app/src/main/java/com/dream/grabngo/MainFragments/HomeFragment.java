@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -29,17 +30,22 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    private final int FROM_ITEM_EXPANDED_FRAGMENT_CODE = 1;
+    private int from_fragment_code;
+
     private final ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList = new ArrayList<>();
+    private final FragmentManager supportFragmentManager;
     private CardView searchBackButton, mapsButton;
     private TextInputEditText searchEditText;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ShimmerFrameLayout shimmerFrameLayout;
     private RecyclerView homeShoppingItemsRecyclerView;
     private ShoppingItemsRecyclerViewAdapter shoppingItemsRecyclerViewAdapter;
-
     private RequestQueue requestQueue;
 
-    public HomeFragment() {
+    public HomeFragment(FragmentManager supportFragmentManager,int from_fragment_code) {
+        this.supportFragmentManager = supportFragmentManager;
+        this.from_fragment_code = from_fragment_code;
     }
 
     @Override
@@ -62,7 +68,9 @@ public class HomeFragment extends Fragment {
         mapsButton = groupFragmentView.findViewById(R.id.home_maps_card);
 
         // Get the items form the database and add to the shoppingItemDetailsArrayList
-        getAvailableItems();
+        if (from_fragment_code != FROM_ITEM_EXPANDED_FRAGMENT_CODE)
+            getAvailableItems();
+        else handleShimmerLayout();
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
@@ -81,7 +89,7 @@ public class HomeFragment extends Fragment {
 
         homeShoppingItemsRecyclerView.setHasFixedSize(true);
         homeShoppingItemsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));
-        shoppingItemsRecyclerViewAdapter = new ShoppingItemsRecyclerViewAdapter(requireContext(), shoppingItemDetailsArrayList);
+        shoppingItemsRecyclerViewAdapter = new ShoppingItemsRecyclerViewAdapter(requireContext(), supportFragmentManager, shoppingItemDetailsArrayList);
         homeShoppingItemsRecyclerView.setAdapter(shoppingItemsRecyclerViewAdapter);
         shoppingItemsRecyclerViewAdapter.notifyDataSetChanged();
 
@@ -91,7 +99,7 @@ public class HomeFragment extends Fragment {
     private void getAvailableItems() {
         String URL = "http://192.168.43.54:3001/gng/v1/get-available-items";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, response -> {
-            try {
+            try {handleShimmerLayout();
                 shoppingItemDetailsArrayList.clear();
                 for (int i = 1; i < response.length(); i++) {
                     JSONObject object = response.getJSONObject(i);
@@ -118,7 +126,8 @@ public class HomeFragment extends Fragment {
         shimmerFrameLayout.stopShimmer();
         shimmerFrameLayout.setVisibility(View.GONE);
         homeShoppingItemsRecyclerView.setVisibility(View.VISIBLE);
-        shoppingItemsRecyclerViewAdapter.notifyDataSetChanged();
+        if (from_fragment_code != FROM_ITEM_EXPANDED_FRAGMENT_CODE)
+            shoppingItemsRecyclerViewAdapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
     }
 }

@@ -149,13 +149,6 @@ public class CartListFragment extends Fragment {
         cartListItemsRecyclerView.setAdapter(cartItemsListRecyclerViewAdapter);
         cartItemsListRecyclerViewAdapter.notifyDataSetChanged();
 
-        cartItemsListRecyclerViewAdapter.setOnItemClickListener(new CartItemsListRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String itemName, int position) {
-                // TODO: Implement ONCLICK
-            }
-        });
-
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

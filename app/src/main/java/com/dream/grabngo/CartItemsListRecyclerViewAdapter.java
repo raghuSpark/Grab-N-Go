@@ -16,15 +16,10 @@ public class CartItemsListRecyclerViewAdapter extends RecyclerView.Adapter<CartI
 
     ArrayList<CartItemDetails> cartItemDetailsArrayList;
     Context context;
-    CartItemsListRecyclerViewAdapter.OnItemClickListener itemClickListener;
 
     public CartItemsListRecyclerViewAdapter(Context context, ArrayList<CartItemDetails> cartItemDetailsArrayList) {
         this.cartItemDetailsArrayList = cartItemDetailsArrayList;
         this.context = context;
-    }
-
-    public void setOnItemClickListener(CartItemsListRecyclerViewAdapter.OnItemClickListener listener) {
-        itemClickListener = listener;
     }
 
     @NonNull
@@ -33,7 +28,7 @@ public class CartItemsListRecyclerViewAdapter extends RecyclerView.Adapter<CartI
         context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.cart_list_item, parent, false);
-        return new ViewHolder(view, itemClickListener);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -46,20 +41,23 @@ public class CartItemsListRecyclerViewAdapter extends RecyclerView.Adapter<CartI
         return cartItemDetailsArrayList.size();
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(String itemName, int position);
-    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView item_name, item_price;
         ImageView item_image;
 
-        public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             item_name = itemView.findViewById(R.id.cart_item_name);
             item_price = itemView.findViewById(R.id.cart_item_price);
             item_image = itemView.findViewById(R.id.cart_item_image_view);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO
+                }
+            });
         }
     }
 }
