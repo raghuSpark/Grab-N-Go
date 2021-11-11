@@ -20,6 +20,7 @@ import com.dream.grabngo.Activities.GetStartedActivity;
 import com.dream.grabngo.ImageLoadTask;
 import com.dream.grabngo.ProfileSubFragments.EditProfileFragment;
 import com.dream.grabngo.ProfileSubFragments.HistoryFragment;
+import com.dream.grabngo.ProfileSubFragments.NotificationsFragment;
 import com.dream.grabngo.ProfileSubFragments.RatingsFragment;
 import com.dream.grabngo.ProfileSubFragments.SettingsFragment;
 import com.dream.grabngo.R;
@@ -41,7 +42,7 @@ public class ProfileFragment extends Fragment {
     private View groupFragmentView;
     private TextView userName, emailID;
     private ImageView profile_image;
-    private LinearLayout historyButton, settingsButton, ratingsButton, supportButton;
+    private LinearLayout notificationsButton, historyButton, settingsButton, ratingsButton, supportButton;
     private RelativeLayout editProfileButton;
     private CardView logoutButton;
     private AlertDialog dialog;
@@ -92,6 +93,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 handleFragment(editProfileButton.getId());
+            }
+        });
+
+        notificationsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleFragment(notificationsButton.getId());
             }
         });
 
@@ -150,6 +158,9 @@ public class ProfileFragment extends Fragment {
     private void handleFragment(int id) {
         Fragment fragment = null;
         switch (id) {
+            case R.id.profile_notifications_button:
+                fragment = new NotificationsFragment(supportFragmentManager);
+                break;
             case R.id.profile_edit_button:
                 fragment = new EditProfileFragment(supportFragmentManager);
                 break;

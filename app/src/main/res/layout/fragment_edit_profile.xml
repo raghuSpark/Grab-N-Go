@@ -16,8 +16,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/edit_profile_back_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
-                android:padding="5dp"
+                android:padding="9dp"
                 android:src="@drawable/ic_back" />
 
         </androidx.cardview.widget.CardView>
@@ -161,6 +161,30 @@
             android:textColorLink="@color/primary_blue" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/edit_profile_change_password_button"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@id/mobile_number_text_input_layout"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/search_background"
+        android:clickable="true"
+        android:drawablePadding="15dp"
+        android:focusable="true"
+        android:fontFamily="@font/worksans_regular"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingStart="15dp"
+        android:paddingEnd="10dp"
+        android:text="Change Password"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:drawableEndCompat="@drawable/ic_link"
+        app:drawableStartCompat="@drawable/ic_password" />
 
     <Button
         android:id="@+id/edit_profile_save_changes_button"

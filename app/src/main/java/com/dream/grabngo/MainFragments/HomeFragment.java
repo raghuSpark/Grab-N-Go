@@ -4,11 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -100,8 +97,8 @@ public class HomeFragment extends Fragment {
                     JSONObject object = response.getJSONObject(i);
                     ShoppingItemDetails item = new ShoppingItemDetails(
                             object.getString("ITEM_NAME"),
-                            object.getInt("AVAILABLE_QUANTITY"),
-                            object.getDouble("PRICE")
+                            object.getInt("ITEM_QUANTITY"),
+                            object.getDouble("ITEM_PRICE")
                     );
                     shoppingItemDetailsArrayList.add(item);
                 }

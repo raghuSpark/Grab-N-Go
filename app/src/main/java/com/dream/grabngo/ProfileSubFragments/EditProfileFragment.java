@@ -22,15 +22,14 @@ import org.json.JSONObject;
 
 public class EditProfileFragment extends Fragment {
 
+    private final FragmentManager supportFragmentManager;
     String customer_name = "", mobile_no = "";
     private View groupFragmentView;
     private CardView backButton;
     private TextInputEditText usernameEditText, mobileNumberEditText;
     private Button saveChangesButton;
-
     private IdentityToken identityToken;
     private JSONObject userDetails;
-    private final FragmentManager supportFragmentManager;
 
     public EditProfileFragment(androidx.fragment.app.FragmentManager supportFragmentManager) {
         this.supportFragmentManager = supportFragmentManager;
