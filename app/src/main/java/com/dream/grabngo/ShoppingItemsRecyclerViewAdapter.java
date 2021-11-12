@@ -11,15 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dream.grabngo.MainFragments.ItemExpandedFragment;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public class ShoppingItemsRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingItemsRecyclerViewAdapter.ViewHolder> {
 
-    ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList;
-    Context context;
-    LayoutInflater layoutInflater;
-    FragmentManager supportFragmentManager;
+    private final ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList;
+    private final Context context;
+    private final LayoutInflater layoutInflater;
+    private final FragmentManager supportFragmentManager;
 
     public ShoppingItemsRecyclerViewAdapter(Context context, FragmentManager supportFragmentManager, ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList) {
         this.context = context;
@@ -60,7 +62,7 @@ public class ShoppingItemsRecyclerViewAdapter extends RecyclerView.Adapter<Shopp
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container,new ItemExpandedFragment(supportFragmentManager)).commit();
+                    supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ItemExpandedFragment(supportFragmentManager)).commit();
                 }
             });
         }

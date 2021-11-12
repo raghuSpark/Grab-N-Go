@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class SharedPrefConfig {
     public static void writeIsLoggedIn(Context context, boolean isLoggedIn) {
@@ -72,6 +73,27 @@ public class SharedPrefConfig {
         Type type = new TypeToken<JSONObject>() {
         }.getType();
         if (gson.fromJson(jsonString, type) == null) return new JSONObject();
+        return gson.fromJson(jsonString, type);
+    }
+
+    public static void writeCartItems(Context context, ArrayList<CartItemDetails> cartItemsArrayList) {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(cartItemsArrayList);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("CART_ITEMS", jsonString);
+        editor.apply();
+    }
+
+    public static ArrayList<CartItemDetails> readCartItems(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        String jsonString = pref.getString("CART_ITEMS", "");
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<CartItemDetails>>() {
+        }.getType();
+        if (gson.fromJson(jsonString, type) == null) return new ArrayList<>();
         return gson.fromJson(jsonString, type);
     }
 }

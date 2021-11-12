@@ -5,6 +5,12 @@ public class CartItemDetails {
     private Double itemPrice;
     private int quantity;
 
+    public CartItemDetails(String itemName, Double itemPrice, int quantity) {
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.quantity = quantity;
+    }
+
     public String getItemName() {
         return itemName;
     }

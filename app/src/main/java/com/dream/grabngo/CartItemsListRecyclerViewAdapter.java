@@ -1,6 +1,7 @@
 package com.dream.grabngo;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,32 +9,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dream.grabngo.MainFragments.ItemExpandedFragment;
+
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public class CartItemsListRecyclerViewAdapter extends RecyclerView.Adapter<CartItemsListRecyclerViewAdapter.ViewHolder> {
 
-    ArrayList<CartItemDetails> cartItemDetailsArrayList;
-    Context context;
+    private final ArrayList<CartItemDetails> cartItemDetailsArrayList;
+    private final Context context;
+    private final LayoutInflater layoutInflater;
+    private final FragmentManager supportFragmentManager;
 
-    public CartItemsListRecyclerViewAdapter(Context context, ArrayList<CartItemDetails> cartItemDetailsArrayList) {
-        this.cartItemDetailsArrayList = cartItemDetailsArrayList;
+    public CartItemsListRecyclerViewAdapter(Context context, FragmentManager supportFragmentManager, ArrayList<CartItemDetails> cartItemDetailsArrayList) {
         this.context = context;
+        this.supportFragmentManager = supportFragmentManager;
+        this.cartItemDetailsArrayList = cartItemDetailsArrayList;
+        this.layoutInflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.cart_list_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.cart_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // TODO
+//        holder.item_name.setText(cartItemDetailsArrayList.get(position).getItemName());
+//        holder.item_price.setText(MessageFormat.format("₹ {0}", cartItemDetailsArrayList.get(position).getItemPrice().toString()));
     }
 
     @Override
@@ -41,21 +49,21 @@ public class CartItemsListRecyclerViewAdapter extends RecyclerView.Adapter<CartI
         return cartItemDetailsArrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView item_name, item_price;
-        ImageView item_image;
+//        TextView item_name, item_price;
+//        ImageView item_image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            item_name = itemView.findViewById(R.id.cart_item_name);
-            item_price = itemView.findViewById(R.id.cart_item_price);
-            item_image = itemView.findViewById(R.id.cart_item_image_view);
+//            item_name = itemView.findViewById(R.id.cart_item_name);
+//            item_price = itemView.findViewById(R.id.cart_item_price);
+//            item_image = itemView.findViewById(R.id.cart_item_image_view);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO
+                    supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ItemExpandedFragment(supportFragmentManager)).commit();
                 }
             });
         }

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new HomeFragment(getSupportFragmentManager(),0);
                 break;
             case R.id.nav_cart:
-                fragment = new CartFragment();
+                fragment = new CartFragment(getSupportFragmentManager());
                 break;
             case R.id.nav_pay:
                 fragment = new PayFragment();

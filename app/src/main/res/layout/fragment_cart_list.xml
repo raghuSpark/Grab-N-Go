@@ -16,7 +16,7 @@
         android:padding="10dp"
         android:text="CART"
         android:textColor="@color/black"
-        android:textSize="21sp" />
+        android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/empty_cart_image_view"
@@ -35,7 +35,7 @@
         android:id="@+id/cart_list_items_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/proceed_button"
+        android:layout_above="@+id/cart_list_proceed_button"
         android:layout_below="@+id/page_title"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
@@ -43,7 +43,7 @@
         android:visibility="gone" />
 
     <Button
-        android:id="@+id/proceed_button"
+        android:id="@+id/cart_list_proceed_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
@@ -52,8 +52,13 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button_background"
-        android:fontFamily="@font/worksans_medium"
+        android:drawableEnd="@drawable/ic_next"
+        android:drawableTint="@color/white"
+        android:fontFamily="@font/worksans_semibold"
+        android:gravity="center|start"
         android:letterSpacing="0.08"
+        android:paddingStart="35dp"
+        android:paddingEnd="25dp"
         android:text="Proceed"
         android:textAllCaps="false"
         android:textColor="@color/white"

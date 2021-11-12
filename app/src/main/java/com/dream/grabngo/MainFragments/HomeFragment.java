@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private final int FROM_ITEM_EXPANDED_FRAGMENT_CODE = 1;
-    private int from_fragment_code;
+    private final int from_fragment_code;
 
     private final ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList = new ArrayList<>();
     private final FragmentManager supportFragmentManager;
@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
     private ShoppingItemsRecyclerViewAdapter shoppingItemsRecyclerViewAdapter;
     private RequestQueue requestQueue;
 
-    public HomeFragment(FragmentManager supportFragmentManager,int from_fragment_code) {
+    public HomeFragment(FragmentManager supportFragmentManager, int from_fragment_code) {
         this.supportFragmentManager = supportFragmentManager;
         this.from_fragment_code = from_fragment_code;
     }
@@ -99,7 +99,8 @@ public class HomeFragment extends Fragment {
     private void getAvailableItems() {
         String URL = "http://192.168.43.54:3001/gng/v1/get-available-items";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, response -> {
-            try {handleShimmerLayout();
+            try {
+                handleShimmerLayout();
                 shoppingItemDetailsArrayList.clear();
                 for (int i = 1; i < response.length(); i++) {
                     JSONObject object = response.getJSONObject(i);
