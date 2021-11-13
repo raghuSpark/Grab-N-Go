@@ -14,32 +14,27 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.baoyachi.stepview.HorizontalStepView;
-import com.baoyachi.stepview.bean.StepBean;
-import com.dream.grabngo.CartItemDetails;
-import com.dream.grabngo.CartItemsListRecyclerViewAdapter;
+import com.dream.grabngo.Adapters.ShopWiseCartItemsListRecyclerViewAdapter;
 import com.dream.grabngo.R;
-import com.dream.grabngo.SharedPrefConfig;
+import com.dream.grabngo.utils.SharedPrefConfig;
+import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CartListFragment extends Fragment {
 
     private final Context context;
-    private final HorizontalStepView orderProgressStepsView;
     private final FragmentManager supportFragmentManager, childFragmentManager;
-    private ArrayList<CartItemDetails> cartItemDetailsArrayList = new ArrayList<>();
+    private ArrayList<ShopWiseCartItemsDetails> shopWiseCartItemsDetailsArrayList = new ArrayList<>();
     private RecyclerView cartListItemsRecyclerView;
     private ImageView emptyCartImageView;
     private Button proceedButton;
-    private CartItemsListRecyclerViewAdapter cartItemsListRecyclerViewAdapter;
+    private ShopWiseCartItemsListRecyclerViewAdapter shopWiseCartItemsListRecyclerViewAdapter;
 
-    public CartListFragment(Context context, FragmentManager supportFragmentManager, FragmentManager childFragmentManager, HorizontalStepView orderProgressStepsView) {
+    public CartListFragment(Context context, FragmentManager supportFragmentManager, FragmentManager childFragmentManager) {
+        this.context = context;
         this.supportFragmentManager = supportFragmentManager;
         this.childFragmentManager = childFragmentManager;
-        this.context = context;
-        this.orderProgressStepsView = orderProgressStepsView;
     }
 
     @Override
@@ -49,7 +44,7 @@ public class CartListFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void handleCart() {
-        if (cartItemDetailsArrayList.isEmpty()) {
+        if (shopWiseCartItemsDetailsArrayList.isEmpty()) {
             proceedButton.setVisibility(View.GONE);
             cartListItemsRecyclerView.setVisibility(View.GONE);
             emptyCartImageView.setVisibility(View.VISIBLE);
@@ -58,7 +53,7 @@ public class CartListFragment extends Fragment {
             cartListItemsRecyclerView.setVisibility(View.VISIBLE);
             emptyCartImageView.setVisibility(View.GONE);
         }
-        cartItemsListRecyclerViewAdapter.notifyDataSetChanged();
+        shopWiseCartItemsListRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -70,15 +65,9 @@ public class CartListFragment extends Fragment {
         proceedButton = groupFragmentView.findViewById(R.id.cart_list_proceed_button);
         emptyCartImageView = groupFragmentView.findViewById(R.id.empty_cart_image_view);
 
-        List<StepBean> steps = new ArrayList<>();
-        steps.add(new StepBean("Order", 0));
-        steps.add(new StepBean("Payment", -1));
-        steps.add(new StepBean("Thanks", -1));
-        orderProgressStepsView.setStepViewTexts(steps).ondrawIndicator();
+        shopWiseCartItemsDetailsArrayList = SharedPrefConfig.readShopWiseCartItems(requireContext());
 
-        cartItemDetailsArrayList = SharedPrefConfig.readCartItems(requireContext());
-
-        if (cartItemDetailsArrayList.isEmpty()) {
+        if (shopWiseCartItemsDetailsArrayList.isEmpty()) {
             proceedButton.setVisibility(View.GONE);
             cartListItemsRecyclerView.setVisibility(View.GONE);
             emptyCartImageView.setVisibility(View.VISIBLE);
@@ -91,15 +80,15 @@ public class CartListFragment extends Fragment {
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new PaymentDetailsFragment(context, supportFragmentManager, childFragmentManager, orderProgressStepsView, cartItemDetailsArrayList)).commit();
+                childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new PaymentDetailsFragment(context, supportFragmentManager, childFragmentManager, shopWiseCartItemsDetailsArrayList)).commit();
             }
         });
 
         cartListItemsRecyclerView.setHasFixedSize(true);
         cartListItemsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        cartItemsListRecyclerViewAdapter = new CartItemsListRecyclerViewAdapter(context, supportFragmentManager, cartItemDetailsArrayList);
-        cartListItemsRecyclerView.setAdapter(cartItemsListRecyclerViewAdapter);
-        cartItemsListRecyclerViewAdapter.notifyDataSetChanged();
+        shopWiseCartItemsListRecyclerViewAdapter = new ShopWiseCartItemsListRecyclerViewAdapter(context, supportFragmentManager, shopWiseCartItemsDetailsArrayList);
+        cartListItemsRecyclerView.setAdapter(shopWiseCartItemsListRecyclerViewAdapter);
+        shopWiseCartItemsListRecyclerViewAdapter.notifyDataSetChanged();
 
         return groupFragmentView;
     }

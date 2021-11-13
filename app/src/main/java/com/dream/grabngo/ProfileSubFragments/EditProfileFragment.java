@@ -12,8 +12,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.dream.grabngo.MainFragments.ProfileFragment;
 import com.dream.grabngo.R;
-import com.dream.grabngo.SharedPrefConfig;
-import com.dream.grabngo.SingletonClass;
+import com.dream.grabngo.utils.SharedPrefConfig;
+import com.dream.grabngo.utils.SingletonClass;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ibm.cloud.appid.android.api.tokens.IdentityToken;
 
@@ -38,7 +38,7 @@ public class EditProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SingletonClass singleToneClass = com.dream.grabngo.SingletonClass.getInstance();
+        SingletonClass singleToneClass = SingletonClass.getInstance();
         identityToken = singleToneClass.getIdentityToken();
     }
 

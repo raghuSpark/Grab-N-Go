@@ -17,21 +17,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.dream.grabngo.Activities.GetStartedActivity;
-import com.dream.grabngo.ImageLoadTask;
+import com.dream.grabngo.utils.ImageLoadTask;
 import com.dream.grabngo.ProfileSubFragments.EditProfileFragment;
 import com.dream.grabngo.ProfileSubFragments.HistoryFragment;
 import com.dream.grabngo.ProfileSubFragments.NotificationsFragment;
 import com.dream.grabngo.ProfileSubFragments.RatingsFragment;
 import com.dream.grabngo.ProfileSubFragments.SettingsFragment;
 import com.dream.grabngo.R;
-import com.dream.grabngo.SharedPrefConfig;
-import com.dream.grabngo.SingletonClass;
+import com.dream.grabngo.utils.SharedPrefConfig;
+import com.dream.grabngo.utils.SingletonClass;
 import com.ibm.cloud.appid.android.api.AppID;
 import com.ibm.cloud.appid.android.api.tokens.IdentityToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
@@ -39,7 +40,6 @@ public class ProfileFragment extends Fragment {
     private static final String TENANT_ID = "71cdaba0-0cf0-4487-9705-f06bf644dec4";
     private static final String REGION = AppID.REGION_UK;
     private final FragmentManager supportFragmentManager;
-    private View groupFragmentView;
     private TextView userName, emailID;
     private ImageView profile_image;
     private LinearLayout notificationsButton, historyButton, settingsButton, ratingsButton, supportButton;
@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        groupFragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
+        View groupFragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         userName = groupFragmentView.findViewById(R.id.user_name_text_view);
         emailID = groupFragmentView.findViewById(R.id.user_emailID_text_view);
@@ -75,7 +75,7 @@ public class ProfileFragment extends Fragment {
         editProfileButton = groupFragmentView.findViewById(R.id.profile_edit_button);
         logoutButton = groupFragmentView.findViewById(R.id.profile_logout_button);
 
-        SingletonClass singleToneClass = com.dream.grabngo.SingletonClass.getInstance();
+        SingletonClass singleToneClass = SingletonClass.getInstance();
         IdentityToken identityToken = singleToneClass.getIdentityToken();
 
         new ImageLoadTask(getContext(), identityToken.getPicture(), profile_image).execute();
@@ -90,40 +90,15 @@ public class ProfileFragment extends Fragment {
         /*
          * Working with child fragments
          */
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleFragment(editProfileButton.getId());
-            }
-        });
+        editProfileButton.setOnClickListener(v -> handleFragment(editProfileButton.getId()));
 
-        notificationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleFragment(notificationsButton.getId());
-            }
-        });
+        notificationsButton.setOnClickListener(v -> handleFragment(notificationsButton.getId()));
 
-        historyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleFragment(historyButton.getId());
-            }
-        });
+        historyButton.setOnClickListener(v -> handleFragment(historyButton.getId()));
 
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleFragment(settingsButton.getId());
-            }
-        });
+        settingsButton.setOnClickListener(v -> handleFragment(settingsButton.getId()));
 
-        ratingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleFragment(ratingsButton.getId());
-            }
-        });
+        ratingsButton.setOnClickListener(v -> handleFragment(ratingsButton.getId()));
 
         supportButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +115,7 @@ public class ProfileFragment extends Fragment {
             view.findViewById(R.id.yes_quit_button).setOnClickListener(view1 -> {
                 SharedPrefConfig.writeIsLoggedIn(requireContext(), false);
                 SharedPrefConfig.writeAreDetailsGiven(requireContext(), false);
+                SharedPrefConfig.writeShopWiseCartItems(requireContext(), new ArrayList<>());
                 AppID.getInstance().logout();
                 dialog.cancel();
                 startActivity(new Intent(requireActivity(), GetStartedActivity.class));

@@ -19,8 +19,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.dream.grabngo.R;
-import com.dream.grabngo.ShoppingItemDetails;
-import com.dream.grabngo.ShoppingItemsRecyclerViewAdapter;
+import com.dream.grabngo.CustomClasses.ShoppingItemDetails;
+import com.dream.grabngo.Adapters.ShoppingItemsRecyclerViewAdapter;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -105,6 +105,7 @@ public class HomeFragment extends Fragment {
                 for (int i = 1; i < response.length(); i++) {
                     JSONObject object = response.getJSONObject(i);
                     ShoppingItemDetails item = new ShoppingItemDetails(
+                            object.getString("SHOP_ID"),
                             object.getString("ITEM_NAME"),
                             object.getInt("ITEM_QUANTITY"),
                             object.getDouble("ITEM_PRICE")

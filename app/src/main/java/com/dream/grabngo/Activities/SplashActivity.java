@@ -7,8 +7,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dream.grabngo.R;
-import com.dream.grabngo.SharedPrefConfig;
-import com.dream.grabngo.SingletonClass;
+import com.dream.grabngo.utils.SharedPrefConfig;
+import com.dream.grabngo.utils.SingletonClass;
 import com.ibm.cloud.appid.android.api.AppID;
 import com.ibm.cloud.appid.android.api.AuthorizationException;
 import com.ibm.cloud.appid.android.api.AuthorizationListener;
@@ -50,7 +50,7 @@ public class SplashActivity extends AppCompatActivity {
                 public void onAuthorizationSuccess(AccessToken accessToken, IdentityToken identityToken, RefreshToken refreshToken) {
                     runOnUiThread(() -> {
                         SharedPrefConfig.writeRefreshTokenRaw(getApplicationContext(), refreshToken.getRaw());
-                        SingletonClass singleToneClass = com.dream.grabngo.SingletonClass.getInstance();
+                        SingletonClass singleToneClass = SingletonClass.getInstance();
                         singleToneClass.setIdentityToken(identityToken);
 
                         goToMainActivity();

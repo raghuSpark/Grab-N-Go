@@ -6,11 +6,6 @@
     android:orientation="vertical"
     tools:context=".MainFragments.CartFragment">
 
-    <com.baoyachi.stepview.HorizontalStepView
-        android:id="@+id/order_progress_steps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <RelativeLayout
         android:id="@+id/cart_child_fragments_container"
         android:layout_width="match_parent"

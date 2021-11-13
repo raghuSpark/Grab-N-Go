@@ -15,7 +15,7 @@
         android:padding="10dp"
         android:text="THANK YOU!"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="22sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:fontFamily="@font/worksans_regular"
             android:gravity="center"
             android:lineSpacingExtra="6dp"
-            android:text="Your order has been placed!You will receive an email receipt shortly!"
+            android:text="Your order has been placed! You will receive an email receipt shortly!"
             android:textColor="@color/primary_blue"
             android:textSize="17sp" />
 

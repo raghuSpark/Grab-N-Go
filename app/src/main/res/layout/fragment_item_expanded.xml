@@ -6,234 +6,283 @@
     android:layout_height="match_parent"
     tools:context=".MainFragments.ItemExpandedFragment">
 
-    <View
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/item_details_background" />
+        android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/expanded_item_tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/expanded_item_back_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/transparent"
-            app:cardCornerRadius="100dp"
-            app:cardElevation="0dp">
-
-            <ImageView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/app_name"
-                android:padding="9dp"
-                android:src="@drawable/ic_back" />
+                android:layout_height="250dp"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/item_details_background" />
 
-        </androidx.cardview.widget.CardView>
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/expanded_item_image_view"
-        android:layout_width="275dp"
-        android:layout_height="275dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        app:cardCornerRadius="5dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/sample_item_image" />
-
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/expanded_item_name_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/expanded_item_image_view"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
-        android:fontFamily="@font/worksans_medium"
-        android:gravity="center"
-        android:text="Item Name"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
-
-    <LinearLayout
-        android:id="@+id/price_and_quantity_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/expanded_item_name_text_view"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:baselineAligned="false"
-        android:weightSum="2">
-
-        <LinearLayout
-            android:id="@+id/price_linear_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/expanded_item_tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/child_tabs_inactive"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/expanded_item_back_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/transparent"
+                    app:cardCornerRadius="100dp"
+                    app:cardElevation="0dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/app_name"
+                        android:padding="9dp"
+                        android:src="@drawable/ic_back" />
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/expanded_item_image_view"
+                android:layout_width="275dp"
+                android:layout_height="275dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                app:cardCornerRadius="5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/sample_item_image" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/expanded_item_name_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/expanded_item_image_view"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
                 android:fontFamily="@font/worksans_medium"
                 android:gravity="center"
-                android:padding="2dp"
-                android:text="Price"
-                android:textColor="@color/light_blue"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/expanded_item_price_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/worksans_bold"
-                android:gravity="center"
-                android:text="\u20B9 36.00"
-                android:textColor="@color/primary_blue"
+                android:text="Item Name"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/quantity_linear_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/price_and_quantity_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/child_tabs_inactive"
-                android:fontFamily="@font/worksans_medium"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="In Stock"
-                android:textColor="@color/light_blue"
-                android:textSize="17sp" />
+                android:layout_below="@id/expanded_item_name_text_view"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:baselineAligned="false"
+                android:weightSum="2">
 
-            <TextView
-                android:id="@+id/expanded_item_in_stock_quantity_text_view"
+                <LinearLayout
+                    android:id="@+id/price_linear_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/child_tabs_inactive"
+                        android:fontFamily="@font/worksans_medium"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="Price"
+                        android:textColor="@color/light_blue"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/expanded_item_price_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:fontFamily="@font/worksans_bold"
+                        android:gravity="center"
+                        android:text="\u20B9 36.00"
+                        android:textColor="@color/primary_blue"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/quantity_linear_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/child_tabs_inactive"
+                        android:fontFamily="@font/worksans_medium"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="In Stock"
+                        android:textColor="@color/light_blue"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/expanded_item_in_stock_quantity_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:fontFamily="@font/worksans_semibold"
+                        android:gravity="center"
+                        android:text="19"
+                        android:textColor="@color/primary_blue"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/expanded_item_store_name_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/worksans_semibold"
-                android:gravity="center"
-                android:text="19"
-                android:textColor="@color/primary_blue"
-                android:textSize="20sp" />
+                android:layout_below="@id/price_and_quantity_linear_layout"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/worksans_medium"
+                    android:text="Store Name"
+                    android:textColor="@color/light_blue"
+                    android:textSize="18sp" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/expanded_item_store_name_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/worksans_medium"
+                    android:gravity="center"
+                    android:text="Hotel JAS"
+                    android:textColor="@color/primary_blue" />
 
-    <LinearLayout
-        android:id="@+id/expanded_item_store_rating_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/price_and_quantity_linear_layout"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="5dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="2">
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/shop_rating_heading"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/worksans_medium"
-            android:text="Store Rating"
-            android:textColor="@color/light_blue"
-            android:textSize="18sp" />
-
-        <LinearLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <RatingBar
-                android:id="@+id/expanded_item_store_rating_bar"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/expanded_item_store_rating_linear_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:numStars="5"
-                android:progressTint="@color/primary_blue"
-                android:rating="1.5"
-                android:stepSize="1" />
+                android:layout_below="@id/expanded_item_store_name_linear_layout"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/shop_rating_heading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/worksans_medium"
+                    android:text="Store Rating"
+                    android:textColor="@color/light_blue"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:id="@+id/expanded_item_store_rating_bar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:numStars="5"
+                        android:progressTint="@color/primary_blue"
+                        android:rating="1.5"
+                        android:stepSize="1" />
+
+                    <TextView
+                        android:id="@+id/expanded_item_rating_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/worksans_medium"
+                        android:gravity="center"
+                        android:text="1.5"
+                        android:textColor="@color/primary_blue" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/expanded_item_rating_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/worksans_medium"
-                android:gravity="center"
-                android:text="1.5"
-                android:textColor="@color/primary_blue" />
+                android:id="@+id/expanded_item_shop_details_button"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@id/expanded_item_store_rating_linear_layout"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/search_background"
+                android:clickable="true"
+                android:drawablePadding="15dp"
+                android:focusable="true"
+                android:fontFamily="@font/worksans_regular"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.05"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="Store Details"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:drawableEndCompat="@drawable/ic_next"
+                app:drawableStartCompat="@drawable/ic_shop" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/expanded_item_shop_details_button"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_below="@id/expanded_item_store_rating_linear_layout"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/search_background"
-        android:clickable="true"
-        android:drawablePadding="15dp"
-        android:focusable="true"
-        android:fontFamily="@font/worksans_regular"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:letterSpacing="0.05"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:text="Store Details"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:drawableEndCompat="@drawable/ic_next"
-        app:drawableStartCompat="@drawable/ic_shop" />
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -260,6 +309,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="8dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_minus" />
 
@@ -268,10 +318,11 @@
             <TextView
                 android:id="@+id/expanded_item_add_to_cart_quantity"
                 android:layout_width="45dp"
-                android:layout_height="30dp"
+                android:layout_height="match_parent"
                 android:background="@drawable/search_background"
                 android:fontFamily="@font/worksans_semibold"
                 android:gravity="center"
+                android:textSize="16sp"
                 android:text="1"
                 android:textColor="@color/black" />
 
@@ -285,6 +336,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="8dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_plus" />
 

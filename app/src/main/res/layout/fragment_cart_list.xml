@@ -5,18 +5,58 @@
     android:layout_height="match_parent"
     tools:context=".CartChildFragments.CartListFragment">
 
-    <TextView
-        android:id="@+id/page_title"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/cart_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:fontFamily="@font/worksans_semibold"
-        android:gravity="center_horizontal"
-        android:letterSpacing="0.1"
-        android:padding="10dp"
-        android:text="CART"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:layout_alignParentEnd="true">
+
+        <!--        <androidx.cardview.widget.CardView-->
+        <!--            android:id="@+id/payment_back_button"-->
+        <!--            android:layout_width="40dp"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:clickable="true"-->
+        <!--            android:focusable="true"-->
+        <!--            android:foreground="?android:attr/selectableItemBackground"-->
+        <!--            app:cardBackgroundColor="@color/transparent"-->
+        <!--            app:cardCornerRadius="100dp"-->
+        <!--            app:cardElevation="0dp">-->
+
+        <!--            <ImageView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:contentDescription="@string/app_name"-->
+        <!--                android:padding="9dp"-->
+        <!--                android:src="@drawable/ic_back" />-->
+
+        <!--        </androidx.cardview.widget.CardView>-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/worksans_semibold"
+            android:letterSpacing="0.04"
+            android:text="CART"
+            android:textColor="@color/black"
+            android:textSize="21sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/page_title"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:fontFamily="@font/worksans_semibold"-->
+    <!--        android:gravity="center_horizontal"-->
+    <!--        android:letterSpacing="0.1"-->
+    <!--        android:padding="10dp"-->
+    <!--        android:text="CART"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:textSize="20sp" />-->
 
     <ImageView
         android:id="@+id/empty_cart_image_view"
@@ -36,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/cart_list_proceed_button"
-        android:layout_below="@+id/page_title"
+        android:layout_below="@+id/cart_tool_bar"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"

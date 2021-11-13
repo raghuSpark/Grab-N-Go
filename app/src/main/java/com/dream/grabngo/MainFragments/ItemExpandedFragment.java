@@ -12,23 +12,30 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.dream.grabngo.CartItemDetails;
+import com.dream.grabngo.CustomClasses.CartItemDetails;
 import com.dream.grabngo.R;
-import com.dream.grabngo.SharedPrefConfig;
+import com.dream.grabngo.utils.SharedPrefConfig;
+import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
+import com.dream.grabngo.CustomClasses.ShoppingItemDetails;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
 public class ItemExpandedFragment extends Fragment {
 
     private final FragmentManager supportFragmentManager;
+    private final ShoppingItemDetails shoppingItem;
+    private final CartItemDetails cartItem;
     private View groupFragmentView;
     private CardView backButton, increaseQuantityButton, decreaseQuantityButton;
     private Button addToCartButton;
-    private TextView itemNameTextView, itemInStockQuantity, itemPriceTextView, addToCartQuantityTextView, ratingTextView, shop_details_button;
+    private TextView itemNameTextView, itemInStockQuantity, itemPriceTextView, orderQuantityTextView, shopRatingTextView, shopNameTextView, shop_details_button;
     private RatingBar ratingBar;
 
-    public ItemExpandedFragment(FragmentManager supportFragmentManager) {
+    public ItemExpandedFragment(FragmentManager supportFragmentManager, ShoppingItemDetails shoppingItem, CartItemDetails cartItem) {
         this.supportFragmentManager = supportFragmentManager;
+        this.shoppingItem = shoppingItem;
+        this.cartItem = cartItem;
     }
 
     @Override
@@ -45,12 +52,15 @@ public class ItemExpandedFragment extends Fragment {
         itemPriceTextView = groupFragmentView.findViewById(R.id.expanded_item_price_text_view);
         itemInStockQuantity = groupFragmentView.findViewById(R.id.expanded_item_in_stock_quantity_text_view);
         ratingBar = groupFragmentView.findViewById(R.id.expanded_item_store_rating_bar);
-        ratingTextView = groupFragmentView.findViewById(R.id.expanded_item_rating_text_view);
+        shopRatingTextView = groupFragmentView.findViewById(R.id.expanded_item_rating_text_view);
+        shopNameTextView = groupFragmentView.findViewById(R.id.expanded_item_store_name_text_view);
         shop_details_button = groupFragmentView.findViewById(R.id.expanded_item_shop_details_button);
         increaseQuantityButton = groupFragmentView.findViewById(R.id.expanded_item_quantity_increase_button);
         decreaseQuantityButton = groupFragmentView.findViewById(R.id.expanded_item_quantity_decrease_button);
-        addToCartQuantityTextView = groupFragmentView.findViewById(R.id.expanded_item_add_to_cart_quantity);
+        orderQuantityTextView = groupFragmentView.findViewById(R.id.expanded_item_add_to_cart_quantity);
         addToCartButton = groupFragmentView.findViewById(R.id.expanded_item_add_to_cart_button);
+
+        setDetailsToViewsAccordingly(shoppingItem, cartItem);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,18 +76,86 @@ public class ItemExpandedFragment extends Fragment {
             }
         });
 
-        addToCartButton.setOnClickListener(new View.OnClickListener() {
+        addToCartButton.setOnClickListener(v -> {
+            Double itemPrice = Double.parseDouble(itemPriceTextView.getText().toString().substring(1));
+            int orderQuantity = Integer.parseInt(orderQuantityTextView.getText().toString());
+            ArrayList<ShopWiseCartItemsDetails> shopWiseCartItemsDetailsArrayList = SharedPrefConfig.readShopWiseCartItems(requireContext());
+
+            boolean isShopAlreadyPresent = false;
+            ArrayList<CartItemDetails> cartItemDetailsArrayList = new ArrayList<>();
+            int pos = 0;
+            if (shoppingItem==null) {
+                for (int i=0;i<shopWiseCartItemsDetailsArrayList.size();i++) {
+                    ShopWiseCartItemsDetails item = shopWiseCartItemsDetailsArrayList.get(i);
+                    if (item.getShopId().equals(cartItem.getShopId())) {
+                        cartItemDetailsArrayList = item.getCartItemDetailsArrayList();
+                        pos=i;
+                        isShopAlreadyPresent=true;
+                        break;
+                    }
+                }
+                cartItemDetailsArrayList.add(new CartItemDetails(cartItem.getShopId(), itemNameTextView.getText().toString(), itemPrice, cartItem.getAvailableQuantity(), orderQuantity));
+                if (!isShopAlreadyPresent) {
+                    shopWiseCartItemsDetailsArrayList.add(new ShopWiseCartItemsDetails(cartItem.getShopId(),"SHOP_NAME",cartItemDetailsArrayList));
+                } else {
+                    shopWiseCartItemsDetailsArrayList.get(pos).setCartItemDetailsArrayList(cartItemDetailsArrayList);
+                }
+            } else {
+                for (int i=0;i<shopWiseCartItemsDetailsArrayList.size();i++) {
+                    ShopWiseCartItemsDetails item = shopWiseCartItemsDetailsArrayList.get(i);
+                    if (item.getShopId().equals(shoppingItem.getShopId())) {
+                        cartItemDetailsArrayList = item.getCartItemDetailsArrayList();
+                        pos=i;
+                        isShopAlreadyPresent=true;
+                        break;
+                    }
+                }
+                cartItemDetailsArrayList.add(new CartItemDetails(shoppingItem.getShopId(), itemNameTextView.getText().toString(), itemPrice, shoppingItem.getAvailableQuantity(), orderQuantity));
+                if (!isShopAlreadyPresent) {
+                    shopWiseCartItemsDetailsArrayList.add(new ShopWiseCartItemsDetails(shoppingItem.getShopId(),"SHOP_NAME",cartItemDetailsArrayList));
+                } else {
+                    shopWiseCartItemsDetailsArrayList.get(pos).setCartItemDetailsArrayList(cartItemDetailsArrayList);
+                }
+            }
+
+            SharedPrefConfig.writeShopWiseCartItems(requireContext(), shopWiseCartItemsDetailsArrayList);
+            Snackbar.make(groupFragmentView, "Item added to cart!", Snackbar.LENGTH_SHORT).show();
+        });
+
+        decreaseQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Double itemPrice = Double.parseDouble(itemPriceTextView.getText().toString().substring(1));
-                int addToCartQuantity = Integer.parseInt(addToCartQuantityTextView.getText().toString());
-                ArrayList<CartItemDetails> cartItemArrayList = SharedPrefConfig.readCartItems(requireContext());
-                cartItemArrayList.add(new CartItemDetails(itemNameTextView.getText().toString(), itemPrice, addToCartQuantity));
-                SharedPrefConfig.writeCartItems(requireContext(), cartItemArrayList);
-                // TODO: Snackbar
+                int quantity = Integer.parseInt(orderQuantityTextView.getText().toString());
+                if (quantity > 1) {
+                    quantity--;
+                }
+                orderQuantityTextView.setText(String.valueOf(quantity));
+            }
+        });
+
+        increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = Integer.parseInt(orderQuantityTextView.getText().toString());
+                if (quantity < shoppingItem.getAvailableQuantity()) {
+                    quantity++;
+                }
+                orderQuantityTextView.setText(String.valueOf(quantity));
             }
         });
 
         return groupFragmentView;
+    }
+
+    private void setDetailsToViewsAccordingly(ShoppingItemDetails shoppingItem, CartItemDetails cartItem) {
+        if (shoppingItem != null) {
+            itemNameTextView.setText(shoppingItem.getItemName());
+            itemInStockQuantity.setText(String.valueOf(shoppingItem.getAvailableQuantity()));
+            itemPriceTextView.setText(String.format("₹ %s", shoppingItem.getItemPrice()));
+        } else {
+            itemNameTextView.setText(cartItem.getItemName());
+            itemInStockQuantity.setText(String.valueOf(cartItem.getAvailableQuantity()));
+            itemPriceTextView.setText(String.format("₹ %s", cartItem.getItemPrice()));
+        }
     }
 }

@@ -25,10 +25,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.dream.grabngo.HideKeyBoard;
+import com.dream.grabngo.utils.HideKeyBoard;
 import com.dream.grabngo.R;
-import com.dream.grabngo.SharedPrefConfig;
-import com.dream.grabngo.SingletonClass;
+import com.dream.grabngo.utils.SharedPrefConfig;
+import com.dream.grabngo.utils.SingletonClass;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -338,7 +338,7 @@ public class LoginActivity extends AppCompatActivity {
                                     dialog.cancel();
                                     // Add the customer to the customer table
                                     if (CUSTOMER_NAME[0] != null && PHONE_NO[0] != null) {
-                                        SingletonClass singleToneClass = com.dream.grabngo.SingletonClass.getInstance();
+                                        SingletonClass singleToneClass = SingletonClass.getInstance();
                                         IdentityToken identityToken = singleToneClass.getIdentityToken();
                                         addNewCustomer(customerId, CUSTOMER_NAME[0], identityToken.getEmail(), PHONE_NO[0]);
                                     }
