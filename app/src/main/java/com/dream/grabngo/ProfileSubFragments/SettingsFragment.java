@@ -1,5 +1,6 @@
 package com.dream.grabngo.ProfileSubFragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,12 @@ import com.dream.grabngo.R;
 public class SettingsFragment extends Fragment {
 
     private final FragmentManager supportFragmentManager;
+    private final Context context;
     private CardView backButton;
     private View groupFragmentView;
 
-    public SettingsFragment(androidx.fragment.app.FragmentManager supportFragmentManager) {
+    public SettingsFragment(Context context, FragmentManager supportFragmentManager) {
+        this.context = context;
         this.supportFragmentManager = supportFragmentManager;
     }
 
@@ -37,7 +40,7 @@ public class SettingsFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(supportFragmentManager)).commit();
+                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(context, supportFragmentManager)).commit();
             }
         });
         return groupFragmentView;

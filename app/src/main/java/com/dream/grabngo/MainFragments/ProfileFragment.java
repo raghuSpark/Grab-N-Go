@@ -2,6 +2,7 @@ package com.dream.grabngo.MainFragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,13 +18,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.dream.grabngo.Activities.GetStartedActivity;
-import com.dream.grabngo.utils.ImageLoadTask;
 import com.dream.grabngo.ProfileSubFragments.EditProfileFragment;
 import com.dream.grabngo.ProfileSubFragments.HistoryFragment;
 import com.dream.grabngo.ProfileSubFragments.NotificationsFragment;
 import com.dream.grabngo.ProfileSubFragments.RatingsFragment;
 import com.dream.grabngo.ProfileSubFragments.SettingsFragment;
 import com.dream.grabngo.R;
+import com.dream.grabngo.utils.ImageLoadTask;
 import com.dream.grabngo.utils.SharedPrefConfig;
 import com.dream.grabngo.utils.SingletonClass;
 import com.ibm.cloud.appid.android.api.AppID;
@@ -40,6 +41,7 @@ public class ProfileFragment extends Fragment {
     private static final String TENANT_ID = "71cdaba0-0cf0-4487-9705-f06bf644dec4";
     private static final String REGION = AppID.REGION_UK;
     private final FragmentManager supportFragmentManager;
+    private final Context context;
     private TextView userName, emailID;
     private ImageView profile_image;
     private LinearLayout notificationsButton, historyButton, settingsButton, ratingsButton, supportButton;
@@ -48,7 +50,8 @@ public class ProfileFragment extends Fragment {
     private AlertDialog dialog;
     private JSONObject userDetails;
 
-    public ProfileFragment(androidx.fragment.app.FragmentManager supportFragmentManager) {
+    public ProfileFragment(Context context, FragmentManager supportFragmentManager) {
+        this.context = context;
         this.supportFragmentManager = supportFragmentManager;
     }
 
@@ -136,19 +139,19 @@ public class ProfileFragment extends Fragment {
         Fragment fragment = null;
         switch (id) {
             case R.id.profile_notifications_button:
-                fragment = new NotificationsFragment(supportFragmentManager);
+                fragment = new NotificationsFragment(context, supportFragmentManager);
                 break;
             case R.id.profile_edit_button:
-                fragment = new EditProfileFragment(supportFragmentManager);
+                fragment = new EditProfileFragment(context, supportFragmentManager);
                 break;
             case R.id.profile_history_button:
-                fragment = new HistoryFragment(supportFragmentManager);
+                fragment = new HistoryFragment(context, supportFragmentManager);
                 break;
             case R.id.profile_settings_button:
-                fragment = new SettingsFragment(supportFragmentManager);
+                fragment = new SettingsFragment(context, supportFragmentManager);
                 break;
             case R.id.profile_ratings_button:
-                fragment = new RatingsFragment(supportFragmentManager);
+                fragment = new RatingsFragment(context, supportFragmentManager);
                 break;
         }
         supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, Objects.requireNonNull(fragment)).commit();

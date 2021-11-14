@@ -1,5 +1,7 @@
 package com.dream.grabngo.ProfileSubFragments;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,17 +10,27 @@ import android.view.ViewGroup;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.dream.grabngo.Adapters.ShopWiseCartItemsListRecyclerViewAdapter;
+import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
 import com.dream.grabngo.MainFragments.ProfileFragment;
 import com.dream.grabngo.R;
+import com.dream.grabngo.utils.SharedPrefConfig;
+
+import java.util.ArrayList;
 
 public class HistoryFragment extends Fragment {
 
     private final FragmentManager supportFragmentManager;
+    private final Context context;
     private CardView backButton;
-    private View groupFragmentView;
+    private RecyclerView historyItemsRecyclerView;
+    private ShopWiseCartItemsListRecyclerViewAdapter historyItemsRecyclerViewAdapter;
 
-    public HistoryFragment(androidx.fragment.app.FragmentManager supportFragmentManager) {
+    public HistoryFragment(Context context, FragmentManager supportFragmentManager) {
+        this.context = context;
         this.supportFragmentManager = supportFragmentManager;
     }
 
@@ -27,19 +39,40 @@ public class HistoryFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        groupFragmentView = inflater.inflate(R.layout.fragment_history, container, false);
+        View groupFragmentView = inflater.inflate(R.layout.fragment_history, container, false);
         backButton = groupFragmentView.findViewById(R.id.history_back_button);
+        historyItemsRecyclerView = groupFragmentView.findViewById(R.id.history_items_recycler_view);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(supportFragmentManager)).commit();
+                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(context,supportFragmentManager)).commit();
             }
         });
+
+        ArrayList<ShopWiseCartItemsDetails> historyItemsList = new ArrayList<>();
+        historyItemsList = SharedPrefConfig.readShopWiseCartItems(context);
+        //TODO: get these details from the web
+
+        if (historyItemsList.isEmpty()) {
+            historyItemsRecyclerView.setVisibility(View.GONE);
+//            emptyCartImageView.setVisibility(View.VISIBLE);
+        } else {
+            historyItemsRecyclerView.setVisibility(View.VISIBLE);
+//            emptyCartImageView.setVisibility(View.GONE);
+        }
+
+        historyItemsRecyclerView.setHasFixedSize(true);
+        historyItemsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        historyItemsRecyclerViewAdapter = new ShopWiseCartItemsListRecyclerViewAdapter(context, supportFragmentManager, historyItemsList);
+        historyItemsRecyclerView.setAdapter(historyItemsRecyclerViewAdapter);
+        historyItemsRecyclerViewAdapter.notifyDataSetChanged();
+//        historyRecyclerView.setClickable(false);
 
         return groupFragmentView;
     }

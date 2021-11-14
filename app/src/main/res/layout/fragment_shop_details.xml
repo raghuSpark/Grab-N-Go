@@ -51,7 +51,7 @@
             </androidx.appcompat.widget.Toolbar>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/shop_details_image_view"
+                android:id="@+id/shop_details_image_view_card"
                 android:layout_width="275dp"
                 android:layout_height="275dp"
                 android:layout_centerHorizontal="true"
@@ -59,6 +59,7 @@
                 app:cardCornerRadius="5dp">
 
                 <ImageView
+                    android:id="@+id/shop_details_image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/app_name"
@@ -70,7 +71,7 @@
                 android:id="@+id/shop_details_name_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/shop_details_image_view"
+                android:layout_below="@id/shop_details_image_view_card"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
                 android:fontFamily="@font/worksans_medium"

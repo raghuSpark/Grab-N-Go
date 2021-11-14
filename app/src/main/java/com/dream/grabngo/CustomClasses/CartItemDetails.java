@@ -1,13 +1,14 @@
 package com.dream.grabngo.CustomClasses;
 
 public class CartItemDetails {
-    private String shopId;
+    private String shopId, shopName;
     private String itemName;
     private Double itemPrice;
     private int availableQuantity, orderQuantity;
 
-    public CartItemDetails(String shopId, String itemName, Double itemPrice, int availableQuantity, int orderQuantity) {
+    public CartItemDetails(String shopId, String shopName, String itemName, Double itemPrice, int availableQuantity, int orderQuantity) {
         this.shopId = shopId;
+        this.shopName = shopName;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.availableQuantity = availableQuantity;
@@ -20,6 +21,14 @@ public class CartItemDetails {
 
     public void setShopId(String shopId) {
         this.shopId = shopId;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
     public String getItemName() {

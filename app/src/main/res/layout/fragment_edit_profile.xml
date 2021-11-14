@@ -56,8 +56,8 @@
         android:layout_marginBottom="10dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -105,72 +105,63 @@
         android:textColor="@color/primary_blue"
         android:textSize="15sp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/user_name_text_input_layout"
+    <TextView
+        android:id="@+id/edit_profile_change_user_name_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_profile_email_id_text_view"
+        android:layout_height="55dp"
+        android:layout_below="@id/edit_profile_email_id_text_view"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/search_background"
+        android:clickable="true"
+        android:drawablePadding="15dp"
+        android:focusable="true"
+        android:fontFamily="@font/worksans_regular"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        android:text="raghu_spark"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:drawableEndCompat="@drawable/ic_edit"
+        app:drawableStartCompat="@drawable/ic_profile"
+        app:drawableTint="@color/light_blue" />
+
+    <TextView
+        android:id="@+id/edit_profile_change_mobile_number_button"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@id/edit_profile_change_user_name_button"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Username"
-        android:textColorHint="@color/light_blue"
-        app:expandedHintEnabled="false"
-        app:hintTextColor="@color/primary_blue">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_profile_user_name_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="username"
-            android:fontFamily="@font/worksans_regular"
-            android:imeActionLabel="Next"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="12dp"
-            android:scrollHorizontally="true"
-            android:textColorLink="@color/primary_blue" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/mobile_number_text_input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_name_text_input_layout"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Mobile Number"
-        android:textColorHint="@color/light_blue"
-        app:expandedHintEnabled="false"
-        app:hintTextColor="@color/primary_blue">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_profile_mobile_number_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="phone"
-            android:fontFamily="@font/worksans_regular"
-            android:imeOptions="actionDone"
-            android:inputType="phone"
-            android:maxLength="10"
-            android:maxLines="1"
-            android:padding="12dp"
-            android:textColorLink="@color/primary_blue" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/search_background"
+        android:clickable="true"
+        android:drawablePadding="15dp"
+        android:focusable="true"
+        android:fontFamily="@font/worksans_regular"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingStart="22dp"
+        android:paddingEnd="10dp"
+        android:text="7780166142"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:drawableEndCompat="@drawable/ic_edit"
+        app:drawableStartCompat="@drawable/ic_mobile"
+        app:drawableTint="@color/light_blue" />
 
     <TextView
         android:id="@+id/edit_profile_change_password_button"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_below="@id/mobile_number_text_input_layout"
+        android:layout_below="@id/edit_profile_change_mobile_number_button"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/search_background"
         android:clickable="true"
         android:drawablePadding="15dp"
@@ -184,25 +175,7 @@
         android:textColor="@color/black"
         android:textSize="15sp"
         app:drawableEndCompat="@drawable/ic_link"
-        app:drawableStartCompat="@drawable/ic_password" />
-
-    <Button
-        android:id="@+id/edit_profile_save_changes_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/button_background"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/worksans_medium"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:padding="10dp"
-        android:text="Save changes"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:visibility="gone" />
+        app:drawableStartCompat="@drawable/ic_password"
+        app:drawableTint="@color/light_blue" />
 
 </RelativeLayout>

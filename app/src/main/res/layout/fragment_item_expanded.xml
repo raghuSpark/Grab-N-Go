@@ -322,9 +322,9 @@
                 android:background="@drawable/search_background"
                 android:fontFamily="@font/worksans_semibold"
                 android:gravity="center"
-                android:textSize="16sp"
                 android:text="1"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/expanded_item_quantity_increase_button"

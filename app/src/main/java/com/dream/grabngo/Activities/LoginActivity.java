@@ -25,8 +25,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.dream.grabngo.utils.HideKeyBoard;
 import com.dream.grabngo.R;
+import com.dream.grabngo.utils.HideKeyBoard;
 import com.dream.grabngo.utils.SharedPrefConfig;
 import com.dream.grabngo.utils.SingletonClass;
 import com.google.android.material.textfield.TextInputEditText;
@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TENANT_ID = "71cdaba0-0cf0-4487-9705-f06bf644dec4";
     private static final String REGION = AppID.REGION_UK;
+
     final String[] CUSTOMER_NAME = new String[1];
     final String[] PHONE_NO = new String[1];
     private Button loginButton;
@@ -344,7 +345,7 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 } else {
                                     Toast.makeText(this, "Incorrect OTP!", Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(this, "You must provide a mobile number to use the application!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this, "You must provide a valid mobile number to use the application!", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }

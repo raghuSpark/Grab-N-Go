@@ -106,6 +106,7 @@ public class HomeFragment extends Fragment {
                     JSONObject object = response.getJSONObject(i);
                     ShoppingItemDetails item = new ShoppingItemDetails(
                             object.getString("SHOP_ID"),
+                            object.getString("SHOP_NAME"),
                             object.getString("ITEM_NAME"),
                             object.getInt("ITEM_QUANTITY"),
                             object.getDouble("ITEM_PRICE")

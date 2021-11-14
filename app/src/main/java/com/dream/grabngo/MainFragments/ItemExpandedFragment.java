@@ -13,10 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.dream.grabngo.CustomClasses.CartItemDetails;
-import com.dream.grabngo.R;
-import com.dream.grabngo.utils.SharedPrefConfig;
 import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
 import com.dream.grabngo.CustomClasses.ShoppingItemDetails;
+import com.dream.grabngo.R;
+import com.dream.grabngo.utils.SharedPrefConfig;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -72,7 +72,15 @@ public class ItemExpandedFragment extends Fragment {
         shop_details_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ShopDetailsFragment(supportFragmentManager)).commit();
+                String shopID, shopName;
+                if (shoppingItem == null) {
+                    shopID = cartItem.getShopId();
+                    shopName = cartItem.getShopName();
+                } else {
+                    shopID = shoppingItem.getShopId();
+                    shopName = shoppingItem.getShopName();
+                }
+                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ShopDetailsFragment(getContext(), supportFragmentManager, shopID, shopName)).commit();
             }
         });
 
@@ -84,35 +92,35 @@ public class ItemExpandedFragment extends Fragment {
             boolean isShopAlreadyPresent = false;
             ArrayList<CartItemDetails> cartItemDetailsArrayList = new ArrayList<>();
             int pos = 0;
-            if (shoppingItem==null) {
-                for (int i=0;i<shopWiseCartItemsDetailsArrayList.size();i++) {
+            if (shoppingItem == null) {
+                for (int i = 0; i < shopWiseCartItemsDetailsArrayList.size(); i++) {
                     ShopWiseCartItemsDetails item = shopWiseCartItemsDetailsArrayList.get(i);
                     if (item.getShopId().equals(cartItem.getShopId())) {
                         cartItemDetailsArrayList = item.getCartItemDetailsArrayList();
-                        pos=i;
-                        isShopAlreadyPresent=true;
+                        pos = i;
+                        isShopAlreadyPresent = true;
                         break;
                     }
                 }
-                cartItemDetailsArrayList.add(new CartItemDetails(cartItem.getShopId(), itemNameTextView.getText().toString(), itemPrice, cartItem.getAvailableQuantity(), orderQuantity));
+                cartItemDetailsArrayList.add(new CartItemDetails(cartItem.getShopId(), cartItem.getShopName(), itemNameTextView.getText().toString(), itemPrice, cartItem.getAvailableQuantity(), orderQuantity));
                 if (!isShopAlreadyPresent) {
-                    shopWiseCartItemsDetailsArrayList.add(new ShopWiseCartItemsDetails(cartItem.getShopId(),"SHOP_NAME",cartItemDetailsArrayList));
+                    shopWiseCartItemsDetailsArrayList.add(new ShopWiseCartItemsDetails(cartItem.getShopId(), cartItem.getShopName(), cartItemDetailsArrayList));
                 } else {
                     shopWiseCartItemsDetailsArrayList.get(pos).setCartItemDetailsArrayList(cartItemDetailsArrayList);
                 }
             } else {
-                for (int i=0;i<shopWiseCartItemsDetailsArrayList.size();i++) {
+                for (int i = 0; i < shopWiseCartItemsDetailsArrayList.size(); i++) {
                     ShopWiseCartItemsDetails item = shopWiseCartItemsDetailsArrayList.get(i);
                     if (item.getShopId().equals(shoppingItem.getShopId())) {
                         cartItemDetailsArrayList = item.getCartItemDetailsArrayList();
-                        pos=i;
-                        isShopAlreadyPresent=true;
+                        pos = i;
+                        isShopAlreadyPresent = true;
                         break;
                     }
                 }
-                cartItemDetailsArrayList.add(new CartItemDetails(shoppingItem.getShopId(), itemNameTextView.getText().toString(), itemPrice, shoppingItem.getAvailableQuantity(), orderQuantity));
+                cartItemDetailsArrayList.add(new CartItemDetails(shoppingItem.getShopId(), shoppingItem.getShopName(), itemNameTextView.getText().toString(), itemPrice, shoppingItem.getAvailableQuantity(), orderQuantity));
                 if (!isShopAlreadyPresent) {
-                    shopWiseCartItemsDetailsArrayList.add(new ShopWiseCartItemsDetails(shoppingItem.getShopId(),"SHOP_NAME",cartItemDetailsArrayList));
+                    shopWiseCartItemsDetailsArrayList.add(new ShopWiseCartItemsDetails(shoppingItem.getShopId(), shoppingItem.getShopName(), cartItemDetailsArrayList));
                 } else {
                     shopWiseCartItemsDetailsArrayList.get(pos).setCartItemDetailsArrayList(cartItemDetailsArrayList);
                 }
@@ -122,26 +130,20 @@ public class ItemExpandedFragment extends Fragment {
             Snackbar.make(groupFragmentView, "Item added to cart!", Snackbar.LENGTH_SHORT).show();
         });
 
-        decreaseQuantityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int quantity = Integer.parseInt(orderQuantityTextView.getText().toString());
-                if (quantity > 1) {
-                    quantity--;
-                }
-                orderQuantityTextView.setText(String.valueOf(quantity));
+        decreaseQuantityButton.setOnClickListener(v -> {
+            int quantity = Integer.parseInt(orderQuantityTextView.getText().toString());
+            if (quantity > 1) {
+                quantity--;
             }
+            orderQuantityTextView.setText(String.valueOf(quantity));
         });
 
-        increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int quantity = Integer.parseInt(orderQuantityTextView.getText().toString());
-                if (quantity < shoppingItem.getAvailableQuantity()) {
-                    quantity++;
-                }
-                orderQuantityTextView.setText(String.valueOf(quantity));
+        increaseQuantityButton.setOnClickListener(v -> {
+            int quantity = Integer.parseInt(orderQuantityTextView.getText().toString());
+            if (quantity < shoppingItem.getAvailableQuantity()) {
+                quantity++;
             }
+            orderQuantityTextView.setText(String.valueOf(quantity));
         });
 
         return groupFragmentView;
@@ -152,10 +154,12 @@ public class ItemExpandedFragment extends Fragment {
             itemNameTextView.setText(shoppingItem.getItemName());
             itemInStockQuantity.setText(String.valueOf(shoppingItem.getAvailableQuantity()));
             itemPriceTextView.setText(String.format("₹ %s", shoppingItem.getItemPrice()));
+            shopNameTextView.setText(shoppingItem.getShopName());
         } else {
             itemNameTextView.setText(cartItem.getItemName());
             itemInStockQuantity.setText(String.valueOf(cartItem.getAvailableQuantity()));
             itemPriceTextView.setText(String.format("₹ %s", cartItem.getItemPrice()));
+            shopNameTextView.setText(cartItem.getShopName());
         }
     }
 }
