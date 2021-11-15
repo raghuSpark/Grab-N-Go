@@ -52,7 +52,6 @@ public class ItemExpandedFragment extends Fragment {
         itemPriceTextView = groupFragmentView.findViewById(R.id.expanded_item_price_text_view);
         itemInStockQuantity = groupFragmentView.findViewById(R.id.expanded_item_in_stock_quantity_text_view);
         ratingBar = groupFragmentView.findViewById(R.id.expanded_item_store_rating_bar);
-        shopRatingTextView = groupFragmentView.findViewById(R.id.expanded_item_rating_text_view);
         shopNameTextView = groupFragmentView.findViewById(R.id.expanded_item_store_name_text_view);
         shop_details_button = groupFragmentView.findViewById(R.id.expanded_item_shop_details_button);
         increaseQuantityButton = groupFragmentView.findViewById(R.id.expanded_item_quantity_increase_button);

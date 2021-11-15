@@ -85,8 +85,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/shop_details_name_text_view"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="5dp"
                 android:orientation="vertical">
 
@@ -110,6 +110,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/worksans_regular"
+                    android:lineSpacingExtra="1dp"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                     android:textColor="@color/lightBlack"
                     android:textSize="16sp" />
@@ -124,9 +125,9 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -142,12 +143,11 @@
                     android:textColor="@color/primary_blue"
                     android:textSize="18sp" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:gravity="center">
 
                     <RatingBar
                         android:id="@+id/shop_details_store_rating_bar"
@@ -157,19 +157,10 @@
                         android:layout_marginEnd="15dp"
                         android:numStars="5"
                         android:progressTint="@color/primary_blue"
-                        android:rating="1.5"
+                        android:rating="3"
                         android:stepSize="1" />
 
-                    <TextView
-                        android:id="@+id/shop_details_rating_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/worksans_medium"
-                        android:gravity="center"
-                        android:text="1.5"
-                        android:textColor="@color/primary_blue" />
-
-                </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -181,9 +172,9 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
@@ -238,8 +229,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="25dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical"

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dream.grabngo.CustomClasses.CartItemDetails;
+import com.dream.grabngo.CustomClasses.RatingDetails;
 import com.dream.grabngo.MainFragments.ItemExpandedFragment;
 import com.dream.grabngo.R;
 
@@ -46,8 +47,9 @@ public class CartItemsListRecyclerViewAdapter extends RecyclerView.Adapter<CartI
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.item_name.setText(cartItemDetailsArrayList.get(position).getItemName());
-        holder.item_price.setText(MessageFormat.format("₹ {0}", cartItemDetailsArrayList.get(position).getItemPrice().toString()));
+        CartItemDetails currentItem = cartItemDetailsArrayList.get(position);
+        holder.item_name.setText(currentItem.getItemName());
+        holder.item_price.setText(MessageFormat.format("₹ {0}", currentItem.getItemPrice().toString()));
     }
 
     @Override
@@ -56,7 +58,7 @@ public class CartItemsListRecyclerViewAdapter extends RecyclerView.Adapter<CartI
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String shopId, String shopName, int position);
+        void onItemClick(RatingDetails currentItem, int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

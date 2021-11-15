@@ -40,11 +40,12 @@ public class ProfileFragment extends Fragment {
 
     private static final String TENANT_ID = "71cdaba0-0cf0-4487-9705-f06bf644dec4";
     private static final String REGION = AppID.REGION_UK;
+
     private final FragmentManager supportFragmentManager;
     private final Context context;
     private TextView userName, emailID;
     private ImageView profile_image;
-    private LinearLayout notificationsButton, historyButton, settingsButton, ratingsButton, supportButton;
+    private LinearLayout historyButton, settingsButton, ratingsButton, supportButton;
     private RelativeLayout editProfileButton;
     private CardView logoutButton;
     private AlertDialog dialog;
@@ -70,7 +71,7 @@ public class ProfileFragment extends Fragment {
         userName = groupFragmentView.findViewById(R.id.user_name_text_view);
         emailID = groupFragmentView.findViewById(R.id.user_emailID_text_view);
         profile_image = groupFragmentView.findViewById(R.id.profile_image);
-        notificationsButton = groupFragmentView.findViewById(R.id.profile_notifications_button);
+//        notificationsButton = groupFragmentView.findViewById(R.id.profile_notifications_button);
         historyButton = groupFragmentView.findViewById(R.id.profile_history_button);
         settingsButton = groupFragmentView.findViewById(R.id.profile_settings_button);
         ratingsButton = groupFragmentView.findViewById(R.id.profile_ratings_button);
@@ -95,8 +96,6 @@ public class ProfileFragment extends Fragment {
          */
         editProfileButton.setOnClickListener(v -> handleFragment(editProfileButton.getId()));
 
-        notificationsButton.setOnClickListener(v -> handleFragment(notificationsButton.getId()));
-
         historyButton.setOnClickListener(v -> handleFragment(historyButton.getId()));
 
         settingsButton.setOnClickListener(v -> handleFragment(settingsButton.getId()));
@@ -106,7 +105,12 @@ public class ProfileFragment extends Fragment {
         supportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("plain/text");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"sparkInc@gmail.com"});
+//                intent.putExtra(Intent.EXTRA_SUBJECT, "subject");
+//                intent.putExtra(Intent.EXTRA_TEXT, "mail body");
+                startActivity(Intent.createChooser(intent, "Grab N Go - Support"));
             }
         });
 
@@ -138,9 +142,9 @@ public class ProfileFragment extends Fragment {
     private void handleFragment(int id) {
         Fragment fragment = null;
         switch (id) {
-            case R.id.profile_notifications_button:
-                fragment = new NotificationsFragment(context, supportFragmentManager);
-                break;
+//            case R.id.profile_notifications_button:
+//                fragment = new NotificationsFragment(context, supportFragmentManager);
+//                break;
             case R.id.profile_edit_button:
                 fragment = new EditProfileFragment(context, supportFragmentManager);
                 break;

@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dream.grabngo.Adapters.ShopWiseCartItemsListRecyclerViewAdapter;
+import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
 import com.dream.grabngo.R;
 import com.dream.grabngo.utils.SharedPrefConfig;
-import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
 
 import java.util.ArrayList;
 

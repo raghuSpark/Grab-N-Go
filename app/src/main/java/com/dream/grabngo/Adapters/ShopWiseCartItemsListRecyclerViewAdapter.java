@@ -2,6 +2,7 @@ package com.dream.grabngo.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dream.grabngo.CustomClasses.RatingDetails;
 import com.dream.grabngo.R;
 import com.dream.grabngo.CustomClasses.CartItemDetails;
 import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
@@ -68,11 +70,11 @@ public class ShopWiseCartItemsListRecyclerViewAdapter extends RecyclerView.Adapt
 
             cartItemsRVA.setOnItemClickListener(new CartItemsListRecyclerViewAdapter.OnItemClickListener() {
                 @Override
-                public void onItemClick(String shopId, String shopName, int position) {
-                    if (itemClickListener!=null) {
-                        if (position!=RecyclerView.NO_POSITION) {
-                            itemClickListener.onItemClick(shopId,shopName,position);
-                        }
+                public void onItemClick(RatingDetails currentItem, int position) {
+                    try {
+                        Log.d("TAG", "onItemClick: "+currentItem.getCustomerName());
+                    } catch (Exception e) {
+                        Log.d("TAG", "onItemClick: "+e.getMessage());
                     }
                 }
             });

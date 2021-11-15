@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/rating_popup_shop_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/worksans_medium"
+        android:text="Shop Name"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <RatingBar
+        android:id="@+id/rating_popup_rating_bar"
+        style="?android:attr/ratingBarStyleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rating_popup_shop_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:numStars="5"
+        android:progressTint="@color/primary_blue"
+        android:rating="4"
+        android:stepSize="1" />
+
+    <LinearLayout
+        android:id="@+id/rating_popup_review_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rating_popup_rating_bar"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/worksans_medium"
+            android:text="Review"
+            android:textColor="@color/primary_blue"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/rating_popup_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:fontFamily="@font/worksans_regular"
+            android:gravity="center"
+            android:text="No review written!"
+            android:textColor="@color/lightBlack"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/rating_popup_customer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rating_popup_review_linear_layout"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="4dp"
+        android:fontFamily="@font/worksans_semibold"
+        android:text="- USERNAME"
+        android:textAllCaps="true"
+        android:textColor="@color/primary_blue" />
+
+</RelativeLayout>

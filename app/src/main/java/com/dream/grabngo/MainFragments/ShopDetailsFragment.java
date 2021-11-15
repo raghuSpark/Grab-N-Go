@@ -63,7 +63,6 @@ public class ShopDetailsFragment extends Fragment {
         address2TextView = groupFragmentView.findViewById(R.id.shop_details_address_2);
         cityAndPinCodeTextView = groupFragmentView.findViewById(R.id.shop_details_city_pin_code);
         ratingBar = groupFragmentView.findViewById(R.id.shop_details_store_rating_bar);
-        ratingTextView = groupFragmentView.findViewById(R.id.shop_details_rating_text_view);
 
         shopNameTextView.setText(shopName);
         getStoreDetails();

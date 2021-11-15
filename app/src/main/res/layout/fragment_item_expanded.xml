@@ -224,34 +224,24 @@
                     android:textColor="@color/light_blue"
                     android:textSize="18sp" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:gravity="center">
 
                     <RatingBar
                         android:id="@+id/expanded_item_store_rating_bar"
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
+                        android:gravity="end"
                         android:numStars="5"
                         android:progressTint="@color/primary_blue"
                         android:rating="1.5"
                         android:stepSize="1" />
 
-                    <TextView
-                        android:id="@+id/expanded_item_rating_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/worksans_medium"
-                        android:gravity="center"
-                        android:text="1.5"
-                        android:textColor="@color/primary_blue" />
-
-                </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
 
