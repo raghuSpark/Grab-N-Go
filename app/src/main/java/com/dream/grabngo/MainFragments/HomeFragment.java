@@ -23,7 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.dream.grabngo.Adapters.ShoppingItemsRecyclerViewAdapter;
 import com.dream.grabngo.CustomClasses.ShoppingItemDetails;
 import com.dream.grabngo.R;
-import com.dream.grabngo.SearchActivity;
+import com.dream.grabngo.Activities.SearchActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.json.JSONObject;

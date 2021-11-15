@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SearchActivity">
+    tools:context=".Activities.SearchActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,6 +44,7 @@
             android:defaultFocusHighlightEnabled="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            app:iconifiedByDefault="false"
             app:queryHint="search here"
             app:searchIcon="@drawable/ic_search_active"
             tools:targetApi="o" />
@@ -63,7 +64,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/worksans_medium"
             android:gravity="center"
-            android:padding="5dp"
+            android:padding="8dp"
             android:text="By Item"
             android:textColor="@color/primary_blue"
             android:textSize="17sp" />
@@ -76,7 +77,7 @@
             android:background="@color/primary_blue"
             android:fontFamily="@font/worksans_medium"
             android:gravity="center"
-            android:padding="5dp"
+            android:padding="8dp"
             android:text="By City"
             android:textColor="@color/white"
             android:textSize="17sp" />
@@ -96,6 +97,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_by_item_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </LinearLayout>
