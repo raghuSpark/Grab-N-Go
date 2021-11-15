@@ -6,79 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".MainFragments.HomeFragment">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/home_search_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:weightSum="2">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/home_search_back_card"
+        <TextView
+            android:id="@+id/home_search_button"
+            style="?attr/searchViewStyle"
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
-            android:backgroundTint="@color/transparent"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="0dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/app_name"
-                android:padding="10dp"
-                android:src="@drawable/ic_back" />
-
-        </androidx.cardview.widget.CardView>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/home_search_input_layout"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="0dp"
-            android:layout_toStartOf="@+id/home_maps_card"
-            android:layout_toEndOf="@id/home_search_back_card"
-            android:hint="search..."
-            android:textColorHint="@color/light_blue"
-            app:endIconMode="clear_text"
-            app:endIconTint="@color/inactive_icon_color"
-            app:hintTextColor="@color/transparent"
-            app:startIconDrawable="@drawable/ic_search_active"
-            app:startIconTint="@color/steps_progress_color">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/home_search_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/search_background"
-                android:fontFamily="@font/worksans_regular"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:maxLines="1"
-                android:scrollHorizontally="true"
-                android:textColorLink="@color/primary_blue" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="1.99"
+            android:background="@drawable/search_background"
+            android:drawablePadding="20dp"
+            android:fontFamily="@font/worksans_regular"
+            android:gravity="center_vertical"
+            android:padding="11dp"
+            android:text="search..."
+            android:textColor="@color/light_blue"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/ic_search"
+            app:drawableTint="@color/black" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/home_maps_card"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:backgroundTint="@color/transparent"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="50dp"
+            app:cardCornerRadius="500dp"
             app:cardElevation="0dp">
 
             <ImageView
@@ -90,7 +57,7 @@
 
         </androidx.cardview.widget.CardView>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/home_fragment_swipe"
@@ -192,6 +159,7 @@
                     android:id="@+id/home_shopping_items_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="false"
                     android:visibility="gone" />
 
             </LinearLayout>

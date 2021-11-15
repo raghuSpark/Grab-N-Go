@@ -1,11 +1,13 @@
 package com.dream.grabngo.MainFragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -18,11 +20,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.dream.grabngo.R;
-import com.dream.grabngo.CustomClasses.ShoppingItemDetails;
 import com.dream.grabngo.Adapters.ShoppingItemsRecyclerViewAdapter;
+import com.dream.grabngo.CustomClasses.ShoppingItemDetails;
+import com.dream.grabngo.R;
+import com.dream.grabngo.SearchActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
 
@@ -35,8 +37,8 @@ public class HomeFragment extends Fragment {
 
     private final ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList = new ArrayList<>();
     private final FragmentManager supportFragmentManager;
-    private CardView searchBackButton, mapsButton;
-    private TextInputEditText searchEditText;
+    private CardView mapsButton;
+    private TextView homeSearchButton;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ShimmerFrameLayout shimmerFrameLayout;
     private RecyclerView homeShoppingItemsRecyclerView;
@@ -56,15 +58,12 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View groupFragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         shimmerFrameLayout = groupFragmentView.findViewById(R.id.home_shopping_items_shimmer_layout);
-        searchEditText = groupFragmentView.findViewById(R.id.home_search_edit_text);
+        homeSearchButton = groupFragmentView.findViewById(R.id.home_search_button);
         swipeRefreshLayout = groupFragmentView.findViewById(R.id.home_fragment_swipe);
         homeShoppingItemsRecyclerView = groupFragmentView.findViewById(R.id.home_shopping_items_recycler_view);
-        searchBackButton = groupFragmentView.findViewById(R.id.home_search_back_card);
         mapsButton = groupFragmentView.findViewById(R.id.home_maps_card);
 
         // Get the items form the database and add to the shoppingItemDetailsArrayList
@@ -86,6 +85,8 @@ public class HomeFragment extends Fragment {
                 // TODO: routes list should be shown here
             }
         });
+
+        homeSearchButton.setOnClickListener(v -> startActivity(new Intent(requireContext(), SearchActivity.class)));
 
         homeShoppingItemsRecyclerView.setHasFixedSize(true);
         homeShoppingItemsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false));

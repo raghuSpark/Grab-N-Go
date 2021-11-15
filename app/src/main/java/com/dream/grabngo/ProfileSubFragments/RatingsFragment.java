@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -37,6 +38,7 @@ public class RatingsFragment extends Fragment {
     private final Context context;
     private ArrayList<RatingDetails> ratingDetailsArrayList = new ArrayList<>();
     private CardView backButton;
+    private TextView noResultsFoundTextView;
     private ShimmerFrameLayout ratingsShimmerLayout;
     private RecyclerView ratingsRecyclerView;
     private RatingsListRecyclerViewAdapter ratingsListRecyclerViewAdapter;
@@ -58,6 +60,7 @@ public class RatingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View groupFragmentView = inflater.inflate(R.layout.fragment_ratings, container, false);
         backButton = groupFragmentView.findViewById(R.id.ratings_back_button);
+        noResultsFoundTextView = groupFragmentView.findViewById(R.id.no_results_found_text_view);
         ratingsShimmerLayout = groupFragmentView.findViewById(R.id.rating_items_shimmer_layout);
         ratingsRecyclerView = groupFragmentView.findViewById(R.id.ratings_recycler_view);
 
@@ -121,7 +124,8 @@ public class RatingsFragment extends Fragment {
                 ratingsRecyclerView.setVisibility(View.VISIBLE);
             }
         }, error -> {
-            Log.d("TAG", "onErrorResponse: " + error.getMessage());
+            noResultsFoundTextView.setVisibility(View.VISIBLE);
+
             ratingsShimmerLayout.stopShimmer();
             ratingsShimmerLayout.setVisibility(View.GONE);
             ratingsRecyclerView.setVisibility(View.VISIBLE);
