@@ -34,19 +34,23 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view_widget"
+        <EditText
+            android:id="@+id/search_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/search_background"
             android:clickable="true"
             android:defaultFocusHighlightEnabled="true"
             android:focusable="true"
-            android:focusableInTouchMode="true"
-            app:iconifiedByDefault="false"
-            app:queryHint="search here"
-            app:searchIcon="@drawable/ic_search_active"
+            android:fontFamily="@font/worksans_regular"
+            android:hint="search here"
+            android:inputType="textAutoComplete"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
             tools:targetApi="o" />
 
     </LinearLayout>
@@ -89,15 +93,20 @@
         android:layout_height="0.5dp"
         android:background="@color/black" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_by_city_recycler_view"
+    <TextView
+        android:id="@+id/search_result_text_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/worksans_medium"
+        android:gravity="center"
+        android:text="Searching..."
+        android:textSize="17sp"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_by_item_recycler_view"
+        android:id="@+id/search_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

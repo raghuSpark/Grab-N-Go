@@ -67,7 +67,7 @@ public class PaymentDetailsFragment extends Fragment {
 
     private void placeOrder(View groupFragmentView) {
         childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new ThanksFragment(context, supportFragmentManager, childFragmentManager)).commit();
-//        String URL = "http://192.168.43.54:3001/gng/v1/place-order";
+//        String URL = "http://192.168.1.1:3001/gng/v1/place-order";
 //        JSONObject postData = new JSONObject();
 //
 //        ArrayList<JSONObject> orderedItemsJSONArrayList = new ArrayList<>();

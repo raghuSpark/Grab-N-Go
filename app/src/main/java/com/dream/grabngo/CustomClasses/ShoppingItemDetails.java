@@ -1,16 +1,19 @@
 package com.dream.grabngo.CustomClasses;
 
 public class ShoppingItemDetails {
-    private String shopId, shopName;
+    private String shopId, shopName, cityName;
     private String itemName;
     private int availableQuantity;
+    private int shopRating;
     private Double itemPrice;
 
-    public ShoppingItemDetails(String shopId, String shopName, String itemName, int availableQuantity, Double itemPrice) {
+    public ShoppingItemDetails(String shopId, String shopName, String cityName, String itemName, int availableQuantity, int shopRating, Double itemPrice) {
         this.shopId = shopId;
         this.shopName = shopName;
+        this.cityName = cityName;
         this.itemName = itemName;
         this.availableQuantity = availableQuantity;
+        this.shopRating = shopRating;
         this.itemPrice = itemPrice;
     }
 
@@ -30,6 +33,14 @@ public class ShoppingItemDetails {
         this.shopName = shopName;
     }
 
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
     public String getItemName() {
         return itemName;
     }
@@ -44,6 +55,14 @@ public class ShoppingItemDetails {
 
     public void setAvailableQuantity(int availableQuantity) {
         this.availableQuantity = availableQuantity;
+    }
+
+    public int getShopRating() {
+        return shopRating;
+    }
+
+    public void setShopRating(int shopRating) {
+        this.shopRating = shopRating;
     }
 
     public Double getItemPrice() {

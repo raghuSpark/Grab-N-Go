@@ -79,7 +79,7 @@ public class ShopDetailsFragment extends Fragment {
 
     private void getStoreDetails() {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        String URL = "http://192.168.43.54:3001/gng/v1/get-shop-details";
+        String URL = "http://192.168.1.1:3001/gng/v1/get-shop-details";
         JSONObject postData = new JSONObject();
         try {
             postData.put("shop_id", shopId);

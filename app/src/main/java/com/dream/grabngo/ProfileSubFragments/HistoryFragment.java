@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dream.grabngo.Adapters.HistoryRecyclerViewAdapter;
 import com.dream.grabngo.Adapters.ShopWiseCartItemsListRecyclerViewAdapter;
 import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
 import com.dream.grabngo.MainFragments.ProfileFragment;
@@ -25,9 +27,10 @@ public class HistoryFragment extends Fragment {
 
     private final FragmentManager supportFragmentManager;
     private final Context context;
+    private TextView noResultsTextView;
     private CardView backButton;
     private RecyclerView historyItemsRecyclerView;
-    private ShopWiseCartItemsListRecyclerViewAdapter historyItemsRecyclerViewAdapter;
+    private HistoryRecyclerViewAdapter historyItemsRecyclerViewAdapter;
 
     public HistoryFragment(Context context, FragmentManager supportFragmentManager) {
         this.context = context;
@@ -47,11 +50,12 @@ public class HistoryFragment extends Fragment {
         View groupFragmentView = inflater.inflate(R.layout.fragment_history, container, false);
         backButton = groupFragmentView.findViewById(R.id.history_back_button);
         historyItemsRecyclerView = groupFragmentView.findViewById(R.id.history_items_recycler_view);
+        noResultsTextView = groupFragmentView.findViewById(R.id.history_no_results_text_View);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(context,supportFragmentManager)).commit();
+                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(context, supportFragmentManager)).commit();
             }
         });
 
@@ -61,18 +65,17 @@ public class HistoryFragment extends Fragment {
 
         if (historyItemsList.isEmpty()) {
             historyItemsRecyclerView.setVisibility(View.GONE);
-//            emptyCartImageView.setVisibility(View.VISIBLE);
+            noResultsTextView.setVisibility(View.VISIBLE);
         } else {
             historyItemsRecyclerView.setVisibility(View.VISIBLE);
-//            emptyCartImageView.setVisibility(View.GONE);
+            noResultsTextView.setVisibility(View.GONE);
         }
 
         historyItemsRecyclerView.setHasFixedSize(true);
         historyItemsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        historyItemsRecyclerViewAdapter = new ShopWiseCartItemsListRecyclerViewAdapter(context, supportFragmentManager, historyItemsList);
+        historyItemsRecyclerViewAdapter = new HistoryRecyclerViewAdapter(context, supportFragmentManager, historyItemsList);
         historyItemsRecyclerView.setAdapter(historyItemsRecyclerViewAdapter);
         historyItemsRecyclerViewAdapter.notifyDataSetChanged();
-//        historyRecyclerView.setClickable(false);
 
         return groupFragmentView;
     }

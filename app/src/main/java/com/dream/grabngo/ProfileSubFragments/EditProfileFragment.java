@@ -1,11 +1,16 @@
 package com.dream.grabngo.ProfileSubFragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +18,17 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
@@ -33,6 +41,7 @@ import com.dream.grabngo.MainFragments.ProfileFragment;
 import com.dream.grabngo.R;
 import com.dream.grabngo.utils.SharedPrefConfig;
 import com.dream.grabngo.utils.SingletonClass;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,11 +66,12 @@ public class EditProfileFragment extends Fragment {
     private static final String TENANT_ID = "71cdaba0-0cf0-4487-9705-f06bf644dec4";
     private static final String REGION = AppID.REGION_UK;
 
+    String customer_name = "", mobile_no = "";
     private final FragmentManager supportFragmentManager;
     private Context context;
-    String customer_name = "", mobile_no = "";
     private View groupFragmentView;
-    private CardView backButton;
+    private ImageView editProfileImage;
+    private CardView backButton, changeProfileImageButton;
     private TextView usernameEditButton, mobileNumberEditButton, passwordEditButton, emailIdTextView;
     private IdentityToken identityToken;
     private JSONObject userDetails;
@@ -84,14 +94,15 @@ public class EditProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         groupFragmentView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         backButton = groupFragmentView.findViewById(R.id.edit_profile_back_button);
         emailIdTextView = groupFragmentView.findViewById(R.id.edit_profile_email_id_text_view);
         usernameEditButton = groupFragmentView.findViewById(R.id.edit_profile_change_user_name_button);
         mobileNumberEditButton = groupFragmentView.findViewById(R.id.edit_profile_change_mobile_number_button);
         passwordEditButton = groupFragmentView.findViewById(R.id.edit_profile_change_password_button);
+        editProfileImage = groupFragmentView.findViewById(R.id.edit_profile_image);
+        changeProfileImageButton = groupFragmentView.findViewById(R.id.change_profile_image_button);
 
         userDetails = SharedPrefConfig.readUserDetails(requireContext());
         try {
@@ -105,67 +116,56 @@ public class EditProfileFragment extends Fragment {
         mobileNumberEditButton.setText(mobile_no);
         emailIdTextView.setText(identityToken.getEmail());
 
-        passwordEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginWidget loginWidget = AppID.getInstance().getLoginWidget();
-                loginWidget.launchForgotPassword(requireActivity(), new AuthorizationListener() {
-                    @Override
-                    public void onAuthorizationFailure(AuthorizationException exception) {
-                        Toast.makeText(getContext(), "Password change failed!", Toast.LENGTH_SHORT).show();
-                    }
+        byte[] decodedString = new byte[0];
+        try {
+            decodedString = Base64.decode(userDetails.getString("CUSTOMER_IMAGE"), Base64.DEFAULT);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                    @Override
-                    public void onAuthorizationCanceled() {
-                        Toast.makeText(getContext(), "Password change cancelled!", Toast.LENGTH_SHORT).show();
-                    }
+        editProfileImage.setImageBitmap(decodedByte);
 
-                    @Override
-                    public void onAuthorizationSuccess(AccessToken accessToken, IdentityToken identityToken, RefreshToken refreshToken) {
-                        // Forgot password finished, in this case accessToken and identityToken will be null.
-                        Toast.makeText(getContext(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+        changeProfileImageButton.setOnClickListener(v -> {
+            ImagePicker.Companion.with(this)
+                    .cropSquare()
+                    .compress(512)            //Final image size will be less than 1 MB
+                    .maxResultSize(540, 540)    //Final image resolution will be less than 1080 x 1080
+                    .start();
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(context, supportFragmentManager)).commit();
-            }
-        });
-
-        usernameEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    showEditUserNameBottomSheetDialog(userDetails.getString("CUSTOMER_NAME"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        passwordEditButton.setOnClickListener(v -> {
+            LoginWidget loginWidget = AppID.getInstance().getLoginWidget();
+            loginWidget.launchForgotPassword(requireActivity(), new AuthorizationListener() {
+                @Override
+                public void onAuthorizationFailure(AuthorizationException exception) {
+                    Toast.makeText(getContext(), "Password change failed!", Toast.LENGTH_SHORT).show();
                 }
+
+                @Override
+                public void onAuthorizationCanceled() {
+                    Toast.makeText(getContext(), "Password change cancelled!", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onAuthorizationSuccess(AccessToken accessToken, IdentityToken identityToken, RefreshToken refreshToken) {
+                    // Forgot password finished, in this case accessToken and identityToken will be null.
+                    Toast.makeText(getContext(), "Password changed successfully!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+
+        backButton.setOnClickListener(v -> supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(context, supportFragmentManager)).commit());
+
+        usernameEditButton.setOnClickListener(v -> {
+            try {
+                showEditUserNameBottomSheetDialog(userDetails.getString("CUSTOMER_NAME"));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
 
-        mobileNumberEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showEditMobileNumberBottomSheetDialog(mobile_no);
-            }
-        });
-
-//        saveChangesButton.setOnClickListener(view -> {
-//            usernameEditText.clearFocus();
-//            mobileNumberEditText.clearFocus();
-//            HideKeyBoard.hideKeyboardFromFragment(requireContext(), groupFragmentView);
-//
-//            if (!Objects.requireNonNull(usernameEditText.getText()).toString().trim().equals(customer_name) ||
-//                    !Objects.requireNonNull(mobileNumberEditText.getText()).toString().equals(mobile_no)) {
-//                updateUserDetails(userDetails);
-//            } else {
-//                Toast.makeText(requireContext(), "Nothing to save!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        mobileNumberEditButton.setOnClickListener(v -> showEditMobileNumberBottomSheetDialog(mobile_no));
         return groupFragmentView;
     }
 
@@ -180,15 +180,12 @@ public class EditProfileFragment extends Fragment {
         user_name_edit_text.setText(userName);
 
         cancelButton.setOnClickListener(v -> dialog.cancel());
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveButton.setClickable(false);
-                try {
-                    updateUserDetails(dialog, saveButton, userName, userDetails.getString("PHONE_NO"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        saveButton.setOnClickListener(v -> {
+            saveButton.setClickable(false);
+            try {
+                updateUserDetails(dialog, saveButton, userName, userDetails.getString("PHONE_NO"));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
 
@@ -364,11 +361,12 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void updateUserDetails(Dialog dialog, Button saveButton, String userName, String mobileNumber) {
-        String URL = "http://192.168.43.54:3001/gng/v1/update-customer-details";
+        String URL = "http://192.168.1.111:3001/gng/v1/update-customer-details";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", userDetails.get("CUSTOMER_ID"));
             postData.put("CUSTOMER_NAME", userName);
+            postData.put("CUSTOMER_IMAGE", userDetails.get("CUSTOMER_IMAGE"));
             postData.put("EMAIL_ID", userDetails.get("EMAIL_ID"));
             postData.put("PHONE_NO", mobileNumber);
         } catch (JSONException e) {
@@ -383,12 +381,9 @@ public class EditProfileFragment extends Fragment {
             customer_name = userName;
             mobile_no = mobileNumber;
             dialog.cancel();
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(requireContext(), "Unable to save the changes! Try again!", Toast.LENGTH_SHORT).show();
-                if (saveButton != null) saveButton.setClickable(true);
-            }
+        }, error -> {
+            Toast.makeText(requireContext(), "Unable to save the changes! Try again!", Toast.LENGTH_SHORT).show();
+            if (saveButton != null) saveButton.setClickable(true);
         });
         requestQueue.add(jsonObjectRequest);
     }

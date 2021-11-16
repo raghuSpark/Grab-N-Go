@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getAvailableItems() {
-        String URL = "http://192.168.43.54:3001/gng/v1/get-available-items";
+        String URL = "http://192.168.1.1:3001/gng/v1/get-available-items";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, response -> {
             try {
                 handleShimmerLayout();
@@ -108,8 +108,10 @@ public class HomeFragment extends Fragment {
                     ShoppingItemDetails item = new ShoppingItemDetails(
                             object.getString("SHOP_ID"),
                             object.getString("SHOP_NAME"),
+                            "city_name",
                             object.getString("ITEM_NAME"),
                             object.getInt("ITEM_QUANTITY"),
+                            5,
                             object.getDouble("ITEM_PRICE")
                     );
                     shoppingItemDetailsArrayList.add(item);

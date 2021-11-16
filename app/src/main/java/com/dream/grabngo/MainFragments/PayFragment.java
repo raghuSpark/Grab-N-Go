@@ -1,19 +1,24 @@
 package com.dream.grabngo.MainFragments;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.dream.grabngo.R;
 
 public class PayFragment extends Fragment {
 
-    public PayFragment() {
-        // Required empty public constructor
+    private final Context context;
+    private final FragmentManager supportFragmentManager;
+
+    public PayFragment(Context context, FragmentManager supportFragmentManager) {
+        this.context = context;
+        this.supportFragmentManager = supportFragmentManager;
     }
 
     @Override
@@ -22,9 +27,9 @@ public class PayFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pay, container, false);
+        View groupFragmentView = inflater.inflate(R.layout.fragment_pay, container, false);
+        return groupFragmentView;
     }
 }

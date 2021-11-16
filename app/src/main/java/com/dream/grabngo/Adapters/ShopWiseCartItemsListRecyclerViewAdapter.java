@@ -2,7 +2,6 @@ package com.dream.grabngo.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dream.grabngo.CustomClasses.RatingDetails;
-import com.dream.grabngo.R;
 import com.dream.grabngo.CustomClasses.CartItemDetails;
 import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
+import com.dream.grabngo.R;
 
 import java.util.ArrayList;
 
@@ -64,19 +62,11 @@ public class ShopWiseCartItemsListRecyclerViewAdapter extends RecyclerView.Adapt
             holder.cartItemsRV.setHasFixedSize(true);
             holder.cartItemsRV.setLayoutManager(new LinearLayoutManager(context));
 
-            CartItemsListRecyclerViewAdapter cartItemsRVA = new CartItemsListRecyclerViewAdapter(context,supportFragmentManager,cartItemDetailsArrayList);
+            CartItemsListRecyclerViewAdapter cartItemsRVA = new CartItemsListRecyclerViewAdapter(context, supportFragmentManager, cartItemDetailsArrayList, false);
             holder.cartItemsRV.setAdapter(cartItemsRVA);
             cartItemsRVA.notifyDataSetChanged();
 
-            cartItemsRVA.setOnItemClickListener(new CartItemsListRecyclerViewAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(RatingDetails currentItem, int position) {
-                    try {
-                        Log.d("TAG", "onItemClick: "+currentItem.getCustomerName());
-                    } catch (Exception e) {
-                        Log.d("TAG", "onItemClick: "+e.getMessage());
-                    }
-                }
+            cartItemsRVA.setOnItemClickListener((currentItem, position1) -> {
             });
         }
     }
@@ -98,53 +88,3 @@ public class ShopWiseCartItemsListRecyclerViewAdapter extends RecyclerView.Adapt
         }
     }
 }
-
-//public class CartItemsListRecyclerViewAdapter extends RecyclerView.Adapter<CartItemsListRecyclerViewAdapter.ViewHolder> {
-//
-//    private final ArrayList<CartItemDetails> cartItemDetailsArrayList;
-//    private final Context context;
-//    private final LayoutInflater layoutInflater;
-//    private final FragmentManager supportFragmentManager;
-//    private CartItemsListRecyclerViewAdapter.OnItemClickListener itemClickListener;
-//
-//    public CartItemsListRecyclerViewAdapter(Context context, FragmentManager supportFragmentManager, ArrayList<CartItemDetails> cartItemDetailsArrayList) {
-//        this.context = context;
-//        this.supportFragmentManager = supportFragmentManager;
-//        this.cartItemDetailsArrayList = cartItemDetailsArrayList;
-//        this.layoutInflater = LayoutInflater.from(context);
-//    }
-//
-//    public void setOnClickListener(CartItemsListRecyclerViewAdapter.OnItemClickListener listener) {
-//        itemClickListener = listener;
-//    }
-//
-//    @NonNull
-//    @Override
-//    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = layoutInflater.inflate(R.layout.cart_shop_item, parent, false);
-//        return new ViewHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        holder.shopName.setText(cartItemDetailsArrayList.get(position).getItemName());
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return cartItemDetailsArrayList.size();
-//    }
-//
-//    public static class ViewHolder extends RecyclerView.ViewHolder {
-//
-//        TextView shopName;
-//        RecyclerView cartItemsRV;
-//
-//        public ViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//
-//            shopName = itemView.findViewById(R.id.cart_shop_name);
-//            cartItemsRV = itemView.findViewById(R.id.cart_shop_recycler_view);
-//        }
-//    }
-//}

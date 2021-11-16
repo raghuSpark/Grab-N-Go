@@ -2,10 +2,18 @@ package com.dream.grabngo.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,6 +28,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -47,6 +56,7 @@ import com.ibm.cloud.appid.android.api.tokens.RefreshToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -161,13 +171,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkForTheUser(String customerId) {
-        String URL = "http://192.168.43.54:3001/gng/v1/get-customer-details";
+        String URL = "http://192.168.1.111:3001/gng/v1/get-customer-details";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", customerId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.d("TAG", "checkForTheUser: ");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
             try {
                 loginProgressBar.setVisibility(View.GONE);
@@ -195,11 +206,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void addNewCustomer(String customerId, String customer_name, String email, String phone_number) {
-        String URL = "http://192.168.43.54:3001/gng/v1/create-new-customer";
+        Bitmap bitmap = getBitmap(getApplicationContext(), R.drawable.ic_profile_active);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+
+        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        String URL = "http://192.168.1.111:3001/gng/v1/create-new-customer";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", customerId);
             postData.put("CUSTOMER_NAME", customer_name);
+            postData.put("CUSTOMER_IMAGE",encoded);
             postData.put("EMAIL_ID", email);
             postData.put("PHONE_NO", phone_number);
         } catch (JSONException e) {
@@ -223,6 +243,28 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         });
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private static Bitmap getBitmap(VectorDrawable vectorDrawable) {
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        vectorDrawable.draw(canvas);
+        Log.d("TAG", "getBitmap: 1");
+        return bitmap;
+    }
+
+    private static Bitmap getBitmap(Context context, int drawableId) {
+        Log.d("TAG", "getBitmap: 2");
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        if (drawable instanceof BitmapDrawable) {
+            return BitmapFactory.decodeResource(context.getResources(), drawableId);
+        } else if (drawable instanceof VectorDrawable) {
+            return getBitmap((VectorDrawable) drawable);
+        } else {
+            throw new IllegalArgumentException("unsupported drawable type");
+        }
     }
 
     private void showBottomSheetDialog(String customerId) {
