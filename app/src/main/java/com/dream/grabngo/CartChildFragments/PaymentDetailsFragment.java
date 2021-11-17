@@ -2,24 +2,33 @@ package com.dream.grabngo.CartChildFragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.dream.grabngo.CustomClasses.CartItemDetails;
+import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
+import com.dream.grabngo.CustomClasses.UserDetails;
 import com.dream.grabngo.R;
 import com.dream.grabngo.utils.SharedPrefConfig;
-import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class PaymentDetailsFragment extends Fragment {
 
@@ -28,7 +37,8 @@ public class PaymentDetailsFragment extends Fragment {
     private final ArrayList<ShopWiseCartItemsDetails> orderedItemsArrayList;
     private CardView backButton;
     private Button placeOrderButton;
-    private JSONObject userDetails;
+    private UserDetails userDetails;
+    private ProgressBar progressBar;
     private RequestQueue requestQueue;
 
     public PaymentDetailsFragment(Context context, FragmentManager supportFragmentManager, FragmentManager childFragmentManager, ArrayList<ShopWiseCartItemsDetails> orderedItemsArrayList) {
@@ -46,68 +56,67 @@ public class PaymentDetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View groupFragmentView = inflater.inflate(R.layout.fragment_payment_details, container, false);
         placeOrderButton = groupFragmentView.findViewById(R.id.payment_place_order_button);
         backButton = groupFragmentView.findViewById(R.id.payment_back_button);
+        progressBar = groupFragmentView.findViewById(R.id.place_order_progress_bar);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new CartListFragment(context, supportFragmentManager, childFragmentManager)).commit();
-            }
-        });
-
-        placeOrderButton.setOnClickListener(v -> placeOrder(groupFragmentView));
+        backButton.setOnClickListener(v -> childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new CartListFragment(context, supportFragmentManager, childFragmentManager)).commit());
+        placeOrderButton.setOnClickListener(v -> placeOrder());
 
         return groupFragmentView;
     }
 
-    private void placeOrder(View groupFragmentView) {
-        childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new ThanksFragment(context, supportFragmentManager, childFragmentManager)).commit();
-//        String URL = "http://192.168.1.1:3001/gng/v1/place-order";
-//        JSONObject postData = new JSONObject();
-//
-//        ArrayList<JSONObject> orderedItemsJSONArrayList = new ArrayList<>();
-//        for (CartItemDetails item : orderedItemsArrayList) {
-//            JSONObject jsonObject = new JSONObject();
-//            try {
-//                jsonObject.put("item_name", item.getItemName());
-//                jsonObject.put("item_quantity", item.getOrderQuantity());
-//                jsonObject.put("item_price", item.getItemPrice());
-//                orderedItemsJSONArrayList.add(jsonObject);
-//            } catch (Exception e) {
-//                Log.d("TAG", "placeOrder: " + e.getMessage());
-//            }
-//        }
-//
-//        try {
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-//
-////            2017-07-04*13:23:55
-//            postData.put("customer_id", userDetails.getString("CUSTOMER_ID"));
-//            postData.put("shop_id", "d43b885c-5864-4029-a584-28cfd28d4cc2");
-//            postData.put("payment_method_id", "11111");
-//            postData.put("order_time", sdf.format(new Date()));
-//            postData.put("orders", orderedItemsJSONArrayList);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
-//            try {
-//                SharedPrefConfig.writeCartItems(context, new ArrayList<>());
-//                childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new ThanksFragment(context, supportFragmentManager, childFragmentManager)).commit();
-//            } catch (Exception e) {
-//                // TODO: Show snackbar
-//                e.printStackTrace();
-//            }
-//        }, error -> {
-//            // TODO: Show snackbar
-//            Log.d("TAG", "onErrorResponse: " + error.getMessage());
-//        });
-//        requestQueue.add(jsonObjectRequest);
+    private void placeOrder() {
+        progressBar.setVisibility(View.VISIBLE);
+        placeOrderButton.setVisibility(View.GONE);
+        String URL = "http://192.168.43.54:3001/gng/v1/place-order";
+        JSONObject postData = new JSONObject();
+
+        ArrayList<JSONObject> orderedItemsJSONArrayList = new ArrayList<>();
+        for (ShopWiseCartItemsDetails cartItem : orderedItemsArrayList) {
+            for (CartItemDetails item : cartItem.getCartItemDetailsArrayList()) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("item_name", item.getItemName());
+                    jsonObject.put("item_quantity", item.getOrderQuantity());
+                    jsonObject.put("item_price", item.getItemPrice());
+                    orderedItemsJSONArrayList.add(jsonObject);
+                } catch (Exception e) {
+                    Log.d("TAG", "placeOrder: " + e.getMessage());
+                }
+            }
+        }
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+            postData.put("customer_id", userDetails.getCustomerId());
+            postData.put("shop_id", orderedItemsArrayList.get(0).getShopId());
+            postData.put("payment_method_id", "5");
+            postData.put("order_time", sdf.format(new Date()));
+            postData.put("orders", orderedItemsJSONArrayList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
+            ArrayList<ShopWiseCartItemsDetails> currentList = SharedPrefConfig.readShopWiseCartItemsHistory(context);
+            for (ShopWiseCartItemsDetails itemsDetails:SharedPrefConfig.readShopWiseCartItems(context)) {
+                currentList.add(new ShopWiseCartItemsDetails(
+                        itemsDetails.getShopId(),
+                        itemsDetails.getShopName(),
+                        itemsDetails.getCartItemDetailsArrayList()));
+            }
+            SharedPrefConfig.writeShopWiseCartItemsHistory(context,currentList);
+            SharedPrefConfig.writeShopWiseCartItems(context, new ArrayList<>());
+            childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new ThanksFragment(context, supportFragmentManager, childFragmentManager)).commit();
+        }, error -> {
+            progressBar.setVisibility(View.GONE);
+            placeOrderButton.setVisibility(View.VISIBLE);
+            Log.d("TAG", "onErrorResponses: " + error.getMessage());
+        });
+        requestQueue.add(jsonObjectRequest);
     }
 }

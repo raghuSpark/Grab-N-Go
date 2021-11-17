@@ -7,6 +7,8 @@ public class ShoppingItemDetails {
     private int shopRating;
     private Double itemPrice;
 
+    public ShoppingItemDetails(){}
+
     public ShoppingItemDetails(String shopId, String shopName, String cityName, String itemName, int availableQuantity, int shopRating, Double itemPrice) {
         this.shopId = shopId;
         this.shopName = shopName;

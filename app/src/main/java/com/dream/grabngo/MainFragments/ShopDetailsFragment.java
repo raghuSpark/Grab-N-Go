@@ -63,23 +63,17 @@ public class ShopDetailsFragment extends Fragment {
         address2TextView = groupFragmentView.findViewById(R.id.shop_details_address_2);
         cityAndPinCodeTextView = groupFragmentView.findViewById(R.id.shop_details_city_pin_code);
         ratingBar = groupFragmentView.findViewById(R.id.shop_details_store_rating_bar);
-
         shopNameTextView.setText(shopName);
         getStoreDetails();
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new HomeFragment(supportFragmentManager, 1)).commit();
-            }
-        });
+        ratingBar.setRating(3);
+        backButton.setOnClickListener(v -> supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new HomeFragment(supportFragmentManager)).commit());
 
         return groupFragmentView;
     }
 
     private void getStoreDetails() {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        String URL = "http://192.168.1.1:3001/gng/v1/get-shop-details";
+        String URL = "http://192.168.43.54:3001/gng/v1/get-shop-details";
         JSONObject postData = new JSONObject();
         try {
             postData.put("shop_id", shopId);

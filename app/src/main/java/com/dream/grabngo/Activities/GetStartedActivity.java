@@ -78,11 +78,11 @@ public class GetStartedActivity extends AppCompatActivity {
 
                             Toast.makeText(getApplicationContext(), "Logged in successfully!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(GetStartedActivity.this, MainActivity.class);
+                            intent.putExtra("IS_FROM_SEARCH",false);
                             startActivity(intent);
                             finish();
                         } else {
                             Toast.makeText(getApplicationContext(), "Please verify your Email-ID!", Toast.LENGTH_SHORT).show();
-                            // TODO: Verify your emailID
                             progressBar.setVisibility(View.GONE);
                             registerButton.setVisibility(View.VISIBLE);
                             goToLoginPageButton.setClickable(true);

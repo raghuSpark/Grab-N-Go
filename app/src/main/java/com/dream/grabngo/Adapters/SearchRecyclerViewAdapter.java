@@ -1,6 +1,8 @@
 package com.dream.grabngo.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dream.grabngo.Activities.MainActivity;
 import com.dream.grabngo.CustomClasses.ShoppingItemDetails;
 import com.dream.grabngo.R;
+import com.dream.grabngo.utils.SharedPrefConfig;
 
 import java.util.ArrayList;
 
@@ -22,8 +26,10 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     private final Context context;
     private final LayoutInflater layoutInflater;
     private final FragmentManager supportFragmentManager;
+    private final Activity activity;
 
-    public SearchRecyclerViewAdapter(Context context, FragmentManager supportFragmentManager, ArrayList<ShoppingItemDetails> searchResultItemsList) {
+    public SearchRecyclerViewAdapter(Activity activity, Context context, FragmentManager supportFragmentManager, ArrayList<ShoppingItemDetails> searchResultItemsList) {
+        this.activity = activity;
         this.context = context;
         this.supportFragmentManager = supportFragmentManager;
         this.searchResultItemsList = searchResultItemsList;
@@ -41,10 +47,17 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     public void onBindViewHolder(@NonNull SearchRecyclerViewAdapter.ViewHolder holder, int position) {
         ShoppingItemDetails currentItem = searchResultItemsList.get(position);
         holder.itemName.setText(currentItem.getItemName());
-        holder.itemQuantity.setText(currentItem.getAvailableQuantity());
+        holder.itemQuantity.setText(String.valueOf(currentItem.getAvailableQuantity()));
         holder.cityName.setText(currentItem.getCityName());
-        holder.itemPrice.setText(String.valueOf(currentItem.getItemPrice()));
+        holder.itemPrice.setText("₹ " + currentItem.getItemPrice());
         holder.ratingBar.setRating(currentItem.getShopRating());
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtra("IS_FROM_SEARCH", true);
+            SharedPrefConfig.writeSearchExpandItemDetails(activity, searchResultItemsList.get(position));
+            activity.startActivity(intent);
+        });
     }
 
     @Override

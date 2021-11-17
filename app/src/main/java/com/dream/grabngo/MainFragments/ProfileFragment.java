@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -20,7 +21,13 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.dream.grabngo.Activities.GetStartedActivity;
+import com.dream.grabngo.CustomClasses.UserDetails;
 import com.dream.grabngo.ProfileSubFragments.EditProfileFragment;
 import com.dream.grabngo.ProfileSubFragments.HistoryFragment;
 import com.dream.grabngo.ProfileSubFragments.RatingsFragment;
@@ -29,7 +36,6 @@ import com.dream.grabngo.utils.SharedPrefConfig;
 import com.ibm.cloud.appid.android.api.AppID;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -47,7 +53,7 @@ public class ProfileFragment extends Fragment {
     private RelativeLayout editProfileButton;
     private CardView logoutButton;
     private AlertDialog dialog;
-    private JSONObject userDetails;
+    private UserDetails userDetails;
 
     public ProfileFragment(Context context, FragmentManager supportFragmentManager) {
         this.context = context;
@@ -74,22 +80,12 @@ public class ProfileFragment extends Fragment {
         editProfileButton = groupFragmentView.findViewById(R.id.profile_edit_button);
         logoutButton = groupFragmentView.findViewById(R.id.profile_logout_button);
 
-        try {
-            userName.setText(userDetails.getString("CUSTOMER_NAME"));
-            emailID.setText(userDetails.getString("EMAIL_ID"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        byte[] decodedString = new byte[0];
-        try {
-            decodedString = Base64.decode(userDetails.getString("CUSTOMER_IMAGE"), Base64.DEFAULT);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-        profileImage.setImageBitmap(decodedByte);
+        userName.setText(userDetails.getCustomerName());
+        emailID.setText(userDetails.getEmailId());
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.ic_profile_active);
+        userDetails.setProfileImage(icon);
+        SharedPrefConfig.writeUserDetails(context,userDetails);
 
         /*
          * Working with child fragments
@@ -100,16 +96,11 @@ public class ProfileFragment extends Fragment {
 
         ratingsButton.setOnClickListener(v -> handleFragment(ratingsButton.getId()));
 
-        supportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("plain/text");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"sparkInc@gmail.com"});
-//                intent.putExtra(Intent.EXTRA_SUBJECT, "subject");
-//                intent.putExtra(Intent.EXTRA_TEXT, "mail body");
-                startActivity(Intent.createChooser(intent, "Grab N Go - Support"));
-            }
+        supportButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("plain/text");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"sparkInc@gmail.com"});
+            startActivity(Intent.createChooser(intent, "Grab N Go - Support"));
         });
 
         logoutButton.setOnClickListener(v -> {
@@ -151,5 +142,28 @@ public class ProfileFragment extends Fragment {
                 break;
         }
         supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, Objects.requireNonNull(fragment)).commit();
+    }
+
+    private void getProfileImage() {
+        String url = "http://192.168.43.54:3001/gng/v1/get-image";
+        ImageRequest request = new ImageRequest(url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                profileImage.setImageBitmap(response);
+                userDetails.setProfileImage(response);
+                SharedPrefConfig.writeUserDetails(context,userDetails);
+            }
+        }, 0, 0, null, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                userDetails.setProfileImage(BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.ic_profile_active));
+                SharedPrefConfig.writeUserDetails(context, userDetails);
+                profileImage.setImageResource(R.drawable.ic_profile_active);
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(request);
     }
 }

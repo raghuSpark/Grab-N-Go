@@ -61,12 +61,7 @@ public class ShoppingItemsRecyclerViewAdapter extends RecyclerView.Adapter<Shopp
             item_price = itemView.findViewById(R.id.shopping_item_price);
             item_image = itemView.findViewById(R.id.shopping_item_image_view);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ItemExpandedFragment(supportFragmentManager, shoppingItemDetailsArrayList.get(getAdapterPosition()), null)).commit();
-                }
-            });
+            itemView.setOnClickListener(v -> supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ItemExpandedFragment(supportFragmentManager, shoppingItemDetailsArrayList.get(getAdapterPosition()), null)).commit());
         }
     }
 }

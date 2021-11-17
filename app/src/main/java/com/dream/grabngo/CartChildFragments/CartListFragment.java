@@ -77,12 +77,7 @@ public class CartListFragment extends Fragment {
             emptyCartImageView.setVisibility(View.GONE);
         }
 
-        proceedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new PaymentDetailsFragment(context, supportFragmentManager, childFragmentManager, shopWiseCartItemsDetailsArrayList)).commit();
-            }
-        });
+        proceedButton.setOnClickListener(v -> childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new PaymentDetailsFragment(context, supportFragmentManager, childFragmentManager, shopWiseCartItemsDetailsArrayList)).commit());
 
         cartListItemsRecyclerView.setHasFixedSize(true);
         cartListItemsRecyclerView.setLayoutManager(new LinearLayoutManager(context));

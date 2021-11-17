@@ -1,6 +1,8 @@
 package com.dream.grabngo.MainFragments;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -20,10 +22,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.dream.grabngo.Activities.SearchActivity;
 import com.dream.grabngo.Adapters.ShoppingItemsRecyclerViewAdapter;
 import com.dream.grabngo.CustomClasses.ShoppingItemDetails;
 import com.dream.grabngo.R;
-import com.dream.grabngo.Activities.SearchActivity;
+import com.dream.grabngo.utils.LocationService;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.json.JSONObject;
@@ -31,13 +34,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
-
-    private final int FROM_ITEM_EXPANDED_FRAGMENT_CODE = 1;
-    private final int from_fragment_code;
-
     private final ArrayList<ShoppingItemDetails> shoppingItemDetailsArrayList = new ArrayList<>();
     private final FragmentManager supportFragmentManager;
-    private CardView mapsButton;
     private TextView homeSearchButton;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -45,9 +43,8 @@ public class HomeFragment extends Fragment {
     private ShoppingItemsRecyclerViewAdapter shoppingItemsRecyclerViewAdapter;
     private RequestQueue requestQueue;
 
-    public HomeFragment(FragmentManager supportFragmentManager, int from_fragment_code) {
+    public HomeFragment(FragmentManager supportFragmentManager) {
         this.supportFragmentManager = supportFragmentManager;
-        this.from_fragment_code = from_fragment_code;
     }
 
     @Override
@@ -64,12 +61,8 @@ public class HomeFragment extends Fragment {
         homeSearchButton = groupFragmentView.findViewById(R.id.home_search_button);
         swipeRefreshLayout = groupFragmentView.findViewById(R.id.home_fragment_swipe);
         homeShoppingItemsRecyclerView = groupFragmentView.findViewById(R.id.home_shopping_items_recycler_view);
-        mapsButton = groupFragmentView.findViewById(R.id.home_maps_card);
 
-        // Get the items form the database and add to the shoppingItemDetailsArrayList
-        if (from_fragment_code != FROM_ITEM_EXPANDED_FRAGMENT_CODE)
-            getAvailableItems();
-        else handleShimmerLayout();
+        getAvailableItems();
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
@@ -77,13 +70,6 @@ public class HomeFragment extends Fragment {
             shimmerFrameLayout.startShimmer();
             homeShoppingItemsRecyclerView.setVisibility(View.GONE);
             getAvailableItems();
-        });
-
-        mapsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: routes list should be shown here
-            }
         });
 
         homeSearchButton.setOnClickListener(v -> startActivity(new Intent(requireContext(), SearchActivity.class)));
@@ -98,7 +84,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getAvailableItems() {
-        String URL = "http://192.168.1.1:3001/gng/v1/get-available-items";
+        String URL = "http://192.168.43.54:3001/gng/v1/get-available-items";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, response -> {
             try {
                 handleShimmerLayout();
@@ -111,7 +97,7 @@ public class HomeFragment extends Fragment {
                             "city_name",
                             object.getString("ITEM_NAME"),
                             object.getInt("ITEM_QUANTITY"),
-                            5,
+                            0,
                             object.getDouble("ITEM_PRICE")
                     );
                     shoppingItemDetailsArrayList.add(item);
@@ -132,8 +118,42 @@ public class HomeFragment extends Fragment {
         shimmerFrameLayout.stopShimmer();
         shimmerFrameLayout.setVisibility(View.GONE);
         homeShoppingItemsRecyclerView.setVisibility(View.VISIBLE);
-        if (from_fragment_code != FROM_ITEM_EXPANDED_FRAGMENT_CODE)
-            shoppingItemsRecyclerViewAdapter.notifyDataSetChanged();
+        shoppingItemsRecyclerViewAdapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private boolean isLocationServiceRunning() {
+        ActivityManager activityManager = (ActivityManager) requireContext().getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager != null) {
+            for (ActivityManager.RunningServiceInfo serviceInfo : activityManager.getRunningServices(Integer.MAX_VALUE)) {
+                if (LocationService.class.getName().equals(serviceInfo.service.getClassName())) {
+                    if (serviceInfo.foreground) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
+    private void startLocationService() {
+        if (!isLocationServiceRunning()) {
+            Intent intent = new Intent(requireContext(), LocationService.class);
+            intent.setAction("startLocationService");
+            requireContext().startService(intent);
+            Toast.makeText(requireContext(), "Location service started!", Toast.LENGTH_SHORT).show();
+        } else {
+            stopLocationService();
+        }
+    }
+
+    private void stopLocationService() {
+        if (isLocationServiceRunning()) {
+            Intent intent = new Intent(requireContext(), LocationService.class);
+            intent.setAction("stopLocationService");
+            requireContext().startService(intent);
+            Toast.makeText(requireContext(), "Location service stopped!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
+import com.dream.grabngo.CustomClasses.ShoppingItemDetails;
+import com.dream.grabngo.CustomClasses.UserDetails;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,9 +58,9 @@ public class SharedPrefConfig {
         return pref.getBoolean("ARE_DETAILS_GIVEN", false);
     }
 
-    public static void writeUserDetails(Context context, JSONObject userDetailsJsonObject) {
+    public static void writeUserDetails(Context context, UserDetails userDetails) {
         Gson gson = new Gson();
-        String jsonString = gson.toJson(userDetailsJsonObject);
+        String jsonString = gson.toJson(userDetails);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = pref.edit();
@@ -66,14 +68,35 @@ public class SharedPrefConfig {
         editor.apply();
     }
 
-    public static JSONObject readUserDetails(Context context) {
+    public static UserDetails readUserDetails(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString("USER_DETAILS", "");
 
         Gson gson = new Gson();
-        Type type = new TypeToken<JSONObject>() {
+        Type type = new TypeToken<UserDetails>() {
         }.getType();
-        if (gson.fromJson(jsonString, type) == null) return new JSONObject();
+        if (gson.fromJson(jsonString, type) == null) return new UserDetails();
+        return gson.fromJson(jsonString, type);
+    }
+
+    public static void writeSearchExpandItemDetails(Context context, ShoppingItemDetails shoppingItemDetails) {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(shoppingItemDetails);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("SEARCH_EXPAND_ITEM_DETAILS", jsonString);
+        editor.apply();
+    }
+
+    public static ShoppingItemDetails readSearchExpandItemDetails(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        String jsonString = pref.getString("SEARCH_EXPAND_ITEM_DETAILS", "");
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<ShoppingItemDetails>() {
+        }.getType();
+        if (gson.fromJson(jsonString, type) == null) return new ShoppingItemDetails();
         return gson.fromJson(jsonString, type);
     }
 
@@ -90,6 +113,27 @@ public class SharedPrefConfig {
     public static ArrayList<ShopWiseCartItemsDetails> readShopWiseCartItems(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String jsonString = pref.getString("SHOP_WISE_CART_ITEMS", "");
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<ShopWiseCartItemsDetails>>() {
+        }.getType();
+        if (gson.fromJson(jsonString, type) == null) return new ArrayList<>();
+        return gson.fromJson(jsonString, type);
+    }
+
+    public static void writeShopWiseCartItemsHistory(Context context, ArrayList<ShopWiseCartItemsDetails> shopWiseCartItemsDetailsArrayList) {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(shopWiseCartItemsDetailsArrayList);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("SHOP_WISE_CART_ITEMS_HISTORY", jsonString);
+        editor.apply();
+    }
+
+    public static ArrayList<ShopWiseCartItemsDetails> readShopWiseCartItemsHistory(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        String jsonString = pref.getString("SHOP_WISE_CART_ITEMS_HISTORY", "");
 
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<ShopWiseCartItemsDetails>>() {

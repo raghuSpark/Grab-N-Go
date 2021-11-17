@@ -14,9 +14,23 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_centerInParent="true"
+            android:background="@color/lightBlack"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_scanner_border"
             app:tint="@color/black" />
+
+        <Button
+            android:id="@+id/btnAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_background"
+            android:fontFamily="@font/worksans_medium"
+            android:letterSpacing="0.1"
+            android:text="PAY"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
 
     </RelativeLayout>
 

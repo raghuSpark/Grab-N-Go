@@ -66,6 +66,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void goToMainActivity() {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        intent.putExtra("IS_FROM_SEARCH",false);
         startActivity(intent);
         finish();
     }

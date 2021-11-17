@@ -34,12 +34,7 @@ public class ThanksFragment extends Fragment {
         View groupFragmentView = inflater.inflate(R.layout.fragment_thanks, container, false);
         backToCartButton = groupFragmentView.findViewById(R.id.back_to_cart_button);
 
-        backToCartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new CartListFragment(context, supportFragmentManager, childFragmentManager)).commit();
-            }
-        });
+        backToCartButton.setOnClickListener(v -> childFragmentManager.beginTransaction().replace(R.id.cart_child_fragments_container, new CartListFragment(context, supportFragmentManager, childFragmentManager)).commit());
 
         return groupFragmentView;
     }

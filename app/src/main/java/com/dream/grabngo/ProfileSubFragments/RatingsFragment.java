@@ -3,7 +3,6 @@ package com.dream.grabngo.ProfileSubFragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +87,7 @@ public class RatingsFragment extends Fragment {
         JSONArray postDataArray = new JSONArray();
         JSONObject postData = new JSONObject();
         try {
-            postData.put("customer_id", SharedPrefConfig.readUserDetails(context).getString("CUSTOMER_ID"));
+            postData.put("customer_id", SharedPrefConfig.readUserDetails(context).getCustomerId());
             postDataArray.put(postData);
         } catch (Exception e) {
             e.printStackTrace();

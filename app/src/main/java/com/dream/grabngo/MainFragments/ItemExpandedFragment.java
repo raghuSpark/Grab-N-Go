@@ -61,26 +61,18 @@ public class ItemExpandedFragment extends Fragment {
 
         setDetailsToViewsAccordingly(shoppingItem, cartItem);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new HomeFragment(supportFragmentManager, 1)).commit();
-            }
-        });
+        backButton.setOnClickListener(v -> supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new HomeFragment(supportFragmentManager)).commit());
 
-        shop_details_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String shopID, shopName;
-                if (shoppingItem == null) {
-                    shopID = cartItem.getShopId();
-                    shopName = cartItem.getShopName();
-                } else {
-                    shopID = shoppingItem.getShopId();
-                    shopName = shoppingItem.getShopName();
-                }
-                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ShopDetailsFragment(getContext(), supportFragmentManager, shopID, shopName)).commit();
+        shop_details_button.setOnClickListener(v -> {
+            String shopID, shopName;
+            if (shoppingItem == null) {
+                shopID = cartItem.getShopId();
+                shopName = cartItem.getShopName();
+            } else {
+                shopID = shoppingItem.getShopId();
+                shopName = shoppingItem.getShopName();
             }
+            supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ShopDetailsFragment(getContext(), supportFragmentManager, shopID, shopName)).commit();
         });
 
         addToCartButton.setOnClickListener(v -> {

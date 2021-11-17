@@ -34,6 +34,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.dream.grabngo.CustomClasses.UserDetails;
 import com.dream.grabngo.R;
 import com.dream.grabngo.utils.HideKeyBoard;
 import com.dream.grabngo.utils.SharedPrefConfig;
@@ -71,6 +72,28 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText emailIDEditText, passwordEditText;
     private ProgressBar loginProgressBar;
     private RequestQueue requestQueue;
+
+    private static Bitmap getBitmap(VectorDrawable vectorDrawable) {
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        vectorDrawable.draw(canvas);
+        Log.d("TAG", "getBitmap: 1");
+        return bitmap;
+    }
+
+    private static Bitmap getBitmap(Context context, int drawableId) {
+        Log.d("TAG", "getBitmap: 2");
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        if (drawable instanceof BitmapDrawable) {
+            return BitmapFactory.decodeResource(context.getResources(), drawableId);
+        } else if (drawable instanceof VectorDrawable) {
+            return getBitmap((VectorDrawable) drawable);
+        } else {
+            throw new IllegalArgumentException("unsupported drawable type");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
 
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("IS_FROM_SEARCH",false);
                                 startActivity(intent);
                                 finish();
                             }
@@ -171,14 +195,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkForTheUser(String customerId) {
-        String URL = "http://192.168.1.111:3001/gng/v1/get-customer-details";
+        String URL = "http://192.168.43.54:3001/gng/v1/get-customer-details";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", customerId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("TAG", "checkForTheUser: ");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
             try {
                 loginProgressBar.setVisibility(View.GONE);
@@ -187,10 +210,21 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.getString("STATUS").equals("FAILURE")) {
                     showBottomSheetDialog(customerId);
                 } else {
-                    SharedPrefConfig.writeUserDetails(this, response);
+                    byte[] decodedString = Base64.decode(response.getString("CUSTOMER_IMAGE"), Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                    SharedPrefConfig.writeUserDetails(this, new UserDetails(
+                                    response.getString("CUSTOMER_ID"),
+                                    response.getString("CUSTOMER_NAME"),
+                                    response.getString("EMAIL_ID"),
+                                    response.getString("PHONE_NO"),
+                                    decodedByte
+                            )
+                    );
                     SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("IS_FROM_SEARCH",false);
                     startActivity(intent);
                     finish();
                 }
@@ -210,16 +244,16 @@ public class LoginActivity extends AppCompatActivity {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
 
         String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-        String URL = "http://192.168.1.111:3001/gng/v1/create-new-customer";
+        String URL = "http://192.168.43.54:3001/gng/v1/create-new-customer";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", customerId);
             postData.put("CUSTOMER_NAME", customer_name);
-            postData.put("CUSTOMER_IMAGE",encoded);
+            postData.put("CUSTOMER_IMAGE", encoded);
             postData.put("EMAIL_ID", email);
             postData.put("PHONE_NO", phone_number);
         } catch (JSONException e) {
@@ -227,12 +261,25 @@ public class LoginActivity extends AppCompatActivity {
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
             Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+            try {
+                Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_profile_active);
 
-            SharedPrefConfig.writeUserDetails(this, response);
+                SharedPrefConfig.writeUserDetails(this, new UserDetails(
+                                response.getString("CUSTOMER_ID"),
+                                response.getString("CUSTOMER_NAME"),
+                                response.getString("EMAIL_ID"),
+                                response.getString("PHONE_NO"),
+                                icon
+                        )
+                );
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             SharedPrefConfig.writeIsLoggedIn(getApplicationContext(), true);
             SharedPrefConfig.writeAreDetailsGiven(getApplicationContext(), true);
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("IS_FROM_SEARCH",false);
             startActivity(intent);
             finish();
         }, error -> {
@@ -243,28 +290,6 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         });
         requestQueue.add(jsonObjectRequest);
-    }
-
-    private static Bitmap getBitmap(VectorDrawable vectorDrawable) {
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
-                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        vectorDrawable.draw(canvas);
-        Log.d("TAG", "getBitmap: 1");
-        return bitmap;
-    }
-
-    private static Bitmap getBitmap(Context context, int drawableId) {
-        Log.d("TAG", "getBitmap: 2");
-        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-        if (drawable instanceof BitmapDrawable) {
-            return BitmapFactory.decodeResource(context.getResources(), drawableId);
-        } else if (drawable instanceof VectorDrawable) {
-            return getBitmap((VectorDrawable) drawable);
-        } else {
-            throw new IllegalArgumentException("unsupported drawable type");
-        }
     }
 
     private void showBottomSheetDialog(String customerId) {

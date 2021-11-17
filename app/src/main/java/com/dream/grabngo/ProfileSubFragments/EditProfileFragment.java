@@ -1,16 +1,22 @@
 package com.dream.grabngo.ProfileSubFragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,23 +31,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.dream.grabngo.CustomClasses.UserDetails;
 import com.dream.grabngo.MainFragments.ProfileFragment;
 import com.dream.grabngo.R;
 import com.dream.grabngo.utils.SharedPrefConfig;
 import com.dream.grabngo.utils.SingletonClass;
-import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.dream.grabngo.utils.VolleyMultipartRequest;
+import com.dream.grabngo.utils.VolleySingleton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,26 +65,32 @@ import com.ibm.cloud.appid.android.api.tokens.RefreshToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class EditProfileFragment extends Fragment {
 
     private static final String TENANT_ID = "71cdaba0-0cf0-4487-9705-f06bf644dec4";
     private static final String REGION = AppID.REGION_UK;
-
-    String customer_name = "", mobile_no = "";
+    private static final String ROOT_URL = "http://192.168.43.54:3001/gng/v1/send-image";
+    private static final int REQUEST_PERMISSIONS = 100;
+    private static final int PICK_IMAGE_REQUEST = 1;
     private final FragmentManager supportFragmentManager;
-    private Context context;
+    private final Context context;
+    String customer_name = "", mobile_no = "";
     private View groupFragmentView;
     private ImageView editProfileImage;
     private CardView backButton, changeProfileImageButton;
     private TextView usernameEditButton, mobileNumberEditButton, passwordEditButton, emailIdTextView;
     private IdentityToken identityToken;
-    private JSONObject userDetails;
-
+    private UserDetails userDetails;
     private RequestQueue requestQueue;
+    private String filePath;
 
-    public EditProfileFragment(Context context,FragmentManager supportFragmentManager) {
+    public EditProfileFragment(Context context, FragmentManager supportFragmentManager) {
         this.context = context;
         this.supportFragmentManager = supportFragmentManager;
     }
@@ -105,33 +117,30 @@ public class EditProfileFragment extends Fragment {
         changeProfileImageButton = groupFragmentView.findViewById(R.id.change_profile_image_button);
 
         userDetails = SharedPrefConfig.readUserDetails(requireContext());
-        try {
-            customer_name = userDetails.getString("CUSTOMER_NAME");
-            mobile_no = userDetails.getString("PHONE_NO");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+        customer_name = userDetails.getCustomerName();
+        mobile_no = userDetails.getPhoneNo();
 
         usernameEditButton.setText(customer_name);
         mobileNumberEditButton.setText(mobile_no);
         emailIdTextView.setText(identityToken.getEmail());
 
-        byte[] decodedString = new byte[0];
-        try {
-            decodedString = Base64.decode(userDetails.getString("CUSTOMER_IMAGE"), Base64.DEFAULT);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-        editProfileImage.setImageBitmap(decodedByte);
-
         changeProfileImageButton.setOnClickListener(v -> {
-            ImagePicker.Companion.with(this)
-                    .cropSquare()
-                    .compress(512)            //Final image size will be less than 1 MB
-                    .maxResultSize(540, 540)    //Final image resolution will be less than 1080 x 1080
-                    .start();
+            if ((ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                if ((ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) && (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE))) {
+
+                } else {
+                    ActivityCompat.requestPermissions(requireActivity(),
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_PERMISSIONS);
+                }
+            } else {
+                showFileChooser();
+            }
         });
 
         passwordEditButton.setOnClickListener(v -> {
@@ -157,16 +166,85 @@ public class EditProfileFragment extends Fragment {
 
         backButton.setOnClickListener(v -> supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(context, supportFragmentManager)).commit());
 
-        usernameEditButton.setOnClickListener(v -> {
-            try {
-                showEditUserNameBottomSheetDialog(userDetails.getString("CUSTOMER_NAME"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
+        usernameEditButton.setOnClickListener(v -> showEditUserNameBottomSheetDialog(userDetails.getCustomerName()));
 
         mobileNumberEditButton.setOnClickListener(v -> showEditMobileNumberBottomSheetDialog(mobile_no));
         return groupFragmentView;
+    }
+
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            Uri picUri = data.getData();
+            filePath = getPath(picUri);
+            if (filePath != null) {
+                try {
+                    Log.d("filePath", filePath);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), picUri);
+                    uploadBitmap(bitmap);
+                    editProfileImage.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(
+                        requireContext(), "no image selected",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public String getPath(Uri uri) {
+        Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = context.getContentResolver().query(
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+        return path;
+    }
+
+
+    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    private void uploadBitmap(final Bitmap bitmap) {
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, ROOT_URL,
+                response -> {
+                    try {
+                        JSONObject obj = new JSONObject(new String(response.data));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.e("GotError", "" + error.getMessage())) {
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                long imageName = System.currentTimeMillis();
+                params.put("image", new DataPart(imageName + ".jpg", getFileDataFromDrawable(bitmap)));
+                return params;
+            }
+        };
+        //adding the request to volley
+        VolleySingleton.getInstance(context).addToRequestQueue(volleyMultipartRequest);
     }
 
     private void showEditUserNameBottomSheetDialog(String userName) {
@@ -182,11 +260,7 @@ public class EditProfileFragment extends Fragment {
         cancelButton.setOnClickListener(v -> dialog.cancel());
         saveButton.setOnClickListener(v -> {
             saveButton.setClickable(false);
-            try {
-                updateUserDetails(dialog, saveButton, userName, userDetails.getString("PHONE_NO"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            updateUserDetails(dialog, saveButton, userName, userDetails.getPhoneNo());
         });
 
         dialog.show();
@@ -361,13 +435,18 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void updateUserDetails(Dialog dialog, Button saveButton, String userName, String mobileNumber) {
-        String URL = "http://192.168.1.111:3001/gng/v1/update-customer-details";
+        String URL = "http://192.168.43.54:3001/gng/v1/update-customer-details";
         JSONObject postData = new JSONObject();
         try {
-            postData.put("CUSTOMER_ID", userDetails.get("CUSTOMER_ID"));
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            userDetails.getProfileImage().compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+            postData.put("CUSTOMER_ID", userDetails.getCustomerId());
             postData.put("CUSTOMER_NAME", userName);
-            postData.put("CUSTOMER_IMAGE", userDetails.get("CUSTOMER_IMAGE"));
-            postData.put("EMAIL_ID", userDetails.get("EMAIL_ID"));
+            postData.put("CUSTOMER_IMAGE", encoded);
+            postData.put("EMAIL_ID", userDetails.getEmailId());
             postData.put("PHONE_NO", mobileNumber);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -375,7 +454,21 @@ public class EditProfileFragment extends Fragment {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL, postData, response -> {
             Toast.makeText(requireContext(), "Changes saved successfully!", Toast.LENGTH_SHORT).show();
-            SharedPrefConfig.writeUserDetails(requireContext(), response);
+            try {
+                byte[] decodedString = Base64.decode(response.getString("CUSTOMER_IMAGE"), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                SharedPrefConfig.writeUserDetails(requireContext(), new UserDetails(
+                                response.getString("CUSTOMER_ID"),
+                                response.getString("CUSTOMER_NAME"),
+                                response.getString("EMAIL_ID"),
+                                response.getString("PHONE_NO"),
+                                decodedByte
+                        )
+                );
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             usernameEditButton.setText(userName);
             mobileNumberEditButton.setText(mobileNumber);
             customer_name = userName;

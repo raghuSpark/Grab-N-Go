@@ -3,6 +3,7 @@ package com.dream.grabngo.ProfileSubFragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +15,25 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.dream.grabngo.Adapters.HistoryRecyclerViewAdapter;
 import com.dream.grabngo.Adapters.ShopWiseCartItemsListRecyclerViewAdapter;
+import com.dream.grabngo.CartChildFragments.ThanksFragment;
+import com.dream.grabngo.CustomClasses.CartItemDetails;
 import com.dream.grabngo.CustomClasses.ShopWiseCartItemsDetails;
 import com.dream.grabngo.MainFragments.ProfileFragment;
 import com.dream.grabngo.R;
 import com.dream.grabngo.utils.SharedPrefConfig;
 
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class HistoryFragment extends Fragment {
 
@@ -44,24 +56,16 @@ public class HistoryFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View groupFragmentView = inflater.inflate(R.layout.fragment_history, container, false);
         backButton = groupFragmentView.findViewById(R.id.history_back_button);
         historyItemsRecyclerView = groupFragmentView.findViewById(R.id.history_items_recycler_view);
         noResultsTextView = groupFragmentView.findViewById(R.id.history_no_results_text_View);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(context, supportFragmentManager)).commit();
-            }
-        });
+        backButton.setOnClickListener(v -> supportFragmentManager.beginTransaction().replace(R.id.main_fragments_container, new ProfileFragment(context, supportFragmentManager)).commit());
 
-        ArrayList<ShopWiseCartItemsDetails> historyItemsList = new ArrayList<>();
-        historyItemsList = SharedPrefConfig.readShopWiseCartItems(context);
-        //TODO: get these details from the web
+        ArrayList<ShopWiseCartItemsDetails> historyItemsList;
+        historyItemsList = SharedPrefConfig.readShopWiseCartItemsHistory(context);
 
         if (historyItemsList.isEmpty()) {
             historyItemsRecyclerView.setVisibility(View.GONE);

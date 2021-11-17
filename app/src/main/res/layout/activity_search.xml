@@ -47,6 +47,7 @@
             android:focusable="true"
             android:fontFamily="@font/worksans_regular"
             android:hint="search here"
+            android:imeOptions="actionSearch"
             android:inputType="textAutoComplete"
             android:padding="12dp"
             android:textColor="@color/black"
@@ -66,11 +67,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/primary_blue"
             android:fontFamily="@font/worksans_medium"
             android:gravity="center"
             android:padding="8dp"
             android:text="By Item"
-            android:textColor="@color/primary_blue"
+            android:textColor="@color/white"
             android:textSize="17sp" />
 
         <TextView
@@ -78,12 +80,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/primary_blue"
             android:fontFamily="@font/worksans_medium"
             android:gravity="center"
             android:padding="8dp"
             android:text="By City"
-            android:textColor="@color/white"
+            android:textColor="@color/primary_blue"
             android:textSize="17sp" />
 
     </LinearLayout>
