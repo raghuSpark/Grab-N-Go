@@ -82,7 +82,7 @@ public class RatingsFragment extends Fragment {
     }
 
     private void getUsersRatings() {
-        String URL = "http://192.168.1.1:3001/gng/v1/getShopRatingsByUser";
+        String URL = "https://grabngo-api.herokuapp.com/gng/v1/getShopRatingsByUser";
 
         JSONArray postDataArray = new JSONArray();
         JSONObject postData = new JSONObject();

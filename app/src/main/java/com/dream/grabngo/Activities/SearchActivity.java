@@ -220,7 +220,7 @@ public class SearchActivity extends AppCompatActivity {
         String stateName = addresses.get(0).getAddressLine(1);
         String countryName = addresses.get(0).getAddressLine(2);
 
-        String URL = "http://192.168.1.111:3001/gng/v1/search-by-item";
+        String URL = "https://grabngo-api.herokuapp.com/gng/v1/search-by-item";
         JSONArray postDataArray = new JSONArray();
         JSONObject postData = new JSONObject();
         try {
@@ -271,7 +271,7 @@ public class SearchActivity extends AppCompatActivity {
         String stateName = addresses.get(0).getAddressLine(1);
         String countryName = addresses.get(0).getAddressLine(2);
 
-        String URL = "http://192.168.1.111:3001/gng/v1/search-by-city";
+        String URL = "https://grabngo-api.herokuapp.com/gng/v1/search-by-city";
         JSONArray postDataArray = new JSONArray();
         JSONObject postData = new JSONObject();
         try {

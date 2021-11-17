@@ -14,7 +14,7 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_centerInParent="true"
-            android:background="@color/lightBlack"
+            android:background="@drawable/sample_qr"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_scanner_border"
             app:tint="@color/black" />

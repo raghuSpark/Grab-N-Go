@@ -71,7 +71,7 @@ public class PaymentDetailsFragment extends Fragment {
     private void placeOrder() {
         progressBar.setVisibility(View.VISIBLE);
         placeOrderButton.setVisibility(View.GONE);
-        String URL = "http://192.168.43.54:3001/gng/v1/place-order";
+        String URL = "https://grabngo-api.herokuapp.com/gng/v1/place-order";
         JSONObject postData = new JSONObject();
 
         ArrayList<JSONObject> orderedItemsJSONArrayList = new ArrayList<>();

@@ -145,7 +145,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void getProfileImage() {
-        String url = "http://192.168.43.54:3001/gng/v1/get-image";
+        String url = "https://grabngo-api.herokuapp.com/gng/v1/get-image";
         ImageRequest request = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {

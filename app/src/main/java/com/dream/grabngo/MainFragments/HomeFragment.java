@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getAvailableItems() {
-        String URL = "http://192.168.43.54:3001/gng/v1/get-available-items";
+        String URL = "https://grabngo-api.herokuapp.com/gng/v1/get-available-items";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, response -> {
             try {
                 handleShimmerLayout();

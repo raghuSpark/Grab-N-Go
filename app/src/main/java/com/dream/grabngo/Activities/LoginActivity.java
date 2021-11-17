@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkForTheUser(String customerId) {
-        String URL = "http://192.168.43.54:3001/gng/v1/get-customer-details";
+        String URL = "https://grabngo-api.herokuapp.com/gng/v1/get-customer-details";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", customerId);
@@ -248,7 +248,7 @@ public class LoginActivity extends AppCompatActivity {
 
         String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-        String URL = "http://192.168.43.54:3001/gng/v1/create-new-customer";
+        String URL = "https://grabngo-api.herokuapp.com/gng/v1/create-new-customer";
         JSONObject postData = new JSONObject();
         try {
             postData.put("CUSTOMER_ID", customerId);

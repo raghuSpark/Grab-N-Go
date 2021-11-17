@@ -75,7 +75,7 @@ public class EditProfileFragment extends Fragment {
 
     private static final String TENANT_ID = "71cdaba0-0cf0-4487-9705-f06bf644dec4";
     private static final String REGION = AppID.REGION_UK;
-    private static final String ROOT_URL = "http://192.168.43.54:3001/gng/v1/send-image";
+    private static final String ROOT_URL = "https://grabngo-api.herokuapp.com/gng/v1/send-image";
     private static final int REQUEST_PERMISSIONS = 100;
     private static final int PICK_IMAGE_REQUEST = 1;
     private final FragmentManager supportFragmentManager;
@@ -435,7 +435,7 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void updateUserDetails(Dialog dialog, Button saveButton, String userName, String mobileNumber) {
-        String URL = "http://192.168.43.54:3001/gng/v1/update-customer-details";
+        String URL = "https://grabngo-api.herokuapp.com/gng/v1/update-customer-details";
         JSONObject postData = new JSONObject();
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
